@@ -1,5 +1,5 @@
 const axios = require('axios')
-const API_KEY = 'a71ce9127dmshf81388b9a3b880dp1c2125jsnd4d7b66437ca'
+const API_KEY = process.env.OTT_API_KEY
 console.log(API_KEY)
 const {searchByImdbId} = require ('./watchMode')
 const instance = axios.create({

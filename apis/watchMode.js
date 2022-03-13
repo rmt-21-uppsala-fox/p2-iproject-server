@@ -1,5 +1,5 @@
 const axios = require('axios')
-const API_KEY = '3585212757msh7c19f2f8bc90486p1b3e6djsnac6407d48399'
+const API_KEY = process.env.WATCHMODE_API_KEY
 console.log(API_KEY)
 const instance = axios.create({
     baseURL: `https://watchmode.p.rapidapi.com`,
