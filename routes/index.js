@@ -3,8 +3,4 @@ const admin = require("./admin");
 
 router.use("/", admin);
 
-// router.use(authentication);
-
-
-
 module.exports = router;

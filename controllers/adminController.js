@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Product } = require("../models");
 const { comparePasswordWithHash } = require("../helpers/bcrypt");
 const { generateToken } = require("../helpers/jwt");
 
@@ -60,6 +60,24 @@ class AdminController {
         username: user.username,
         email: user.email,
       });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
+  static async postProduct(req, res, next) {
+    const { name, imgUrl, price, description, category } = req.body;
+    try {
+      const product = await Product.create({
+        name,
+        imgUrl,
+        price,
+        description,
+        category,
+      });
+
+      res.status(201).json({ product });
     } catch (error) {
         console.log(error);
       next(error);
