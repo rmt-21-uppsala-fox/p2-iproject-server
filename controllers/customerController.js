@@ -2,7 +2,7 @@ const { User, Product } = require("../models");
 const { comparePasswordWithHash } = require("../helpers/bcrypt");
 const { generateToken } = require("../helpers/jwt");
 
-class AdminController {
+class CustomerController {
   static async register(req, res, next) {
     try {
       const { email, password } = req.body;
@@ -66,23 +66,15 @@ class AdminController {
     }
   }
 
-  static async postProduct(req, res, next) {
-    const { name, imgUrl, price, description, category } = req.body;
+  static async getProduct(req, res, next) {
     try {
-      const product = await Product.create({
-        name,
-        imgUrl,
-        price,
-        description,
-        category,
-      });
+      const product = await Product.findAll();
 
       res.status(201).json({ product });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
 }
 
-module.exports = AdminController;
+module.exports = CustomerController;
