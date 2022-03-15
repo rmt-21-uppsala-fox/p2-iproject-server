@@ -32,3 +32,7 @@ const authentification = async (req, res, next) => {
       next(error);
    }
 }
+
+module.exports ={
+   authentification
+}
