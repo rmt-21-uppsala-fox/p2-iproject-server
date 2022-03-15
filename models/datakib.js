@@ -15,10 +15,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   DataKib.init({
     name: DataTypes.STRING,
+    type: DataTypes.STRING,
+    date: DataTypes.DATE,
+    originOfFounds: DataTypes.STRING,
     price: DataTypes.INTEGER,
-    dateBuy: DataTypes.DATE,
-    merk: DataTypes.STRING,
-    originOfFounds: DataTypes.STRING
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'DataKib',

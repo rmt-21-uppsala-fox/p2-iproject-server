@@ -8,29 +8,25 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
       email: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING
       },
       password: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      phoneNumber: {
+      SchoolId: {
         allowNull: false,
-        type: Sequelize.STRING
-      },
-      address: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      role: {
-        allowNull: false,
-        type: Sequelize.STRING
+        unique: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Schools',
+          key: 'id'
+        },
+        onDelete : "CASCADE",
+        onUpdate : "CASCADE"
       },
       createdAt: {
         allowNull: false,

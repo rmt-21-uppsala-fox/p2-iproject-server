@@ -9,19 +9,35 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      type: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      date: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      originOfFounds: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       price: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
-      dateBuy: {
-        type: Sequelize.DATE
-      },
-      merk: {
-        type: Sequelize.STRING
-      },
-      originOfFounds: {
-        type: Sequelize.STRING
+      UserId: {
+        allowNull: false,
+        unique: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       createdAt: {
         allowNull: false,

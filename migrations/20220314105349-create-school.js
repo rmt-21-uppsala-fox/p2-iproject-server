@@ -9,36 +9,25 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.STRING
+        unique: true
       },
       address: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       head: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       status: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       grade: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      UserId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            name : "User",
-            key: "id" 
-          }
-        },
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
