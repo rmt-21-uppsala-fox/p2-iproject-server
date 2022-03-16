@@ -1,4 +1,5 @@
 const { verifyToken } = require("../helpers/helpers");
+const { User } = require("../models");
 
 const authentification = async (req, res, next) => {
    try {
@@ -8,7 +9,7 @@ const authentification = async (req, res, next) => {
          throw new Error("Invalid token");
       }
 
-      let id = payload.id
+      let id = checkToken.id
       const userLoginData = await User.findByPk(id)
 
       if (!userLoginData) {
@@ -19,20 +20,17 @@ const authentification = async (req, res, next) => {
 
       req.userAccessLogin = {
          id: userLoginData.id,
-         email: userLoginData.email,
-         firstName: userLoginData.firstName,
-         lastName: userLoginData.lastName,
          schoolId: userLoginData.schoolId,
-         role: userLoginData.role
       }
 
       next();
 
    } catch (error) {
+      console.log(error);
       next(error);
    }
 }
 
-module.exports ={
+module.exports = {
    authentification
 }

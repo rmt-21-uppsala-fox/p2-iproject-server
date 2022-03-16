@@ -8,6 +8,7 @@ class Controller {
 
          res.status(200).json({ allSchools });
       } catch (error) {
+         console.log(error);
          next(error);
       }
    }
@@ -53,17 +54,15 @@ class Controller {
    static async register(req, res, next) {
       try {
          const {
-            schoolId,
-            firstName,
-            lastName,
+            SchoolId,
             email,
             password
          } = req.body;
 
+         console.log(email, password, SchoolId);
+
          const user = await User.create({
-            schoolId,
-            firstName,
-            lastName,
+            SchoolId,
             email,
             password
          });
@@ -74,6 +73,7 @@ class Controller {
          });
       }
       catch (error) {
+         console.log(error);
          next(error);
       }
    }

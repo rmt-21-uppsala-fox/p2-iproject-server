@@ -18,6 +18,8 @@ app.use(routers);
 app.use(errorHandler);
 
 
+module.exports = app;
+
 app.listen(port, () => {
    console.log(`Go! port: ${port}`);
 });
