@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Storage</title>
+</head>
+
+<body>
+    <label>Image Name</label> <input type="text" id="nameBox"> <label id="extLab"></label><br><br>
+    <img id="upImg">
+    <label id="upProgress"></label><br><br>
+
+    <input type="file" id="photo">
+
+    <button id="selBtn">Upload Image</button>
+    <button id="upBtn">Upload Image</button>
+    <button id="downBtn">Upload Image</button>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js";
+ 
+        const firebaseConfig = {
+          apiKey: "AIzaSyA96cju9LVYmAPNrG2YhFuBFVlyQ9JMBAU",
+          authDomain: "lyfe-iproject.firebaseapp.com",
+          projectId: "lyfe-iproject",
+          storageBucket: "lyfe-iproject.appspot.com",
+          messagingSenderId: "573541019401",
+          appId: "1:573541019401:web:4852322240fa77f7f0edd8"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL}
+        from "https://www.gstatic.com/firebasejs/9.6.8/firebase-storage.js"
+
+
+        let files = []
+        let reader = new FileReader()
+
+        let nameBox = document.getElementById('nameBox')
+        let extLab = document.getElementById('extLab')
+        let upImg = document.getElementById('upImg')
+        let upProgress = document.getElementById('upProgress')
+        let selBtn = document.getElementById('selBtn')
+        let upBtn = document.getElementById('upBtn')
+        let downBtn = document.getElementById('downBtn')
+
+        let input = document.createElement('input')
+        input.type = 'file'
+
+        input.onchange = e => {
+            files = e.target.files
+
+            let extension = GetFileExt(files[0])
+            let name = GetFileName(files[0])
+
+            namebox.value = name
+            extLab.innerHTML = extension
+
+            reader.readAsDataURL(file[0])
+        }
+
+        reader.onload = function (){
+            upImg.src = reader.result
+        }
+
+        function GetFileExt(file) {
+
+        }
+
+      </script>
+    
+</body>
+
+</html>
