@@ -7,11 +7,13 @@ const errorHandler = (err, req, res, next) => {
         case "NOT_ENOUGH_PERMISSION":
             res.status(err.code).json({ message: err.message });
             break
-
+        case "PURCHASE_DUPLICATE":
+            res.status(err.code).json({ message: err.message });
+            break
         case "BAD_REQUEST":
             res.status(err.code).json({ message: err.message });
             break
-            
+
         case "NOT_FOUND":
             res.status(err.code).json({ message: err.message });
             break
@@ -32,7 +34,7 @@ const errorHandler = (err, req, res, next) => {
 
         default:
             res.status(500).json({ message: "internal server error", error: err.message })
-            
+
             break
     }
 }
