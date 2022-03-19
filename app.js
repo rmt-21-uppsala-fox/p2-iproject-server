@@ -6,7 +6,7 @@ const app = express();
 const router = require('./routes')
 const port = process.env.PORT || 3000; 
 
-const errorHandler = require("./middleware/errorHandler");
+const errorHandler = require("./middlewares/errorHandler");
 
 
 app.use(cors()); //memfilter akses. jika dalam kurung kosong, semua bisa masuk

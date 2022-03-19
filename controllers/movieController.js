@@ -1,8 +1,8 @@
-const { User, UserNews } = require('../models/index')
+const { User, UserMovie, Genre } = require('../models/index')
 const IMDB_KEY = process.env.IMDB_API_KEY
 const WM2_KEY = process.env.WATCHMODE2_API_KEY
-const imdb = require('./apis/imdb-api')
-const watchMode2 = require('./apis/watchMode2')
+const imdb = require('../apis/imdb-api')
+const watchMode2 = require('../apis/watchMode2')
 
 
 class Controller {
@@ -114,23 +114,61 @@ class Controller {
             next(error)
         }
     }
+    static async getPurchased(req, res, next) {
+        try {
+            const { id, username } = req.loginUser
+            console.log(id, username, "dari getPurchased")
+            const myMovies = await UserMovie.findAll({
+                where: { UserId: id },
+                include: [
+                    {
+                        model: User,
+                        as: "User",
+                        attributes: {
+                            exclude: ["password"]
+                        }
+                    },
+
+                ],
+                attributes: {
+                    exclude: ["createdAt", "updatedAt"]
+                }
+            })
+            console.log(JSON.stringify(myMovies), "___________>>MYLIST")
+            if (myMovies) {
+                console.log(JSON.stringify(myMovies), "___________>>MYLIST2")
+                res.status(200).json(myMovies)
+                console.log(JSON.stringify(myMovies), "___________>>MYLIST3")
+            } else {
+                throw ({
+                    code: 404,
+                    name: "NOT_FOUND",
+                    message: "No Movies found"
+                })
+            }
+        } catch (err) {
+            console.log(err)
+            next(err)
+        }
+    }
 
     static async addToPurchased(req, res, next) {
         try {
-            const { title, synopsis, imageUrl, imdbId } = req.params
+            const { imdbId } = req.params
+            const {title, synopsis, imageUrl } = req.body
 
             const { id } = req.loginUser
             console.log(id, imdbId, "dari addToPurchased")
 
 
-            const userMovie = await UserNews.findOne({
+            const userMovie = await UserMovie.findOne({
                 where: {
                     UserId: id,
                     ImdbId: imdbId
                 }
             })
             if (!userMovie) {
-                const addToMyPurchased = await UserNews.create({
+                const addToMyPurchased = await UserMovie.create({
                     title : title,
                     synopsis: synopsis,
                     imageUrl : imageUrl,
@@ -149,6 +187,17 @@ class Controller {
             }
 
 
+        } catch (err) {
+            console.log(err)
+            next(err)
+        }
+    }
+
+    static async getGenres(req, res, next) {
+        try {
+            const genres = await Genre.findAll()
+            //console.log(categories[0])
+            res.status(200).json(genres)
         } catch (err) {
             console.log(err)
             next(err)

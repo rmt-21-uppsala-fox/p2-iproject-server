@@ -1,28 +1,28 @@
 
-const {Product} = require('../models/index.js')
+const {UserNews} = require('../models/index.js')
 const authorization = async (req, res, next) => {//authorization
     //bila author berbeda dengan login dan author bukan admin, tolak access 
     try {
        
-        let idProduct = req.params.ProductId
+        let idMovie = req.params.imdbId
         //ambil data dari authentication
         let userLoginId = req.loginUser.id
-        let userRole = req.loginUser.role
-        console.log(idProduct, " INI  PRODUCT ID")
+        
+        console.log(idMovie, " INI  MOVIE ID")
         console.log(userLoginId, " INI  USER ID")
-        console.log(userRole, " INI  ROLE")
-        const product = await Product.findOne({
+        
+        const purchased = await UserNews.findOne({
             where : {
-                id : idProduct,
-                authorId: userLoginId
+                UserId : userLoginId,
+                ImdbId: idMovie 
             }
         })
-        console.log(product, " INI  PRODUCT")
-        if (!product && userRole !== 'admin') {
+        console.log(purchased, " INI  PURCHASED")
+        if (!purchased) {
             throw({
-                code: 403,
-                name: "NOT_ENOUGH_PERMISSION",
-                message: "Forbidden access to resource"
+                code: 404,
+                name: "NOT_FOUND",
+                message: "Movie Not Found"
             })
         }
         next()
