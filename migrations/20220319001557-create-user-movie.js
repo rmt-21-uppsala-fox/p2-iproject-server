@@ -11,14 +11,14 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      imdbId: {
-        type: Sequelize.STRING
-      },
       synopsis: {
         type: Sequelize.TEXT
       },
-      price: {
-        type: Sequelize.INTEGER
+      imageUrl: {
+        type: Sequelize.TEXT
+      },
+      ImdbId: {
+        type: Sequelize.STRING
       },
       UserId: {
         type: Sequelize.INTEGER,
@@ -28,7 +28,6 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-      
       },
       createdAt: {
         allowNull: false,

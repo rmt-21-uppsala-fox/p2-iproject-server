@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasMany(models.UserMovie)
     }
   }
   User.init({
@@ -63,6 +63,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
   }, {
+    hooks: {
+      beforeCreate:(userData) => {//sebelum masuk database
+        console.log(userData.password)
+        const salt = genSaltSync(7)
+        let hashed = hashPassword(userData.password, salt)//acak password sebelum masuk database
+        userData.password = hashed//ubah password pada userData jadi hasil hashed
+      }
+    },
     sequelize,
     modelName: 'User',
   });

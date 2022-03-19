@@ -8,18 +8,7 @@ const instance = axios.create({
     }
 })
 
- async function initiateTransaction(req, res, next) {
-    try {
-      const {ProductId} = req.params
-      
-      
-      const {data} = await instance.get(`/v1/transactions`)
-      console.log(data, "INI MIDTRANS")
-      res.status(200).json(data)
-    } catch (err) {
-      next(err)
-    }
-  }
+ 
 
-  initiateTransaction()
+ 
 module.exports = instance

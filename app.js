@@ -1,7 +1,6 @@
 require("dotenv").config(); //tempatkan dotenv paling awal
 //console.log(process.env.PORT);
 const cors = require("cors"); //cors untuk localstorage
-const Controller = require("./controllers/productController");
 const express = require("express");
 const app = express();
 const router = require('./routes')
