@@ -156,7 +156,7 @@ class Controller {
     static async addToPurchased(req, res, next) {
         try {
             const { imdbId } = req.params
-            const {title, synopsis, imageUrl } = req.body
+            const {title, synopsis, imageUrl, trailerUrl } = req.body
 
             const { id } = req.loginUser
             console.log(id, imdbId, "dari addToPurchased")
@@ -173,6 +173,7 @@ class Controller {
                     title : title,
                     synopsis: synopsis,
                     imageUrl : imageUrl,
+                    trailerUrl: trailerUrl,
                     ImdbId: imdbId,
                     UserId: id, 
                     

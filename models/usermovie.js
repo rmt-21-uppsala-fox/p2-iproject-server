@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      UserMovie.belongsTo(models.User)
+      // define association here
     }
   }
   UserMovie.init({
@@ -43,13 +43,33 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty :{
-          msg: 'title is required'
+          msg: 'image URL is required'
         },
         notNull :{
-          msg: 'title is required'
+          msg: 'image URL is required'
         },
         isUrl :{
           msg: 'image URL must be a URL with https protocol.',
+          args: [{ 
+            protocols: ['https'],
+            require_valid_protocol: true,
+            require_protocol: true
+          }]  
+        }
+      }
+    },
+trailerUrl: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty :{
+          msg: 'trailer URL is required'
+        },
+        notNull :{
+          msg: 'trailer URL is required'
+        },
+        isUrl :{
+          msg: 'trailer URL must be a URL with https protocol.',
           args: [{ 
             protocols: ['https'],
             require_valid_protocol: true,

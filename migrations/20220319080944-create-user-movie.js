@@ -17,6 +17,9 @@ module.exports = {
       imageUrl: {
         type: Sequelize.TEXT
       },
+      trailerUrl: {
+        type: Sequelize.TEXT
+      },
       ImdbId: {
         type: Sequelize.STRING
       },
