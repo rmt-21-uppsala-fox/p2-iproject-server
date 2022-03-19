@@ -3,11 +3,11 @@ Individual Project - Server
 
 ## Thrid Party API
 ```json
-Open weather
+Open weather : Working
 ```
 
 ## API
 
 ```json 
-Spoonacular
+Spoonacular : Working
 ```
