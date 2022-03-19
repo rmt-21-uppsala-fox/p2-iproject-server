@@ -20,10 +20,9 @@ const authentication =async (req, res, next) => {//async karena akses database, 
         req.loginUser = {
             id: user.id,
             username: user.username,
-            role: user.role,
             email: user.email
         }//data tambahan ttg user yg sedang login
-        console.log(req.loginUser, " INI LOGIN USER dari /product")
+        console.log(req.loginUser, " INI LOGIN USER dari authentication")
 
 
       next() //agar middleware bisa berlanjut

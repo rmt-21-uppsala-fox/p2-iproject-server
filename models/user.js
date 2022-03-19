@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { hashPassword } = require('../helpers/bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -66,8 +67,8 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate:(userData) => {//sebelum masuk database
         console.log(userData.password)
-        const salt = genSaltSync(7)
-        let hashed = hashPassword(userData.password, salt)//acak password sebelum masuk database
+        
+        let hashed = hashPassword(userData.password)//acak password sebelum masuk database
         userData.password = hashed//ubah password pada userData jadi hasil hashed
       }
     },

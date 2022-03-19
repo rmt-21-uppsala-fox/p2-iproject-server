@@ -1,8 +1,9 @@
-const { User, UserMovie, Genre } = require('../models/index')
+const { User, UserMovie, Genres } = require('../models/index')
 const IMDB_KEY = process.env.IMDB_API_KEY
 const WM2_KEY = process.env.WATCHMODE2_API_KEY
 const imdb = require('../apis/imdb-api')
 const watchMode2 = require('../apis/watchMode2')
+const {convertUsdPriceToIdr} =  require('../helpers/usdToIdr')
 
 
 class Controller {
@@ -176,7 +177,7 @@ class Controller {
                     UserId: id, 
                     
                 })
-                console.log(addToPurchased, "INI ADD TO MY PURCHASED")
+                console.log(addToMyPurchased, "INI ADD TO MY PURCHASED")
                 res.status(201).json(addToMyPurchased)
             } else {
                 throw ({
@@ -195,7 +196,7 @@ class Controller {
 
     static async getGenres(req, res, next) {
         try {
-            const genres = await Genre.findAll()
+            const genres = await Genres.findAll()
             //console.log(categories[0])
             res.status(200).json(genres)
         } catch (err) {

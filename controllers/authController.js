@@ -4,13 +4,13 @@ const {generateToken} = require("../helpers/jwt")
 
 
 async function register(req, res, next) {
-    const {username, email, password, phoneNumber, address} = req.body
+    const {username, email, password} = req.body
     try {
-        const role = 'admin'
-        console.log( username, email, password, role, phoneNumber, address, "INI INPUT BODY REGISTER")
-        const newUser = await User.create({username, email, password, role, phoneNumber, address})
+        
+        console.log( username, email, password, "INI INPUT BODY REGISTER")
+        const newUser = await User.create({username, email, password})
         console.log(newUser)
-        res.status(201).json({ message: `User with username ${username} as admin succesfully created` })
+        res.status(201).json({ message: `User with username ${username} succesfully created` })
     } catch (err) {
         console.log(err)
         next(err)

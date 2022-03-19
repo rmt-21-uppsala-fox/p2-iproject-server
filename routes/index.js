@@ -10,13 +10,13 @@ const payment = require('./payment')
 
 const {authentication} = require ('../middlewares/authentication')
 
-
+router.use('/', authRouter)
 router.use ('/genres', genres)
 
 
 router.use(authentication)
 
-router.use('/', authRouter)
+
 router.use ('/movies', movies)
 router.use ('/payment', payment)
 

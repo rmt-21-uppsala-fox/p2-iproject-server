@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-const SECRET_KEY = process.env.MY_KEY//ambil secret key dari .env. Jangan lupa masukkan .env pada .gitignore
+const SECRET_KEY = process.env.SECRET_KEY//ambil secret key dari .env. Jangan lupa masukkan .env pada .gitignore
 
 function generateToken (payload) {
  return    jwt.sign(payload, SECRET_KEY)
