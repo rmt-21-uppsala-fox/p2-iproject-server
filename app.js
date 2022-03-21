@@ -6,6 +6,7 @@ const app = express()
 const cors = require('cors')
 const port = process.env.PORT || 3000
 const axios = require("axios")
+const route = require("./router")
 // const { authn } = require('./middleware/auth')
 // const foodRoutes = require('./router/food')
 // const historyRoutes = require('./router/history')
@@ -20,7 +21,7 @@ app.use(cors())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-app.get("/")
+app.use("/", route)
 
 // app.get('/category', categoryController.getCategory)
 // app.post('/register', userController.register)
