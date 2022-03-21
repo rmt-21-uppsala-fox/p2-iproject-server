@@ -5,11 +5,14 @@ class KibController {
    static async getKib(req, res, next) {
       try {
          const { id } = req.userAccessLogin;
-         const kib = await Kib.findAll({
+         const kib = await DataKib.findAll({
             where: {
                userId: id
             }
          });
+         if(!kib) {
+            throw new Error("Data not found");
+         }
 
          res.status(200).json({ kib });
 
@@ -20,7 +23,6 @@ class KibController {
 
    static async createKib(req, res, next) {
       try {
-         console.log("masuk><");
          const { id } = req.userAccessLogin;
          console.log(id);
          const {

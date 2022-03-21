@@ -13,9 +13,7 @@ const authentification = async (req, res, next) => {
       const userLoginData = await User.findByPk(id)
 
       if (!userLoginData) {
-         throw {
-            name: "Invalid Token"
-         }
+         throw new Error("Invalid token");
       }
 
       req.userAccessLogin = {
