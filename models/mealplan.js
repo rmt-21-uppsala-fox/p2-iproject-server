@@ -3,12 +3,12 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class MealPlans extends Model {
+  class MealPlan extends Model {
     static associate(models) {
-      MealPlans.belongsTo(models.User)
+      MealPlan.belongsTo(models.User)
     }
   }
-  MealPlans.init({
+  MealPlan.init({
     RecipeId: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         notEmpty: {
           msg: 'Recipe id is required'
-        }
+        },
       }
     },
     UserId: {
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         notEmpty: {
           msg: 'User id is required'
-        }
+        },
       }
     },
     meals: {
@@ -42,12 +42,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         notEmpty: {
           msg: 'Meals is required'
-        }
+        },
       }
     }
   }, {
     sequelize,
-    modelName: 'MealPlans',
+    modelName: 'MealPlan',
   });
-  return MealPlans;
+  return MealPlan;
 };

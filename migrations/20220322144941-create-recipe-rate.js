@@ -8,24 +8,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      rate: {
+      RecipeId: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.INTEGER,
-
       },
       UserId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id'
-        },
-        onUpdate: 'cascade',
-        onDelete: 'cascade'
-      },
-      RecipeId: {
         allowNull: false,
-        type: Sequelize.STRING
+      },
+      rate: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
