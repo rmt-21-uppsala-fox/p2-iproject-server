@@ -70,7 +70,7 @@ class CustomerController {
     try {
       const product = await Product.findAll();
 
-      res.status(201).json({ product });
+      res.status(201).json(product);
     } catch (error) {
       next(error);
     }
