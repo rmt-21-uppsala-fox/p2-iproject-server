@@ -1,4 +1,4 @@
-const { User, Category } = require("../models");
+const { User, Product } = require("../models");
 const { comparePassword } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
 const { OAuth2Client } = require("google-auth-library");
@@ -91,6 +91,20 @@ class IndexController {
           access_token: token,
         });
       }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async products(req, res, next) {
+    try {
+      const products = await Product.findAll({
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+        order: [["id"]],
+      });
+      res.status(200).json(products);
     } catch (error) {
       next(error);
     }
