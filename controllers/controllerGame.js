@@ -44,6 +44,35 @@ class Controller {
       next(err);
     }
   }
+  static async detailGame(req, res, next) {
+    try {
+      const id = +req.params.gameId;
+
+      const data = await axios({
+        method: `get`,
+        url: `https://api.rawg.io/api/games/${id}`,
+        params: {
+          key: `7b6f7730d9af4cfebf2a880376bda74c`,
+        },
+      });
+      const data2 = await axios({
+        method: `get`,
+        url: `https://www.cheapshark.com/api/1.0/games`,
+        params: {
+          title: `${data.data.name}`,
+        },
+      });
+      // console.log(price.data);
+      const price = Number(data2.data[0].cheapest);
+      const total = price * 15000;
+
+      console.log(data);
+
+      res.status(200).json({ game: data.data, price: total });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = Controller;
