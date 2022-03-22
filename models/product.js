@@ -15,13 +15,108 @@ module.exports = (sequelize, DataTypes) => {
   }
   Product.init(
     {
-      name: DataTypes.STRING,
-      description: DataTypes.STRING,
-      imgUrl: DataTypes.STRING,
-      price: DataTypes.INTEGER,
-      stock: DataTypes.INTEGER,
-      WorkshopId: DataTypes.INTEGER,
-      CategoryId: DataTypes.INTEGER,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Name is required",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Name is required",
+          },
+        },
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Description is required",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Description is required",
+          },
+        },
+      },
+      imgUrl: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "ImgUrl is required",
+          },
+          notEmpty: {
+            args: true,
+            msg: "ImgUrl is required",
+          },
+        },
+      },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Price is required",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Price is required",
+          },
+        },
+      },
+      stock: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Stock is required",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Stock is required",
+          },
+          min: {
+            args: [0],
+            msg: "Stock must be at least equal zero",
+          },
+        },
+      },
+      WorkshopId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "WorkshopId is required",
+          },
+          notEmpty: {
+            args: true,
+            msg: "WorkshopId is required",
+          },
+        },
+      },
+      CategoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "CategoryId is required",
+          },
+          notEmpty: {
+            args: true,
+            msg: "CategoryId is required",
+          },
+        },
+      },
     },
     {
       sequelize,
