@@ -6,4 +6,6 @@ router.get("/", HotelController.getHotels);
 
 router.get("/markers", HotelController.getMarkers);
 
+router.get("/markers/:hotelId", HotelController.getMarkersById);
+
 module.exports = router;

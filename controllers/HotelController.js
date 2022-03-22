@@ -98,6 +98,41 @@ class HotelController {
       res.status(500).json({ message: "Internal server error" });
     }
   }
+
+  static async getMarkersById(req, res, next) {
+    try {
+      const { hotelId } = req.params;
+      const response = await axios({
+        method: "get",
+        url: "https://hotels4.p.rapidapi.com/properties/get-details",
+        params: {
+          id: hotelId,
+          checkIn: "2020-01-08",
+          checkOut: "2020-01-15",
+          adults1: "1",
+          currency: "IDR",
+          locale: "id_ID",
+        },
+        headers: {
+          "x-rapidapi-host": "hotels4.p.rapidapi.com",
+          "x-rapidapi-key": process.env.X_RAPIDAPI_KEY,
+        },
+      });
+      const hotelData = response.data;
+      delete hotelData.data.body.hotelWelcomeRewards;
+      delete hotelData.data.body.atAGlance;
+      delete hotelData.data.body.smallPrint;
+      delete hotelData.data.body.miscellaneous;
+      delete hotelData.data.body.pageInfo;
+      delete hotelData.data.body.unavailable;
+      delete hotelData.data.common;
+      delete hotelData.neighborhood;
+      res.status(200).json(hotelData);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
 }
 
 module.exports = HotelController;
