@@ -24,6 +24,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
+      imgUrl: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       WorkshopId: {
         allowNull: false,
         type: Sequelize.INTEGER,
