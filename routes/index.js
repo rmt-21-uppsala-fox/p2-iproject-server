@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const hotelsRouter = require("./hotelsRouter.js");
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
@@ -11,6 +12,8 @@ router.use((req, res, next) => {
 router.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+router.use("/hotels", hotelsRouter);
 
 // define the about route
 router.get("/about", (req, res) => {
