@@ -4,7 +4,7 @@ class ChatController{
     static async readAllChat(RoomId){
         try {
             const chats = await Chat.findAll({where:{RoomId},order:[['id','ASC']]})
-            return 
+            return chats
         } catch (error) {
             return 'Internal Server Error'
         }
