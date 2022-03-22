@@ -5,8 +5,9 @@ const upload = require("../middlewares/multer");
 const PostController = require("../controllers/postController");
 
 routerPost.get("/post", PostController.getAll);
-routerPost.get("/post/:postId", PostController.postDetail)
 routerPost.post("/upload", upload,authentication, PostController.upload);
-routerPost.post("/comment", authentication, PostController.comment)
+routerPost.get("/post/:postId", PostController.postDetail)
+routerPost.post("/post/:postId", authentication, PostController.comment)
+routerPost.patch("/post/:postId", authentication, PostController.editComment)
 
 module.exports = routerPost;

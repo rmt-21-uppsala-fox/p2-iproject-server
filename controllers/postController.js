@@ -13,7 +13,7 @@ class PostController {
   static async upload(req, res, next) {
     try {
       const { caption, imgUrl, categoryId } = req.body;
-      const { id, username, uid } = req.userData;
+      const { id, uid } = req.userData;
       if (!imgUrl) {
         const file = req.file;
         const timestamp = Date.now();
@@ -64,10 +64,20 @@ class PostController {
   static async postDetail(req, res, next) {
     try {
       const { postId } = req.params;
-      const respond = await Post.findOne({
-        where: { id: postId },
-        include: [{ model: User }, { model: Comment }],
-      });
+      let options = null;
+      const comments = await Comment.findOne({ where: { PostId: postId } });
+      if (!comments) {
+        options = {
+          where: { id: postId },
+          include: [{ model: User }, { model: Category }],
+        };
+      } else {
+        options = {
+          where: { id: postId },
+          include: [{ model: User }, { model: Comment }, { model: Category }],
+        };
+      }
+      const respond = await Post.findOne(options);
       res.status(200).json(respond);
     } catch (error) {
       next(error);
@@ -76,8 +86,29 @@ class PostController {
 
   static async comment(req, res, next) {
     try {
-      //buat function comment
-    } catch (error) {}
+      const { comment } = req.body;
+      const { postId } = req.params;
+      const { id } = req.userData;
+      await Comment.create({ UserId: id, PostId: postId, comment });
+      res.status(201).json({ message: "Comment created" });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async editComment(req, res, next) {
+    try {
+      const { comment, commentId } = req.body;
+      const { postId } = req.params;
+      const { id } = req.userData;
+      const respond = await Comment.update(
+        { PostId: postId, UserId: id, comment },
+        { where: { id: commentId } }
+      );
+      res.status(200).json(respond);
+    } catch (error) {
+      next(error);
+    }
   }
 }
 
