@@ -19,6 +19,10 @@ class UserController{
             })
         }
     }
+
+    //user patch status online or offline
+    //user find all status online
+
 }
 
 module.exports = {UserController}
