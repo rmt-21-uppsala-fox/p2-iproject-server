@@ -1,8 +1,13 @@
 const router = require('express').Router();
 const RecipeController = require('../controllers/RecipeController')
-
-router.get('/recipes', RecipeController.getRecipes)
+const {
+    authentication,
+    authorization
+} = require('../middlewares/auth')
 router.get('/recipes/filter', RecipeController.getFilteredRecipes)
+router.use(authentication)
+router.get('/recipes', RecipeController.getRecipes)
 router.post('/recipes/:RecipeId', RecipeController.createBookmark)
+// router.use(authorization)
 
 module.exports = router

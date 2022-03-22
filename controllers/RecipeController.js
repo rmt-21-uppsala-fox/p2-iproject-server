@@ -1,6 +1,7 @@
 const axios = require('axios');
 const {
-    User
+    User,
+    Bookmark
 } = require('../models')
 class RecipeController {
 
@@ -65,10 +66,38 @@ class RecipeController {
 
     static async createBookmark(req, res, next) {
         try {
-            let {
-                RecipeId
-            } = req.params
-            console.log(RecipeId);
+            let RecipeId = req.params.RecipeId
+            let UserId = +req.loginUser.id
+            const findRecipe = await axios.get(`https://api.edamam.com/api/recipes/v2/${RecipeId}?type=public&q=` + '&app_id=' + process.env.API_ID + '&app_key=' + process.env.API_KEY)
+            const recipeId = findRecipe.data.recipe.uri.split("#")[1]
+
+            if (!recipeId) {
+                throw {
+                    name: 'NotFound'
+                }
+            }
+            if (!UserId) {
+                throw {
+                    name: 'Unauthorized'
+                }
+            }
+            let findBookmark = await Bookmark.findOne({
+                where: {
+                    RecipeId: RecipeId
+                }
+            })
+            if (findBookmark) {
+                throw {
+                    name: 'AlreadyExist'
+                }
+            }
+            const response = await Bookmark.create({
+                RecipeId,
+                UserId
+            })
+            res.status(201).json({
+                message: 'Succesfully created bookmark'
+            })
         } catch (error) {
             console.log(error);
         }
