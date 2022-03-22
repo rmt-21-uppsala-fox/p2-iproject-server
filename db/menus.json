@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Fried Chicken",
+        "description": "Fried Chicken served with rice and fruit tea",
+        "price": 20000,
+        "image": "https://www.mcdelivery.co.id/id/static/1646208722834/assets/62/products/111028.png?",
+        "category": "Main Course",
+        "stock": 50
+    },
+    {
+        "name": "Cheese Burger",
+        "description": "Special Burger served with various type of cheese",
+        "price": 25000,
+        "image": "https://www.mcdelivery.co.id/id/static/1646208722834/assets/62/products/100013.png??",
+        "category": "Snack",
+        "stock": 20
+    },
+    {
+        "name": "Coca-cola",
+        "description": "Coca-cola soft drink",
+        "price": 15000,
+        "image": "https://www.mcdelivery.co.id/id/static/1647328046729/assets/62/products/184009.png?",
+        "category": "Drink",
+        "stock": 100
+    }
+]
