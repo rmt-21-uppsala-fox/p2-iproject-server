@@ -42,5 +42,4 @@ class UserController {
       next(err);
     }
   }
-  
 }
