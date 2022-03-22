@@ -28,9 +28,9 @@ class PostController{
             const usersId = await Relation.findAll({where:{UserId},include:{model:User,attributes:['id']}})
             let arrayId = [{UserId}]
             usersId.forEach(e=>{
-                arrayId.push({"UserId":e})
+                arrayId.push({"UserId":e.User.id})
             })
-            const posts = await Post.findAll({where:{[Op.or]:arrayId}})
+            const posts = await Post.findAll({where:{[Op.or]:arrayId},order:[['id','DESC']]})
             res.status(200).json(posts)
         } catch (error) {
             res.status(500).json({
