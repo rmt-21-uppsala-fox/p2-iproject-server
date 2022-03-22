@@ -27,7 +27,7 @@
     "CategoryId": 4
   },
   {
-    "name":"Double wishbone suspension set",
+    "name":"Double Wishbone Suspension Set",
     "description":"Set suspensi yang dapat membuat ride quality seperti mobil eropa, dapat dipasang di mobil sedan, mpv maupun suv",
     "price": 8000000,
     "stock": 8,
@@ -58,7 +58,7 @@
     "description":"Velg mobil original import, berat ringan, terbuat dari bahan forge alloy yang kuat dan tahan lama",
     "price": 7200000,
     "stock": 8,
-    "imgUrl": "hhttps://cf.shopee.co.id/file/c7573975e90d206e4559c30e853b34c4",
+    "imgUrl": "https://cf.shopee.co.id/file/c7573975e90d206e4559c30e853b34c4",
     "WorkshopId": 1,
     "CategoryId": 2
   },
