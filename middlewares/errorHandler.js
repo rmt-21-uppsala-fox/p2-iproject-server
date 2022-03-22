@@ -10,6 +10,15 @@ const errorHandler = (err, req, res, next) => {
       Err = err.errors.map((el) => el.message);
       res.status(400).json({ msg: `Validation Error`, error: Err });
       break;
+    case `Email is required`:
+      res.status(400).json({ message: err.message });
+      break;
+    case `Password is required`:
+      res.status(400).json({ message: err.message });
+      break;
+    case `Invalid Email/Password`:
+      res.status(401).json({ message: err.message });
+      break;
     default:
       res.status(500).json({ msg: `Internal Server Error` });
       break;
