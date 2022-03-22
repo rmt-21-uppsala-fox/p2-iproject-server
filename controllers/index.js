@@ -4,28 +4,35 @@ class Controller {
 
   static async getAnimes(req, res, next) {
     try {
-      const { jobType, company, page } = req.query;
-
-      if (role === "staff") {
-        let jobs = await Job.findAll({
-          include: {
-            model: Company,
-          },
-          where: {
-            authorId: UserId,
-          },
-        });
-
-        res.status(200).json(jobs);
+      const { q, sfw, page, genres, score } = req.query;
+      //! ?q => look for entries with this keyword
+      //! ?limit = limit result per page
+      let url = `https://api.jikan.moe/v4/anime`
+      if (!page) {
+        url += `?page=1`;
       } else {
-        let jobs = await Job.findAll({
-          include: {
-            model: Company,
-          },
-        });
-
-        res.status(200).json(jobs);
+        url += `?page=${page}`;
       }
+      if (q) {
+        url += `&q=${q}`;
+      }
+      if (sfw) {
+        url += `&sfw=true`;
+      }
+      if (genres) {
+        //! get genreId with https://api.jikan.moe/v4/genres/anime
+        url += `&genres=${genres}`;
+      }
+      if (score) {
+        url += `&score=${score}`;
+      }
+
+      const { data } = await axios.get(
+        url
+      );
+
+      res.status(200).json(data);
+      
     } catch (error) {
       next(error);
     }
