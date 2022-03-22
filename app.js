@@ -1,7 +1,21 @@
-// npx sequelize-cli model:create --name User --attributes username:string,email:string,password:string
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+var cors = require('cors')
+const express = require('express')
+const app = express()
+const port = 3000
 
-// npx sequelize-cli model:create --name RecipeRates --attributes rate:integer,UserId:integer,RecipeId:string
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: false
+}));
 
-// npx sequelize-cli model:create --name Bookmarks --attributes UserId:integer,RecipeId:string
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
 
-// npx sequelize-cli model:create --name MealPlans --attributes RecipeId:string,UserId:integer,meals:string
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+})
