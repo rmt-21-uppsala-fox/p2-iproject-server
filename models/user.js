@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
       email: {
         type: DataTypes.STRING,
         unique: { msg: "this email is already registered" },
