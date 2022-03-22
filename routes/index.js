@@ -10,6 +10,10 @@ router.post("/authGoogle", IndexController.authGoogle);
 
 router.post("/login", IndexController.login);
 
+router.get("/products", IndexController.products);
+
+router.get("/products/:id", IndexController.productById);
+
 router.use(authN);
 
 router.use(errorHandler);
