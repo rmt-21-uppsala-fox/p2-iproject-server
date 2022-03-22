@@ -1,0 +1,182 @@
+[
+  {
+    "name":"Sport Racing Dual Muffler",
+    "description":"Knalpot muffler berlubang dua yang dapat membuat mobil ada menjadi lebih bergaya, dan juga menghasilkan suara yang lebih dalam",
+    "price": "600000",
+    "stock": "15",
+    "imgUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiP__HrY8eNAvBYBnf_-nqZSgHWr5eHvCfKJs9fCReG5TsaW3T8l7kOwAtJOo0Un3x1ic&usqp=CAU",
+    "WorkshopId": 1,
+    "CategoryId": 4
+  },
+  {
+    "name":"Sport Racing Single Muffler",
+    "description":"Knalpot muffler berlubang satu yang dapat membuat mobil ada menjadi lebih bergaya, dan juga menghasilkan suara yang lebih dalam",
+    "price": 300000,
+    "stock": 20,
+    "imgUrl": "https://image.made-in-china.com/202f0j00pkBRYMfsgeor/SS304-Glossy-Blue-Burnt-End-Slant-Cut-Single-Output-Stainless-Steel-Car-Exhaust-Tip.jpg",
+    "WorkshopId": 1,
+    "CategoryId": 4
+  },
+  {
+    "name":"Classic Dual Muffler",
+    "description":"Knalpot muffler berlubang dua bergaya classic yang dapat memuat mobil anda menjadi lebih classic, dan juga menghasilkan suara yang elegan",
+    "price": 450000,
+    "stock": 20,
+    "imgUrl": "https://image.made-in-china.com/202f0j00pkBRYMfsgeor/SS304-Glossy-Blue-Burnt-End-Slant-Cut-Single-Output-Stainless-Steel-Car-Exhaust-Tip.jpg",
+    "WorkshopId": 1,
+    "CategoryId": 4
+  },
+  {
+    "name":"Double wishbone suspension set",
+    "description":"Set suspensi yang dapat membuat ride quality seperti mobil eropa, dapat dipasang di mobil sedan, mpv maupun suv",
+    "price": 8000000,
+    "stock": 8,
+    "imgUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKaaCOhJZxhJ1xlQ7XSDRdqFwYb8Pf5XqGFDMbQTgyQWCFM-sVC2LjBj4ZJ70d6_TZlUI&usqp=CAU",
+    "WorkshopId": 1,
+    "CategoryId": 1
+  },
+  {
+    "name":"Coil Spring SUV",
+    "description":"Per keong untuk mobil berbobot diatas 2 ton",
+    "price": 1400000,
+    "stock": 14,
+    "imgUrl": "https://www.rallynuts.com/user/products/large/ASPRINGIMAGE.jpg",
+    "WorkshopId": 1,
+    "CategoryId": 1
+  },
+  {
+    "name":"Coil Spring Sedan",
+    "description":"Per keong yang cocok digunakan untuk mobil sedan atau hatchback atau kendaraan lainnya yang berbobot dibawah 2 ton",
+    "price": 1800000,
+    "stock": 14,
+    "imgUrl": "https://i.ebayimg.com/00/s/MTA2N1gxNjAw/z/6yMAAOSwslJcXA5n/$_1.JPG",
+    "WorkshopId": 1,
+    "CategoryId": 1
+  },
+  {
+    "name":"BBS RS 18 inch",
+    "description":"Velg mobil original import, berat ringan, terbuat dari bahan forge alloy yang kuat dan tahan lama",
+    "price": 7200000,
+    "stock": 8,
+    "imgUrl": "hhttps://cf.shopee.co.id/file/c7573975e90d206e4559c30e853b34c4",
+    "WorkshopId": 1,
+    "CategoryId": 2
+  },
+  {
+    "name":"SSR Type F 17 inch",
+    "description":"Velg mobil original import, berat ringan, berwarna putih terbuat dari bahan forge alloy yang kuat dan tahan lama",
+    "price": 5000000,
+    "stock": 8,
+    "imgUrl": "https://cf.shopee.co.id/file/6a8282558832a3693e41fc7239d0705d",
+    "WorkshopId": 1,
+    "CategoryId": 2
+  },
+  {
+    "name":"HSR Tokyo 6068D 18 inch",
+    "description":"Velg mobil original buatan indonesia, berat ringan, berwarna bronze terbuat dari bahan forge alloy yang kuat dan tahan lama",
+    "price": 8000000,
+    "stock": 8,
+    "imgUrl": "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//103/MTA-4961875/hsr_wheel_velg_mobil_ring_18_hsr_tokyo_6068d_-_pcd_h5x114-3_et40_full03_h9j9gol3.jpg",
+    "WorkshopId": 1,
+    "CategoryId": 2
+  },
+  {
+    "name":"Dunlop Direzza 245/40 R18",
+    "description":"Ban mobil sport dari dunlop yang menggabungkan antara kenyamanan dan kelincahan untuk pengalaman berkendara lebih baik",
+    "price": 950000,
+    "stock": 20,
+    "imgUrl": "https://images.tokopedia.net/img/cache/500-square/hDjmkQ/2020/11/24/cff8cd5b-ee07-4211-9da0-6a433a574fa5.jpg",
+    "WorkshopId": 1,
+    "CategoryId": 2
+  },
+  {
+    "name":"Michelin Pilot Supersport 245/30 R18",
+    "description":"Ban mobil sport dari michelin yang menggabungkan antara kenyamanan dan kelincahan untuk pengalaman berkendara lebih baik",
+    "price": 5000000,
+    "stock": 20,
+    "imgUrl": "https://images.tokopedia.net/img/cache/700/VqbcmM/2020/10/17/feb7e5a9-2a4f-436b-80c2-eac22c41b2af.jpg",
+    "WorkshopId": 1,
+    "CategoryId": 2
+  },
+  {
+    "name":"GT Radial Savero SUV 215/55 R17",
+    "description":"Ban mobil SUV dari GT Radial yang menggabungkan antara kenyamanan dan durability untuk pengalaman berkendara lebih baik",
+    "price": 750000,
+    "stock": 80,
+    "imgUrl": "https://toptrust.id/wp-content/uploads/2021/02/GT-Radial-SAVERO-SUV.jpg",
+    "WorkshopId": 1,
+    "CategoryId": 2
+  },
+  {
+    "name":"Rear Parking Camera",
+    "description":"Kamera belakang, yang dapat membantu pada saat parkir",
+    "price": 200000,
+    "stock": 40,
+    "imgUrl": "https://ae01.alicdn.com/kf/Hdb0429f35f8a489fbfaff5797c857301n/Hot-Sale-Waterproof-Wide-HD-Car-Reverse-Parking-Camera-Rear-View-Sensor-High-Quality.jpeg",
+    "WorkshopId": 2,
+    "CategoryId": 3
+  },
+  {
+    "name":"4 Points Rear Parking Sensor",
+    "description":"Sensor yang dapat dipasang di bemper belakang, yang dapat membantu pada saat parkir",
+    "price": 150000,
+    "stock": 50,
+    "imgUrl": "https://m.media-amazon.com/images/I/61qCcBGGqsL._AC_SL1200_.jpg",
+    "WorkshopId": 2,
+    "CategoryId": 3
+  },
+  {
+    "name":"Dash Cam Pro Plus Front + Rear",
+    "description":"Kamera pemantau yang dapat merekam perjalanan anda, untuk memproteksi diri anda dari kejadian-kejadian tak terduga di jalanan",
+    "price": 1500000,
+    "stock": 10,
+    "imgUrl": "https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/2/7/20c0a299-452e-49cd-a04e-5b8eaa7f2534.jpg",
+    "WorkshopId": 2,
+    "CategoryId": 3
+  },
+  {
+    "name":"BMW Horn Flosser",
+    "description":"Klakson mobil dengan acoustic pressure mencapai 118dB, original made in German",
+    "price": 130000,
+    "stock": 35,
+    "imgUrl": "https://images.tokopedia.net/img/cache/500-square/product-1/2021/1/26/inv/inv_9dfe566d-5055-49fd-b6a8-6769cf4f2412_680_680.jpg",
+    "WorkshopId": 2,
+    "CategoryId": 3
+  },
+  {
+    "name":"Number Plate Deck",
+    "description":"Dudukan plat nomor mobil, terbuat dari stainless steel sehingga ringan, kuat dan stylish",
+    "price": 150000,
+    "stock": 50,
+    "imgUrl": "https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/1/21/5e6f253f-231d-4b72-a336-75b88db1db75.jpg",
+    "WorkshopId": 2,
+    "CategoryId": 3
+  },
+  {
+    "name":"Steering Wheel Cover",
+    "description":"Cover stir mobil dari bahan kulit sintetis yang durable, warna dapat dipilih sesuai selera",
+    "price": 100000,
+    "stock": 40,
+    "imgUrl": "https://s3.bukalapak.com/img/8640116737/large/Cover_Stir_Mobil_Bahan_Kulit_38CM___V70___Black_setir.jpg",
+    "WorkshopId": 3,
+    "CategoryId": 5
+  },
+  {
+    "name":"Gear Knob Cover",
+    "description":"Cover knob transmisi mobil dari bahan kulit asli yang durable, warna dapat dipilih sesuai selera",
+    "price": 200000,
+    "stock": 25,
+    "imgUrl": "https://images.tokopedia.net/img/cache/500-square/product-1/2020/3/19/batch-upload/batch-upload_626611f6-50c7-494a-8377-a3b703581041",
+    "WorkshopId": 3,
+    "CategoryId": 5
+  },
+  {
+    "name":"Seat Cover",
+    "description":"Cover jok mobil dari bahan kulit yang dapat di custom warna dan modelnya sesuai dengan mobil pembeli",
+    "price": 800000,
+    "stock": 100,
+    "imgUrl": "https://images.tokopedia.net/img/cache/500-square/product-1/2020/3/19/batch-upload/batch-upload_626611f6-50c7-494a-8377-a3b703581041",
+    "WorkshopId": 3,
+    "CategoryId": 5
+  }
+]
