@@ -11,12 +11,13 @@ class UserController {
         email: userCreate.email,
         password: userCreate.password,
       });
+      
     } catch (err) {
       next(err);
     }
   }
 
-  
+
 
   static async login(req, res, next) {
     try {
