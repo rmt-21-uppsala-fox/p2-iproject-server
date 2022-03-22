@@ -21,6 +21,31 @@ app.get("/paintings", async (request, response) => {
     response.status(500).json({ message: "Internal server error" });
   }
 });
+app.post("/wikis", async (request, response) => {
+  try {
+    const title = request.body.data
+      .split(" ")
+      .join("_")
+      .split(",")
+      .join("_")
+      .split("’")
+      .join("_")
+      .split("‘")
+      .join("_");
+    const wikisData = await axios.get(
+      `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=info&generator=allpages&inprop=url&gapfrom=${title}&gaplimit=5`
+    );
+    console.log(wikisData.data.query.pages);
+    response.status(200).json({
+      data: wikisData.data.query.pages[
+        Object.keys(wikisData.data.query.pages)[0]
+      ].fullurl,
+    });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json({ message: "Internal server error" });
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
