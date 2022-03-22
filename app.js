@@ -5,7 +5,8 @@ let cors = require('cors')
 const express = require('express')
 const app = express()
 const port = 3000
-const recipeRoutes = require('./routes/recipesRoutes')
+const recipeRoutes = require('./routes/recipes')
+const authRoutes = require('./routes/auth');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({
@@ -17,6 +18,9 @@ app.get('/', (req, res) => {
         message: 'You are on our server now!'
     })
 })
+
+//auth routes
+app.use(authRoutes)
 
 //recipes recipeRoutes
 app.use(recipeRoutes)
