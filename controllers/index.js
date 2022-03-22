@@ -1,7 +1,8 @@
-const { User, Product } = require("../models");
+const { User, Product, Category, Workshop } = require("../models");
 const { comparePassword } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
 const { OAuth2Client } = require("google-auth-library");
+const { Op } = require("sequelize");
 
 class IndexController {
   static async register(req, res, next) {
@@ -98,9 +99,22 @@ class IndexController {
 
   static async products(req, res, next) {
     try {
-      const products = await Product.findAll({
+      const { page, search, category } = req.query;
+      let categories = category ? category.split(";") : null;
+      const pageLimit = 9;
+      const products = await Product.findAndCountAll({
+        limit: page ? pageLimit : null,
+        offset: page ? (page - 1) * pageLimit : 0,
+        where: {
+          name: { [Op.iLike]: search ? `%${search}%` : "%%" },
+        },
         attributes: {
           exclude: ["createdAt", "updatedAt"],
+        },
+        include: {
+          model: Category,
+          where: { name: categories ? categories : { [Op.iLike]: "%%" } },
+          attributes: ["name"],
         },
         order: [["id"]],
       });
@@ -116,6 +130,16 @@ class IndexController {
         attributes: {
           exclude: ["createdAt", "updatedAt"],
         },
+        include: [
+          {
+            model: Category,
+            attributes: ["name"],
+          },
+          {
+            model: Workshop,
+            attributes: ["name"],
+          },
+        ],
       });
       res.status(200).json(product);
     } catch (error) {
