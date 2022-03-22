@@ -4,6 +4,7 @@ const tripsRouter = require("./trips");
 const {UserController} = require('../controllers/user')
 const {getUser} = require('../controllers/api')
 
+
 router.get("/");
 router.post("/login",UserController.login);
 router.post("/register",UserController.register);

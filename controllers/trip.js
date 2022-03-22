@@ -1,6 +1,14 @@
 const { Trip } = require("../models/index");
 
 class ControllerTrip {
+  static async home(req,res,next){
+    try {
+      res.redirect('/trip')
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async getTrip(req, res, next) {
     try {
       const allTrip = await Trip.findAll();
