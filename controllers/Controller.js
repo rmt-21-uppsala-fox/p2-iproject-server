@@ -39,7 +39,6 @@ class Controller {
          }
 
          const token = signToken(payload);
-
          res.status(200).json({
             message: 'User logged in successfully',
             token
@@ -48,7 +47,6 @@ class Controller {
       } catch (error) {
          next(error);
       }
-
    }
 
    static async register(req, res, next) {
@@ -58,8 +56,6 @@ class Controller {
             email,
             password
          } = req.body;
-
-         console.log(email, password, SchoolId);
 
          const user = await User.create({
             SchoolId,
@@ -77,6 +73,5 @@ class Controller {
          next(error);
       }
    }
-
 }
 module.exports = Controller;

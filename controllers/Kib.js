@@ -8,6 +8,9 @@ class KibController {
          const kib = await DataKib.findAll({
             where: {
                userId: id
+            }, 
+            attributes: {
+               exclude: ['UserId', "createdAt", "updatedAt"]
             }
          });
          if(!kib) {
@@ -19,7 +22,7 @@ class KibController {
       } catch (error) {
          next(error);
       }
-   }
+   } 
 
    static async createKib(req, res, next) {
       try {
