@@ -1,3 +1,4 @@
+const { User, Comment, Post } = require("../models/index");
 const firebase = require("../config/db");
 const {
   getStorage,
@@ -20,10 +21,18 @@ class PostController {
       await uploadBytes(imageRef, file.buffer);
       const downloadURL = await getDownloadURL(ref(storage, imageRef));
 
-      res.json(downloadURL); // file uploaded dan ini urlnya
+      res.status(201).json(downloadURL); // file uploaded dan ini urlnya
     } catch (error) {
-      console.log(error);
-      res.status(400).send(error.message);
+      next(error);
+    }
+  }
+
+  static async getAll(req, res, next) {
+    try {
+      const respond = Post.findAll({ include: { model: User } });
+      res.status(200).json(respond);
+    } catch (error) {
+      next(error);
     }
   }
 }

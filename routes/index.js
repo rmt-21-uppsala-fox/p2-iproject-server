@@ -1,11 +1,10 @@
-const express = require('express')
-const router = express.Router()
-const upload = require("../middlewares/multer")
-const UserController = require("../controllers/userController")
-const PostController = require("../controllers/postController")
+const express = require("express");
+const router = express.Router();
+const routerPost = require("./Post");
+const UserController = require("../controllers/userController");
 
-router.post("/login")
-router.post("/register", UserController.registration)
-router.post("/upload", upload, PostController.upload)
+router.post("/login", UserController.login);
+router.post("/register", UserController.registration);
+router.use("/meme", routerPost);
 
-module.exports = router
+module.exports = router;
