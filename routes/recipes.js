@@ -9,5 +9,6 @@ router.use(authentication)
 router.get('/recipes', RecipeController.getRecipes)
 router.post('/recipes/:RecipeId', RecipeController.createBookmark)
 // router.use(authorization)
+router.delete('/recipes/:id', RecipeController.deleteBookmark)
 
 module.exports = router
