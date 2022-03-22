@@ -36,7 +36,7 @@ const authentication = async (req, res, next) => {
 
 const authorization = async (req, res, next) => {
     try {
-        const BookmarkId = +req.params.id;
+        const BookmarkId = req.params.id;
         const UserId = req.loginUser.id;
         const findBookmark = await Bookmark.findOne({
             where: {

@@ -102,6 +102,32 @@ class RecipeController {
             console.log(error);
         }
     }
+
+    static async deleteBookmark(req, res, next) {
+        try {
+            const id = req.params.id
+            const findBookmark = await Bookmark.findOne({
+                where: {
+                    id
+                }
+            })
+            if (!findBookmark) {
+                throw {
+                    name: "NotFound"
+                }
+            }
+            await Bookmark.destroy({
+                where: {
+                    id: findBookmark.id
+                }
+            })
+            res.status(200).json({
+                message: "Successfully delete bookmark"
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = RecipeController;
