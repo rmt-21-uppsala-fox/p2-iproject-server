@@ -5,12 +5,13 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {
-    User
+    User,
+    Package
 } = require('./models');
-const path = require('path');
+const {
+    default: axios
+} = require('axios');
 const secretKey = 'ThisIsASecretKey'
-
-const publicPath = path.join(__dirname, '../p2-iproject-server/faceRecognition')
 
 app.use(cors())
 app.use(express.urlencoded({
@@ -44,6 +45,10 @@ const authentication = async (req, res, next) => {
     }
 }
 
+app.post('/', (req,res) => {
+    console.log(req.body);
+    res.status(200).json({message: 'Hellowoeoweowoe'})
+})
 
 app.post('/register', async (req, res, next) => {
     try {
@@ -118,60 +123,53 @@ app.post('/login', async (req, res, next) => {
     }
 })
 
+app.post('/xenditCallback', async (req, res, next) => {
+    try {
+        let response = await axios.post('https://api.xendit.co/v2/invoices', req.body, {
+            headers: {
+                'Authorization': 'Basic eG5kX2RldmVsb3BtZW50XzZHa3gwb0ZxSEVlNHVnamlDTnBrQWY0eVNKYmpuRTgxdDlsQVhncFBkcjJuYlZrdGkyQUJrUWV0T1h5UXRtYmw6',
+            }
+        })
+        let responseUrl = response.data.invoice_url
+
+        res.status(200).json(responseUrl)
+    } catch (error) {
+        console.log(error);
+        next(error)
+    }
+})
+
 app.use(authentication)
 
-app.get('/facePay', async (req, res, next) => {
+app.get('/packages', async (req, res, next) => {
     try {
-        let {
-            access_token
-        } = req.headers
-        let payload = jwt.verify(access_token, secretKey)
+        const packages = await Package.findAll({
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
 
-        let foundUser = await User.findByPk(payload.id)
-
-        if (foundUser) {
-            req.currentUserId = foundUser.id
-            req.currentUserEmail = foundUser.email
-            //TODO:
-            //popup Modal here
-            //while unknown looping terus sampai 5 detik then show error message
-            //if benar lanjut ke payment pilihan
-            //kalau pakai payment xendit lsg harus masukin password atau pin nya lagi
-        } else {
-            throw new Error('User not found')
-        }
+        res.status(200).json(packages)
     } catch (error) {
         next(error)
     }
 })
 
-app.get('/facePay', async (req, res, next) => {
+app.post('/xenditPay', async (req, res, next) => {
     try {
-        let {
-            access_token
-        } = req.headers
-        let payload = jwt.verify(access_token, secretKey)
+        let response = await axios.post('https://api.xendit.co/v2/invoices', req.body, {
+            headers: {
+                'Authorization': 'Basic eG5kX2RldmVsb3BtZW50XzZHa3gwb0ZxSEVlNHVnamlDTnBrQWY0eVNKYmpuRTgxdDlsQVhncFBkcjJuYlZrdGkyQUJrUWV0T1h5UXRtYmw6',
+            }
+        })
+        let responseUrl = response.data.invoice_url
 
-        let foundUser = await User.findByPk(payload.id)
-
-        if (foundUser) {
-            req.currentUserId = foundUser.id
-            req.currentUserEmail = foundUser.email
-            //TODO:
-            //popup Modal here
-            //while unknown looping terus sampai 5 detik then show error message
-            //if benar lanjut ke payment pilihan
-            //kalau pakai payment xendit lsg harus masukin password atau pin nya lagi
-        } else {
-            throw new Error('User not found')
-        }
+        res.status(200).json(responseUrl)
     } catch (error) {
+        console.log(error);
         next(error)
     }
 })
-
-
-app.use(express.static(publicPath))
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)
