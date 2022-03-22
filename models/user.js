@@ -1,7 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
+const { hashPass } = require(`../helpers/bcrypt`);
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -10,16 +9,71 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.belongsToMany(models.Game, {through: models.UsersGame})
     }
   }
-  User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    username: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'User',
+  User.init(
+    {
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: {
+          msg: `Email must be unique`,
+        },
+        validate: {
+          notEmpty: {
+            msg: `Email is required`,
+          },
+          notNull: {
+            msg: `Email is required`,
+          },
+          isEmail: {
+            msg: `Format email is incorrect`,
+          },
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: {
+          msg: `Email must be unique`,
+        },
+        validate: {
+          len: {
+            args: [5, 42],
+            msg: `Password length min 5 characters`,
+          },
+          notEmpty: {
+            msg: `Password is required`,
+          },
+          notNull: {
+            msg: `Password is required`,
+          },
+        },
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: {
+          msg: `Username must be unique`,
+        },
+        validate: {
+          notEmpty: {
+            msg: `Username is required`,
+          },
+          notNull: {
+            msg: `Username is required`,
+          },
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: "User",
+    }
+  );
+  User.beforeCreate((instance, options) => {
+    instance.password = hashPass(instance.password);
   });
   return User;
 };
