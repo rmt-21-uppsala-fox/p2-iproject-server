@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Bookmark)
       User.hasMany(models.MealPlan)
+      User.hasMany(models.RecipeRate)
     }
   }
   User.init({
@@ -31,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       validate: {
-        isEmpty: {
+        isEmail: {
           args: true,
           msg: 'Invalid email format'
         },
