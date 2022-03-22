@@ -1,0 +1,27 @@
+[
+    {
+        "status":"friend",
+        "UserId":1,
+        "withId":5
+    },
+    {
+        "status":"friend",
+        "UserId":1,
+        "withId":4
+    },
+    {
+        "status":"in relationship",
+        "UserId":1,
+        "withId":2
+    },
+    {
+        "status":"friend",
+        "UserId":5,
+        "withId":4
+    },
+    {
+        "status":"friend",
+        "UserId":5,
+        "withId":6
+    }
+]

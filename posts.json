@@ -1,0 +1,27 @@
+[
+    {
+        "description":"indahnya pantai ini",
+        "imageUrl":"https://ik.imagekit.io/tvlk/blog/2021/10/Hidden-Gem-Wisata-Pantai-di-Jogja-Traveloka-Xperience.jpg",
+        "UserId":1
+    },
+    {
+        "description":"berkerja dahulu bersantai kemudian",
+        "imageUrl":"https://cdn.popbela.com/content-images/post/20200131/1000x6679-1b0e2274922249bf33b28ce274d87531_750x500.jpg",
+        "UserId":2
+    },
+    {
+        "description":"pemandangan kota yang ramai",
+        "imageUrl":"https://asset.kompas.com/crops/--ajmgvycb_xa8WiRmb0sdIfLvo=/85x0:670x390/750x500/data/photo/2019/01/21/1563278594.jpg",
+        "UserId":4
+    },
+    {
+        "description":"danau toba yang sangat indah",
+        "imageUrl":"https://cdn1-production-images-kly.akamaized.net/aK0CMAxcebP-non5sSQli0vfMnM=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/2869592/original/012043100_1564631811-danau_toba.jpg",
+        "UserId":5
+    },
+    {
+        "description":"jalan-jalan dulu ke jogja",
+        "imageUrl":"https://www.uii.ac.id/wp-content/uploads/2018/05/Jogja-1-1.jpg",
+        "UserId":6
+    }
+]

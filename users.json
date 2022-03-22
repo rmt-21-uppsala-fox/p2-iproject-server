@@ -1,0 +1,37 @@
+[
+    {
+        "name":"Rio",
+        "status":"offline",
+        "gender":"male"
+    },
+    {
+        "name":"Karina",
+        "status":"offline",
+        "gender":"female"
+    },
+    {
+        "name":"Dika",
+        "status":"offline",
+        "gender":"male"
+    },
+    {
+        "name":"Ayu",
+        "status":"offline",
+        "gender":"female"
+    },
+    {
+        "name":"Ziady",
+        "status":"offline",
+        "gender":"male"
+    },
+    {
+        "name":"Indra",
+        "status":"offline",
+        "gender":"male"
+    },
+    {
+        "name":"Ira",
+        "status":"offline",
+        "gender":"female"
+    }
+]
