@@ -2,19 +2,20 @@ const keyOfRAWG = process.env.key;
 const axios = require(`axios`);
 const date = new Date();
 const dateNow = date.toISOString().slice(0, 10);
+date.setMonth(date.getMonth() + 1);
+const nextMonth = date.toISOString().slice(0, 10);
+const date2 = new Date();
+date2.setFullYear(date2.getFullYear() - 1);
+const aYearBefore = date2.toISOString().slice(0, 10);
 
 class Controller {
   static async showGames(req, res, next) {
     try {
-      date.setDate(date.getDate() - 0);
-      date.setFullYear(date.getFullYear() - 1);
-      const aYearBefore = date.toISOString().slice(0, 10);
-
       const data = await axios({
         method: `get`,
         url: `https://api.rawg.io/api/games`,
         params: {
-          key: `7b6f7730d9af4cfebf2a880376bda74c`,
+          key: `${keyOfRAWG}`,
           dates: `${aYearBefore},${dateNow}`,
           ordering: `-added`,
         },
@@ -24,21 +25,18 @@ class Controller {
       next(err);
     }
   }
-  static async UpcomingNextWeek(req, res, next) {
+  static async UpcomingNextMonth(req, res, next) {
     try {
-      date.setDate(date.getDate() + 7);
-      date.setFullYear(date.getFullYear() - 0);
-      const nextWeek = date.toISOString().slice(0, 10);
-      // console.log(test);
       const data = await axios({
         method: `get`,
         url: `https://api.rawg.io/api/games`,
         params: {
-          key: `7b6f7730d9af4cfebf2a880376bda74c`,
-          dates: `${dateNow},${nextWeek}`,
+          key: `${keyOfRAWG}`,
+          dates: `${dateNow},${nextMonth}`,
           ordering: `-added`,
         },
       });
+      // console.log(data.data);
       res.status(200).json(data.data.results);
     } catch (err) {
       next(err);
@@ -47,7 +45,6 @@ class Controller {
   static async detailGame(req, res, next) {
     try {
       const id = +req.params.gameId;
-
       const data = await axios({
         method: `get`,
         url: `https://api.rawg.io/api/games/${id}`,
@@ -65,9 +62,7 @@ class Controller {
       // console.log(price.data);
       const price = Number(data2.data[0].cheapest);
       const total = price * 15000;
-
-      console.log(data);
-
+      // console.log(data);
       res.status(200).json({ game: data.data, price: total });
     } catch (err) {
       next(err);
