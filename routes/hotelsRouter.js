@@ -4,4 +4,6 @@ const router = express.Router();
 
 router.get("/", HotelController.getHotels);
 
+router.get("/markers", HotelController.getMarkers);
+
 module.exports = router;
