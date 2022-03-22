@@ -4,18 +4,35 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Bookmarks extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Bookmarks.belongsTo(models.User)
     }
   }
   Bookmarks.init({
-    UserId: DataTypes.INTEGER,
-    RecipeId: DataTypes.STRING
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'User id is required'
+        },
+        notEmpty: {
+          msg: 'User id is required'
+        }
+      }
+    },
+    RecipeId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Recipe id is required'
+        },
+        notEmpty: {
+          msg: 'Recipe id is required'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Bookmarks',
