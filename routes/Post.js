@@ -6,7 +6,7 @@ const PostController = require("../controllers/postController");
 
 routerPost.get("/post", PostController.getAll);
 routerPost.get("/post/:postId", PostController.postDetail)
-routerPost.post("/upload", authentication, upload, PostController.upload);
+routerPost.post("/upload", upload,authentication, PostController.upload);
 routerPost.post("/comment", authentication, PostController.comment)
 
 module.exports = routerPost;

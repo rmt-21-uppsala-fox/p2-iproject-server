@@ -14,6 +14,9 @@ module.exports = {
       imgUrl: {
         type: Sequelize.STRING,
       },
+      fileLocation: {
+        type: Sequelize.STRING,
+      },
       UserId: {
         type: Sequelize.INTEGER,
         references: {

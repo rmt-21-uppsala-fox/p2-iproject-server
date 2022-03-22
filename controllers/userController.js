@@ -1,11 +1,29 @@
 const { User } = require("../models/index");
+const firebase = require("../config/db");
+const {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} = require("firebase/auth");
+const auth = getAuth(firebase);
 const { comparePw } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 class UserController {
   static async registration(req, res, next) {
     try {
       const { email, password, username, profilePict } = req.body;
-      await User.create({ email, password, username, profilePict });
+      const respond = await User.create({
+        email,
+        password,
+        username,
+        profilePict,
+      });
+      await createUserWithEmailAndPassword(
+        auth,
+        respond.email,
+        respond.password
+      );
       res.status(201).json({ message: "User Created" });
     } catch (error) {
       next(error);
@@ -22,11 +40,30 @@ class UserController {
       if (!comparePw(password, respond.password)) {
         throw new Error("INVALID_USER");
       }
-      const token = signToken({ id: respond.id, username: respond.username });
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        respond.email,
+        respond.password
+      );
+      const token = signToken({
+        id: respond.id,
+        username: respond.username,
+        uid: userCredential.user.uid,
+      });
       res.status(200).json({ access_token: token });
     } catch (error) {
       next(error);
     }
+  }
+
+  static signOut(req, res, next) {
+    signOut(auth)
+      .then(() => {
+        res.status(200).json({ message: "Logout success" });
+      })
+      .catch((error) => {
+        next(error);
+      });
   }
 }
 

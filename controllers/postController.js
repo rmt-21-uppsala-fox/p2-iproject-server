@@ -13,19 +13,24 @@ class PostController {
   static async upload(req, res, next) {
     try {
       const { caption, imgUrl, categoryId } = req.body;
-      const { id } = req.userData;
+      const { id, username, uid } = req.userData;
       if (!imgUrl) {
         const file = req.file;
         const timestamp = Date.now();
-        const fileName = `${timestamp}.jpeg`;
+        const name = file.originalname.split(".")[0];
+        const type = file.originalname.split(".")[1];
+        const fileName = `${name}_${timestamp}.${type}`;
+        const fileLocation = `/User/${uid}/${fileName}`;
 
-        const imageRef = ref(storage, fileName);
+        const imageRef = ref(storage, fileLocation);
 
         await uploadBytes(imageRef, file.buffer);
+        // console.log(caption, downloadURL, id, categoryId);
         const downloadURL = await getDownloadURL(ref(storage, imageRef));
         await Post.create({
           caption: caption,
           imgUrl: downloadURL,
+          fileLocation: fileLocation,
           UserId: id,
           categoryId: categoryId,
         });
@@ -34,6 +39,7 @@ class PostController {
         await Post.create({
           caption: caption,
           imgUrl: imgUrl,
+          fileLocation: "imgUrl",
           UserId: id,
           categoryId: categoryId,
         });
