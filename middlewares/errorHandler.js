@@ -17,7 +17,9 @@ const errorHandler = async (err, req, res, next) => {
     res.status(404).json({ message: "Post Not Found" });
   } else if (err.message === "COMMENT_NOT_FOUND") {
     res.status(404).json({ message: "Comment Not Found" });
-  } else {
+  } else if(err.message === "PAGE_NOT_FOUND"){
+    res.status(404).json({message: "Page Not Found"})
+  }else {
     res.json(err);
   }
 };

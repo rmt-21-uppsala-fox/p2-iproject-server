@@ -5,6 +5,7 @@ const {
   ref,
   uploadBytes,
   getDownloadURL,
+  deleteObject,
 } = require("firebase/storage");
 const storage = getStorage(firebase);
 global.XMLHttpRequest = require("xhr2");
@@ -25,7 +26,6 @@ class PostController {
         const imageRef = ref(storage, fileLocation);
 
         await uploadBytes(imageRef, file.buffer);
-        // console.log(caption, downloadURL, id, categoryId);
         const downloadURL = await getDownloadURL(ref(storage, imageRef));
         await Post.create({
           caption: caption,
@@ -50,11 +50,105 @@ class PostController {
     }
   }
 
+  static async postEdit(req, res, next) {
+    try {
+      const { postId } = req.params;
+      const { id } = req.userData;
+      const respond = await Post.findByPk(postId);
+      if (!respond) {
+        throw new Error("POST_NOT_FOUND");
+      }
+      if (respond.UserId !== id) {
+        throw new Error("FORBIDDEN");
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async postDelete(req, res, next) {
+    try {
+      const { postId } = req.params;
+      const { id } = req.userData;
+      const respond = await Post.findByPk(postId);
+      if (!respond) {
+        throw new Error("POST_NOT_FOUND");
+      }
+      if (respond.UserId !== id) {
+        throw new Error("FORBIDDEN");
+      }
+      const refrence = ref(storage, respond.fileLocation);
+      await deleteObject(refrence);
+      await Post.destroy({ where: { id: respond.id } });
+      const commentData = await Comment.findAll({
+        where: { PostId: respond.id },
+      });
+      if (commentData) {
+        await Comment.destroy({ where: { PostId: respond.id } });
+      }
+      res.status(200).json({ message: "Post has been deleted" });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async getAll(req, res, next) {
     try {
-      const respond = await Post.findAll({
-        include: { model: Category },
-      });
+      let size = 9;
+      let page = (req.query.page - 1) * size || 0;
+      if (page < 0 || isNaN(page) || page === undefined) {
+        throw new Error("PAGE_NOT_FOUND");
+      }
+
+      const { search, category } = req.query;
+      let option;
+      if (search && category) {
+        option = {
+          include: { model: Category },
+          where: [
+            { categoryId: +category },
+            { caption: { [Op.iLike]: `%${search}%` } },
+          ],
+          limit: size,
+          offset: page,
+          order: [["createdAt", "DESC"]],
+        };
+      } else if (search && !category) {
+        option = {
+          include: {
+            model: Category,
+          },
+          where: {
+            caption: {
+              [Op.iLike]: `%${search}%`,
+            },
+          },
+          limit: size,
+          offset: page,
+          order: [["createdAt", "DESC"]],
+        };
+      } else if (category && !search) {
+        option = {
+          include: {
+            model: Category,
+          },
+          where: {
+            categoryId: +category,
+          },
+          limit: size,
+          offset: page,
+          order: [["createdAt", "DESC"]],
+        };
+      } else {
+        option = {
+          include: { model: Category },
+          limit: size,
+          offset: page,
+          order: [["createdAt", "DESC"]],
+        };
+      }
+
+      const respond = await Post.findAll(option);
       res.status(200).json(respond);
     } catch (error) {
       next(error);
