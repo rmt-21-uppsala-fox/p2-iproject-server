@@ -25,7 +25,9 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.7.3",
     "pg": "^8.7.3",
+    "screenshot-desktop": "^1.12.7",
     "sequelize": "^6.17.0"
   },
   "devDependencies": {
