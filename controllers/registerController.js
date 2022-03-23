@@ -11,7 +11,10 @@ class Controller {
         password,
         logo,
       });
-      res.status(201).json(newResto);
+      res.status(201).json({
+        id: newResto.id,
+        email: newResto.email,
+      });
     } catch (err) {
       console.log(err);
       next(err);
@@ -26,7 +29,10 @@ class Controller {
         email,
         password,
       });
-      res.status(201).json(newAdmin);
+      res.status(201).json({
+        id: newAdmin.id,
+        email: newAdmin.email,
+      });
     } catch (err) {
       next(err);
     }
