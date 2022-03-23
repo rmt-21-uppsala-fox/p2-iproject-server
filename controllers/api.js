@@ -21,9 +21,29 @@ async function getUser(req,res) {
     }
   }
 
+  async function postTranslate(req,res) {
+    try {
+      const data = {
+        "q": "sini dari data",
+        "source": "in",
+        "target": "en"
+    }
+      const response = await axios.post('https://deep-translate1.p.rapidapi.com/language/translate/v2',data,{
+          headers: {
+            "X-RapidAPI-Host":"deep-translate1.p.rapidapi.com",
+            "X-RapidAPI-Key":"c0fef51bb8msh61a6c4a018759efp10ffd0jsn392ed844c5a6"
+          }
+      });
+      res.status(201).json(response.data.translations);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
 
   module.exports={
     getUser,
-    getHomePost
+    getHomePost,
+    postTranslate
   }

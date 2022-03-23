@@ -1,4 +1,7 @@
 const { User } = require("../models/index");
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 class UserController {
   static async register(req, res, next) {
@@ -32,14 +35,15 @@ class UserController {
       const access_token = jwt.sign(
         {
           id: isUser.id,
-          name: isUser.name,
+          name: isUser.userName,
           email: isUser.email,
         },
-        JWT_KEY
+        process.env.SECRET_KEY
       );
   
       res.status(200).json({ access_token });
     } catch (err) {
+      console.log(err);
       next(err);
     }
   }
