@@ -24,7 +24,6 @@ app.use(express.urlencoded({
 }))
 app.use(express.json())
 
-
 const authentication = async (req, res, next) => {
     try {
         const {
@@ -55,7 +54,6 @@ app.post('/register', async (req, res, next) => {
     try {
         let {
             name,
-            phoneNumber,
             email,
             password
         } = req.body
@@ -72,7 +70,6 @@ app.post('/register', async (req, res, next) => {
 
         let newUser = await User.create({
             name,
-            phoneNumber,
             email,
             password
         })
@@ -80,7 +77,6 @@ app.post('/register', async (req, res, next) => {
         res.status(201).json({
             id: newUser.id,
             name: newUser.name,
-            phoneNumber: newUser.phoneNumber,
             email: newUser.email
         })
     } catch (error) {
