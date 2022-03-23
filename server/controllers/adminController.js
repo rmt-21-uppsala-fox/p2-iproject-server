@@ -1,4 +1,4 @@
-const { Admin } = require("../models/index");
+const { Admin, Donation } = require("../models/index");
 const { comparePassword, generateToken } = require("../helpers/helper");
 
 class AdminController {
@@ -35,6 +35,34 @@ class AdminController {
         access_token: token,
         email: result.email,
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async createDonation(req, res, next) {
+    try {
+      let AdminId = req.admin.id;
+      let {
+        title,
+        imageUrl,
+        target,
+        collectedFunds,
+        bankAccount,
+        story,
+        region,
+      } = req.body;
+      let data = await Donation.create({
+        title,
+        imageUrl,
+        target,
+        collectedFunds,
+        bankAccount,
+        story,
+        region,
+        AdminId,
+      });
+      res.status(201).json(data);
     } catch (error) {
       next(error);
     }

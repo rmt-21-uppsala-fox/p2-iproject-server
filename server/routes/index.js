@@ -1,9 +1,10 @@
 const express = require("express");
+const GetRegion = require("../API/getRegion");
 const AdminController = require("../controllers/adminController");
 const DonationController = require("../controllers/donationController");
 const router = express.Router();
 const UserController = require("../controllers/userController");
-const authentication = require("../middlewares/auth");
+const { authentication, authenticationAdmin } = require("../middlewares/auth");
 // const { authentication } = require("../middlewares/auth");
 
 router.get("/", (req, res) => {
@@ -12,6 +13,15 @@ router.get("/", (req, res) => {
 
 router.post("/admin/register", AdminController.register);
 router.post("/admin/login", AdminController.login);
+router.post(
+  "/admin/createdonation",
+  authenticationAdmin,
+  AdminController.createDonation
+);
+router.get("/admin/getProvince", GetRegion.getProvince);
+router.get("/admin/getKota/:id", GetRegion.getKota);
+router.get("/admin/getKecamatan/:id", GetRegion.getKecamatan);
+router.get("/admin/getKelurahan/:id", GetRegion.getKelurahan);
 router.post("/register", UserController.register);
 router.post("/login", UserController.login);
 router.get("/donation", DonationController.getAllDonation);
@@ -23,6 +33,5 @@ router.post(
   "/updateuserhistory/:UserHistoryId",
   DonationController.updateStatus
 );
-// router.patch('/userhistory/:',DonationController.updateStatus)
 
 module.exports = router;
