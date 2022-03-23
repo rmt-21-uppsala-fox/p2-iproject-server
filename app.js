@@ -7,7 +7,10 @@ const {
 } = require('socket.io');
 
 const app = express();
+app.use(express.json())
 const httpServer = createServer(app);
+
+const routes = require('./routes');
 
 const io = new Server(httpServer, {
   cors: {
@@ -50,10 +53,9 @@ io.on("connection", (socket) => {
 
 })
 
+app.use(routes)
 
-app.get("/", (req, res) => {
-  res.send("its Working !!")
-})
+
 
 httpServer.listen(3000, () => {
   console.log("listening on port 3000");
