@@ -8,6 +8,7 @@ const registerRoute = require("./routes/registerRoute");
 const restaurantRoute = require("./routes/restaurantRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const loginRoute = require("./routes/loginRoute");
+const menuRoute = require("./routes/menuRoute");
 const port = 3000;
 
 app.use(cors());
@@ -18,6 +19,7 @@ app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/restaurant", restaurantRoute);
 app.use("/category", categoryRoute);
+app.use("/menu", menuRoute);
 // app.use("/menu")
 
 // app.use("/", (req, res, next) => {
