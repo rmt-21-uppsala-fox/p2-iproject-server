@@ -3,7 +3,7 @@ const { RelationController } = require('../controllers/relationController')
 const router = express.Router()
 
 
-router.get('/:UserId',RelationController.readAllRelation)
-router.post('/:UserId',RelationController.addRelation)
+router.get('/',RelationController.readAllRelation)
+router.post('/d',RelationController.addRelation)
 
 module.exports = router

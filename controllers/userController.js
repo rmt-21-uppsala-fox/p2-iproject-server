@@ -4,6 +4,8 @@ if (process.env.NODE_ENV !== 'production') {
 const { User } = require('../models/index.js')
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken')
+const axios = require('axios')
+const { Op } = require("sequelize");
 
 class UserController {
     static async userLogin(req, res, next) {
@@ -33,7 +35,7 @@ class UserController {
             const ticket = await client.verifyIdToken({ idToken: gToken, audience: process.env.gClientId })
             const payload = ticket.getPayload();
             const user = await User.findOne({
-                where: { email: payload.email }
+                where: { identity: payload.email }
             })
             if (user) {
                 
@@ -48,16 +50,17 @@ class UserController {
                 const data = await User.create({
                     // username,email,password,phoneNumber,address,role
                     name: payload.name,
-                    email: payload.email,
+                    identity: payload.email,
                     gender: '-',
                     status: 'online'
                 })
+                
                 const payLoad2 = { id: data.id }
-                const token = makeToken(payLoad2)
+                const token = jwt.sign(payLoad2,'secret')
                 res.status(201).json({
                     token,
-                    UserId: user.id,
-                    name: user.name
+                    UserId: data.id,
+                    name: data.name
                 })
             }
 
@@ -68,8 +71,65 @@ class UserController {
         }
     }
 
+
+    static async readAllUser(req,res,next){
+        try {
+            let option = {}
+            if(req.query.search){
+                option={name:{
+                    [Op.iLike]: `%${req.query.search}%`
+                }}
+            }
+            const users = await User.findAll({where:option,attributes:['name','id']})
+            res.status(200).json(users)
+        } catch (error) {
+            res.status(500).json({
+                message: 'Internal server error'
+            })
+        }
+    }
+
+    //facebookSignIn
+    static async facebookSignIn(req, res, next) {
+        try {
+            const {accessToken} = req.body
+            const {data} = await axios({url:`https://graph.facebook.com/me?access_token=${accessToken}`,method:'GET'})
+            const user = await User.findOne({where: { identity: data.id }})
+            
+            if (user) {
+                const payLoad2 = { id: user.id }
+                const token = jwt.sign(payLoad2, 'secret')
+                res.status(200).json({
+                    token,
+                    UserId: user.id,
+                    name: user.name
+                })
+            } else {
+                const user2 = await User.create({
+                    // username,email,password,phoneNumber,address,role
+                    name: data.name,
+                    identity: data.id,
+                    gender: '-',
+                    status: 'online'
+                })
+                const payLoad2 = { id: user2.id }
+                const token = jwt.sign(payLoad2, 'secret')
+                res.status(201).json({
+                    token,
+                    UserId: user2.id,
+                    name: user2.name
+                })
+            }
+            
+        } catch (error) {
+            res.status(500).json({
+                message: 'Internal server error'
+            })
+        }
+    }
+
     //user patch status online or offline
-    //user find all status online
+    
 
 }
 

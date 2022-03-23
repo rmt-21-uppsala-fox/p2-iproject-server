@@ -3,7 +3,7 @@ const {Relation,User} = require('../models/index.js')
 class RelationController{
     static async addRelation(req,res,next){
         try {
-            const {UserId} = req.params
+            const UserId = req.auth.id
             const {withId} = req.body
             await Relation.create({UserId,withId,status:'friend'})
             await Relation.create({UserId:withId,withId:UserId,status:'friend'})
@@ -26,7 +26,7 @@ class RelationController{
     //read relation bring all user
     static async readAllRelation(req,res,next){
         try {
-            const {UserId} = req.params
+            const UserId = req.auth.id
             const relations = await Relation.findAll({where:{UserId},include:{model:User,attributes:['name','id']}})
             res.status(200).json(relations)
         } catch (error) {

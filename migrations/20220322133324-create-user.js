@@ -17,7 +17,7 @@ module.exports = {
       gender: {
         type: Sequelize.STRING
       },
-      email: {
+      identity: {
         type: Sequelize.STRING
       },
       createdAt: {

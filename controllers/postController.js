@@ -24,7 +24,7 @@ class PostController{
 
     static async readAllPost(req,res,next){
         try {
-            const {UserId} = req.params
+            const UserId = req.auth.id
             const usersId = await Relation.findAll({where:{UserId},include:{model:User,attributes:['id']}})
             let arrayId = [{UserId}]
             usersId.forEach(e=>{
