@@ -6,6 +6,7 @@ class Controller {
             let data = await HLTV.getTeamRanking();
             res.status(200).json(data);
         } catch (error) {
+            console.log(error);
             res.status(500).json({ message: "Internal server error" });
         }
     }
