@@ -6,6 +6,10 @@ router.get('/novel', (req, res) => {
     res.redirect('/novel/:genre');
 });
 
+router.get('/novel/title/:title', NovelController.NovelDetail);
+
+router.get('/novel/title/:title/:chapter', NovelController.NovelChapter);
+
 router.get('/novel/:genre', NovelController.NovelListAndGenre);
 
 module.exports = router;
