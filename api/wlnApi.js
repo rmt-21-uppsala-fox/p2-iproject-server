@@ -39,7 +39,6 @@ const wlnApi = async () => {
             'https://www.wlnupdates.com/api',
             query
         );
-        console.log(response.data);
         return response.data;
     } catch (err) {
         res.status(400).json(err.response.data);

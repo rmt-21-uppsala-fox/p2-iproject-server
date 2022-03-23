@@ -28,6 +28,8 @@ class NovelController {
 
     static async NovelListGenre(req, res, next) {
         try {
+            console.log(req.headers, 'asdlkjslakjd');
+
             const genre = req.params.genre;
             console.log(genre);
             const order = req.query.order;
