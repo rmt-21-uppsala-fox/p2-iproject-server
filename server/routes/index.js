@@ -4,7 +4,11 @@ const AdminController = require("../controllers/adminController");
 const DonationController = require("../controllers/donationController");
 const router = express.Router();
 const UserController = require("../controllers/userController");
-const { authentication, authenticationAdmin } = require("../middlewares/auth");
+const {
+  authentication,
+  authenticationAdmin,
+  xenditAuth,
+} = require("../middlewares/auth");
 // const { authentication } = require("../middlewares/auth");
 
 router.get("/", (req, res) => {
@@ -31,10 +35,13 @@ router.get("/donation/:id", DonationController.detailDonation);
 
 router.use(authentication);
 //kurang my donation
+router.get("/mydonation", DonationController.getMyDonation);
 router.post("/donation/:DonationId", DonationController.donation);
 router.post(
   "/updateuserhistory/:UserHistoryId",
   DonationController.updateStatus
 );
+
+router.post("/xendit-callback", xenditAuth);
 
 module.exports = router;

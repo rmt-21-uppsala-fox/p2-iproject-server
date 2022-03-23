@@ -1,10 +1,24 @@
 const { User, UserHistory, Donation } = require("../models/index");
 const nodemailer = require("nodemailer");
+const XenditInvoice = require("../API/xendit");
 
 class DonationController {
   static async getAllDonation(req, res, next) {
     try {
       let data = await Donation.findAll();
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getMyDonation(req, res, next) {
+    try {
+      let UserId = req.user.id;
+      let data = await UserHistory.findAll({
+        include: { model: Donation },
+        where: { UserId },
+      });
       res.status(200).json(data);
     } catch (error) {
       next(error);
@@ -21,15 +35,30 @@ class DonationController {
         UserId,
         nominal,
       });
-      res.status(201).json({
-        id: data.id,
-        DonationId: data.DonationId,
-        UserId: data.UserId,
-        nominal: data.nominal,
-        status: data.status,
-      });
+      const invoice = await XenditInvoice.createInvoice(UserId, nominal);
+      console.log(invoice);
+      res.status(200).json(invoice);
+      // res.status(201).json({
+      //   id: data.id,
+      //   DonationId: data.DonationId,
+      //   UserId: data.UserId,
+      //   nominal: data.nominal,
+      //   status: data.status,
+      // });
     } catch (error) {
+      console.log(error?.message || error);
       next(error);
+    }
+  }
+
+  static async xenditpayment(req, res, next) {
+    try {
+      const { UserId } = req.user.id;
+      const invoice = await XenditInvoice.createInvoice(UserId, 10000);
+      res.status(200).json(invoice);
+    } catch (err) {
+      console.log(err?.message || err);
+      res.status(500).json(err?.message || err);
     }
   }
 
@@ -64,7 +93,7 @@ class DonationController {
         service: "gmail",
         auth: {
           user: "kitabantuuu@gmail.com",
-          pass: "renesdwir7",
+          pass: process.env.passwordEmail,
         },
       });
 
@@ -72,8 +101,8 @@ class DonationController {
         from: "platform.kitabantu@gmail.com",
         to: `${findemailUser.email}`,
         subject: "Donation Success",
-        // text: `Terima kasih atas donasi anda, semoga anda diberikan rezeki yang berlimpah!, ${findemailUser.email}.`,
-        text: `<p style="text-color:blue;"> Terima kasih atas donasi anda, semoga anda diberikan rezeki yang berlimpah! </p>`,
+        text: `Terima kasih atas donasi anda, semoga anda diberikan rezeki yang berlimpah!, ${findemailUser.email}.`,
+        // text: `<p style="text-color:blue;"> Terima kasih atas donasi anda, semoga anda diberikan rezeki yang berlimpah! </p>`,
       };
 
       transporter.sendMail(mailOptions, function (err, succes) {
