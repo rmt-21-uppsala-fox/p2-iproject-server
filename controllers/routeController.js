@@ -19,6 +19,7 @@ class RouteController {
                 }
             }
             const coords = data.matchings[0].geometry;
+
             res.status(200).json({
                 coords,
                 distance: {
