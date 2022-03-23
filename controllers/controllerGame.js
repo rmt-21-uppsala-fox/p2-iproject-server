@@ -1,5 +1,5 @@
 const nodemailer = require(`nodemailer`);
-const { Game } = require(`../models`);
+const { Game, Wishlist } = require(`../models`);
 const axios = require(`axios`);
 const keyOfRAWG = process.env.key;
 const date = new Date();
@@ -70,7 +70,7 @@ class Controller {
       next(err);
     }
   }
-  static async addToWishlist(req, res, status) {
+  static async addToWishlist(req, res, next) {
     try {
       const id = +req.params.gameId;
       const data = await axios({
@@ -80,17 +80,41 @@ class Controller {
           key: `${keyOfRAWG}`,
         },
       });
-      // console.log(data.data.results);
-      // res.status(200).json(data.data);
+
+      const data2 = await axios({
+        method: `get`,
+        url: `https://www.cheapshark.com/api/1.0/games`,
+        params: {
+          title: `${data.data.name}`,
+        },
+      });
+      // console.log(price.data);
+      const price = Number(data2.data[0].cheapest);
+      const total = price * 15000;
+
+      // console.log(total);
 
       const tes = await Game.create({
         gameId: data.data.id,
         name: data.data.name,
-        released: data.data.released,
-        backgroundImage: data.data.background_image,
+        price: total,
       });
 
-      res.status(200).json(tes);
+      const tes2 = await Wishlist.create({
+        GameId: tes.id,
+        UserId: req.userAccess.id,
+      });
+
+      // console.log(tes.id, req.userAccess.id);
+      res.status(200).json(tes2);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  static async showWishlist(req, res, next) {
+    try {
+      const id = req.params.UserId;
+      const data = await Game.findByPk({ where: {} });
     } catch (err) {
       console.log(err);
     }
