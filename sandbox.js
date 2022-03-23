@@ -5,3 +5,10 @@ npx sequelize-cli model:generate --name Trip --attributes name:string,imgUrl:str
 npx sequelize-cli model:generate --name TripUser --attributes UserId:integer,TripId:integer
 
  */
+
+const { Trip } = require("./models/index");
+
+const allTrip = Trip.findAll();
+allTrip
+.then(res => console.log(res))
+.catch(err => console.log('error', err))

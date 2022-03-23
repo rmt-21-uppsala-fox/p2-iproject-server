@@ -6,6 +6,7 @@ class ControllerTrip {
       const allTrip = await Trip.findAll();
       res.status(200).json(allTrip);
     } catch (err) {
+      console.log(err);
       next(err);
     }
   }
