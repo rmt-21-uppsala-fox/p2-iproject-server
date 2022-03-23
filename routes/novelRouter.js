@@ -10,6 +10,6 @@ router.get('/novel/title/:title', NovelController.NovelDetail);
 
 router.get('/novel/title/:title/:chapter', NovelController.NovelChapter);
 
-router.get('/novel/:genre', NovelController.NovelListAndGenre);
+router.get('/novel/:genre', NovelController.NovelListGenre);
 
 module.exports = router;
