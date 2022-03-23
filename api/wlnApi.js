@@ -1,5 +1,22 @@
 const axios = require('axios');
 
+function simpleStringify(object) {
+    var simpleObject = {};
+    for (var prop in object) {
+        if (!object.hasOwnProperty(prop)) {
+            continue;
+        }
+        if (typeof object[prop] == 'object') {
+            continue;
+        }
+        if (typeof object[prop] == 'function') {
+            continue;
+        }
+        simpleObject[prop] = object[prop];
+    }
+    return JSON.stringify(simpleObject); // returns cleaned up JSON
+}
+
 const wlnApi = async () => {
     try {
         const data = [
@@ -17,10 +34,13 @@ const wlnApi = async () => {
             'title-search-text': 'lord of mysteries',
         };
         query['title-search-text'] = data[Math.floor(Math.random() * 5)];
-        const res = await axios.get('https://www.wlnupdates.com/api', {
-            query,
-        });
-        return res.data;
+
+        const response = await axios.post(
+            'https://www.wlnupdates.com/api',
+            query
+        );
+        console.log(response.data);
+        return response.data;
     } catch (err) {
         res.status(400).json(err.response.data);
     }
