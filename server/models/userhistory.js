@@ -9,10 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      UserHistory.belongsTo(models.User);
+      UserHistory.belongsTo(models.Donation);
     }
   }
   UserHistory.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       UserId: DataTypes.INTEGER,
       DonationId: DataTypes.INTEGER,
       nominal: DataTypes.INTEGER,
