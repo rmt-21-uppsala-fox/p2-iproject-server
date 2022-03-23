@@ -42,13 +42,14 @@ const authenticationAdmin = async (req, res, next) => {
 };
 const xenditAuth = async (req, res, next) => {
   try {
+    console.log("masuk");
     const xCallbackToken = req.headers["x-callback-token"];
     if (xCallbackToken !== process.env.XENDIT_CALLBACK_TOKEN) {
       throw { message: "Invalid token" };
     }
-    console.log(req.body);
     res.status(200).send("OK");
   } catch (err) {
+    console.log(err.name);
     console.log(err?.message || err);
     res.status(401).json(err?.message || err);
   }

@@ -30,35 +30,27 @@ class DonationController {
       let { DonationId } = req.params;
       let { nominal } = req.body;
       let UserId = req.user.id;
+      let email = req.user.email;
       let data = await UserHistory.create({
         DonationId,
         UserId,
         nominal,
       });
-      const invoice = await XenditInvoice.createInvoice(UserId, nominal);
-      console.log(invoice);
-      res.status(200).json(invoice);
-      // res.status(201).json({
-      //   id: data.id,
-      //   DonationId: data.DonationId,
-      //   UserId: data.UserId,
-      //   nominal: data.nominal,
-      //   status: data.status,
-      // });
+      let text = UserId.toString() + "-" + data.id.toString();
+      const invoice = await XenditInvoice.createInvoice(
+        text,
+        nominal,
+        email,
+        `Pembayaran donation dengan id donation ${DonationId}`
+      );
+      res.status(200).json({
+        external_id: invoice.external_id,
+        nominal: nominal,
+        invoice: invoice.invoice_url,
+      });
     } catch (error) {
       console.log(error?.message || error);
       next(error);
-    }
-  }
-
-  static async xenditpayment(req, res, next) {
-    try {
-      const { UserId } = req.user.id;
-      const invoice = await XenditInvoice.createInvoice(UserId, 10000);
-      res.status(200).json(invoice);
-    } catch (err) {
-      console.log(err?.message || err);
-      res.status(500).json(err?.message || err);
     }
   }
 
@@ -75,7 +67,8 @@ class DonationController {
 
   static async updateStatus(req, res, next) {
     try {
-      let UserHistoryId = req.params.UserHistoryId;
+      let UserHistoryId = req.body.external_id.split("-")[1];
+      UserHistoryId = Number(UserHistoryId);
       let findData = await UserHistory.findByPk(UserHistoryId);
       let data = await UserHistory.update(
         { status: "success" },

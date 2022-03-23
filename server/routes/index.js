@@ -33,6 +33,7 @@ router.get("/donation", DonationController.getAllDonation);
 //detail donation
 router.get("/donation/:id", DonationController.detailDonation);
 
+router.post("/xendit-callback", DonationController.updateStatus);
 router.use(authentication);
 //kurang my donation
 router.get("/mydonation", DonationController.getMyDonation);
@@ -41,7 +42,5 @@ router.post(
   "/updateuserhistory/:UserHistoryId",
   DonationController.updateStatus
 );
-
-router.post("/xendit-callback", xenditAuth);
 
 module.exports = router;

@@ -6,10 +6,12 @@ const { Invoice } = x;
 const invoice = new Invoice({});
 
 class XenditInvoice {
-  static createInvoice(externalID, amount) {
+  static createInvoice(externalID, amount, payer_email, description) {
     return invoice.createInvoice({
       externalID,
       amount,
+      payer_email,
+      description,
     });
   }
   static expireInvoice(invoiceID) {
