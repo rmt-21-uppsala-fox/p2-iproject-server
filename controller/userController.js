@@ -2,7 +2,7 @@ const { User } = require("../models")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const { sendEmail } = require("../helper/nodemailer")
-const secret = process.env.secret || "secretkey"
+const secret = process.env.secret || "rahasia"
 class userController {
   static async register(req, res, next) {
     try {

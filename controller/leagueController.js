@@ -1,5 +1,6 @@
 const axios = require("axios")
-class englishController {
+const { Favorite } = require("../models")
+class leagueController {
   static async getEPLTable(req, res, next) {
     try {
       const response = await axios({
@@ -17,7 +18,6 @@ class englishController {
     } catch (err) {
       console.log(err)
       next(err)
-
     }
   }
   static async getITATable(req, res, next) {
@@ -38,7 +38,6 @@ class englishController {
     } catch (err) {
       console.log(err)
       next(err)
-
     }
   }
   static async getSPATable(req, res, next) {
@@ -62,6 +61,29 @@ class englishController {
 
     }
   }
+  static async claimFav(req, res, next) {
+    try {
+      const UserId = req.userCredentials.id
+      const { leagueName } = req.body
+      let fav = await Favorite.findOne({
+        where: {
+          UserId
+        }
+      })
+      if (fav) {
+        throw {
+          code: 403,
+          msg: "You already have a favorite league"
+        }
+      }
+      await Favorite.create({ UserId, leagueName })
+      res.status(201).json({ message: `Added ${leagueName} to user id ${UserId} favorite league` })
+    } catch (err) {
+      console.log(err)
+      next(err)
+
+    }
+  }
 }
 
-module.exports = englishController
+module.exports = leagueController

@@ -1,13 +1,16 @@
 const express = require("express")
 const router = express.Router()
-const englishController = require("../controller/englishController")
+const leagueController = require("../controller/leagueController")
 const userController = require("../controller/userController")
+const { authn } = require("../middleware/auth")
 
 router.post("/register", userController.register)
 router.post("/login", userController.login)
+router.use(authn)
 
-router.get("/epl", englishController.getEPLTable)
-router.get("/seriea", englishController.getITATable)
-router.get("/laliga", englishController.getSPATable)
+router.get("/epl", leagueController.getEPLTable)
+router.get("/seriea", leagueController.getITATable)
+router.get("/laliga", leagueController.getSPATable)
+router.post("/myfav", leagueController.claimFav)
 
 module.exports = router
