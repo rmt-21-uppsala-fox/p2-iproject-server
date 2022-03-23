@@ -13,7 +13,7 @@ class CarbonController {
                 },
                 data: {
                     distance: { value: distance, units: 'km' }, //km/l mpg 1/1000km
-                    fuel_efficiency: { value: fuelEfficiency, units: 'km/l', of: 'gasoline' } //diesel / gasoline
+                    fuel_efficiency: { value: fuelEfficiency, units: 'mpg', of: 'gasoline' } //diesel / gasoline
                 }
             })
             const data = response.data.total_co2e_in_kg;
@@ -21,7 +21,6 @@ class CarbonController {
                 carbonProducedInKg: data
             })
         } catch (error) {
-            console.log(error);
             console.log(error.message);
         }
     }
