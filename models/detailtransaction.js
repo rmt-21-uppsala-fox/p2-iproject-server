@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      DetailTransaction.belongsTo(models.Product, { foreignKey: "ProductId" });
     }
   }
   DetailTransaction.init(
@@ -38,6 +39,24 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: {
             args: true,
             msg: "ProductId is required",
+          },
+        },
+      },
+      quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: "Quantity is required",
+          },
+          notEmpty: {
+            args: true,
+            msg: "Quantity is required",
+          },
+          min: {
+            args: [1],
+            msg: "Quantity must be greater than 0",
           },
         },
       },

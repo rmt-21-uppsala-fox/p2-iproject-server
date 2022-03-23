@@ -29,17 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       status: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: {
-            args: true,
-            msg: "Status is required",
-          },
-          notEmpty: {
-            args: true,
-            msg: "Status is required",
-          },
-        },
+        defaultValue: "Unstaged",
       },
       UserId: {
         type: DataTypes.INTEGER,

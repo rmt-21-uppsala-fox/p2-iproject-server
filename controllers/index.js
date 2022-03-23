@@ -1,4 +1,11 @@
-const { User, Product, Category, Workshop } = require("../models");
+const {
+  User,
+  Product,
+  Category,
+  Workshop,
+  Transaction,
+  DetailTransaction,
+} = require("../models");
 const { comparePassword } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
 const { OAuth2Client } = require("google-auth-library");
@@ -141,10 +148,112 @@ class IndexController {
           },
         ],
       });
+
+      if (!product)
+        throw {
+          name: "Not Found",
+          message: "Product not found",
+        };
+
       res.status(200).json(product);
     } catch (error) {
       next(error);
     }
+  }
+
+  static async addMyCart(req, res, next) {
+    try {
+      const { ProductId } = req.params;
+      const { quantity } = req.body;
+      const { id } = req.userCredentials;
+
+      const product = await Product.findByPk(ProductId);
+
+      if (!product)
+        throw {
+          name: "Not Found",
+          message: "Product not found",
+        };
+
+      const [transaction] = await Transaction.findOrCreate({
+        where: [{ UserId: id }, { status: "Unstaged" }],
+        defaults: {
+          code: `FAP-#${new Date().getTime()}`,
+          UserId: id,
+        },
+      });
+
+      const detailTransaction = await DetailTransaction.create({
+        TransactionId: transaction.id,
+        ProductId,
+        quantity,
+      });
+
+      res.status(201).json({
+        id: detailTransaction.id,
+        TransactionId: detailTransaction.TransactionId,
+        ProductId: detailTransaction.ProductId,
+        quantity: detailTransaction.quantity,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async myCart(req, res, next) {
+    try {
+      const { id } = req.userCredentials;
+
+      const [transaction] = await Transaction.findOrCreate({
+        where: [{ UserId: id }, { status: "Unstaged" }],
+        defaults: {
+          code: `FAP-#${new Date().getTime()}`,
+          UserId: id,
+        },
+      });
+
+      const mycart = await DetailTransaction.findAll({
+        where: { TransactionId: transaction.id },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+        include: {
+          model: Product,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+          include: {
+            model: Category,
+            attributes: ["name"],
+          },
+        },
+      });
+
+      res.status(200).json(mycart);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async deleteMyCart(req, res, next) {
+    try {
+      const { id } = req.params;
+      await DetailTransaction.destroy({ where: { id } });
+
+      res.status(200).json({
+        message: "Product succesfully deleted",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async paymentSuccess(req, res, next) {
+    console.log(req.body);
+    console.log(req.headers);
+    res.status(200).json({
+      message: "I have received the payment callback",
+    });
   }
 }
 
