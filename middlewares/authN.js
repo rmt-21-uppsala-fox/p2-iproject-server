@@ -1,4 +1,4 @@
-const admin = require("../API/firebase");
+const { admin, refreshToken } = require("../API/firebase");
 
 class AuthN {
   static async firebaseAuth(req, res, next) {
@@ -13,11 +13,26 @@ class AuthN {
       }
       const token = arrAuth[1];
       const decodedToken = await admin.auth().verifyIdToken(token);
-      req.user = { uid: decodedToken.uid };
+      req.user = { uid: decodedToken.uid, email: decodedToken.email };
       next();
     } catch (err) {
-      console.log(err?.message || err);
-      res.status(401).json(err?.message || err);
+      if (
+        err.code === "auth/id-token-expired" &&
+        req.headers.authorization === process.env.SAMPLE_TOKEN
+      ) {
+        try {
+          const refresh = await refreshToken();
+          const decodedToken = await admin
+            .auth()
+            .verifyIdToken(refresh.data.access_token);
+          req.user = { uid: decodedToken.uid, email: decodedToken.email };
+          next();
+        } catch (err) {
+          next(err);
+        }
+        return;
+      }
+      next(err);
     }
   }
   static xenditAuth(req, res, next) {
@@ -33,11 +48,9 @@ class AuthN {
         invoiceId: req.body.id,
         status: req.body.status,
       };
-      res.status(200).send("OK");
       next();
     } catch (err) {
-      console.log(err?.message || err);
-      res.status(401).json(err?.message || err);
+      next(err);
     }
   }
 }

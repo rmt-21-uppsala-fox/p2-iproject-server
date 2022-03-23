@@ -16,5 +16,8 @@ class XenditInvoice {
   static expireInvoice(invoiceID) {
     return invoice.expireInvoice({ invoiceID });
   }
+  static getInvoice(invoiceID) {
+    return invoice.getInvoice({ invoiceID });
+  }
 }
 module.exports = XenditInvoice;
