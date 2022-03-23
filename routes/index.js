@@ -3,7 +3,7 @@ const router = express.Router();
 const Controller = require("../controllers/Controller");
 const kib = require('./kib');
 const profil = require('./profil');
-const { authentification } = require('../middleware/auth');
+const { authentification } = require('../middleware/auth.js');
 
 router.get("/", Controller.home);
 router.post("/login", Controller.login);

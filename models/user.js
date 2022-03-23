@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { hasingPassword } = require('../helpers/helpers');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -44,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    SchoolId: {
+    schoolId: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
@@ -58,10 +59,14 @@ module.exports = (sequelize, DataTypes) => {
           msg: "School is required"
         }
       }
-    }
+    },
+    role: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'User',
   });
+  User.beforeCreate((ins, option) => {
+    ins.password = hasingPassword(ins.password);
+  })
   return User;
 };

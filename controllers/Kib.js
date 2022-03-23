@@ -27,7 +27,6 @@ class KibController {
    static async createKib(req, res, next) {
       try {
          const { id } = req.userAccessLogin;
-         console.log(id);
          const {
             name,
             type,
@@ -48,7 +47,6 @@ class KibController {
          res.status(200).json({ kib });
 
       } catch (error) {
-         console.log(error);
          next(error);
       }
    }
@@ -80,7 +78,6 @@ class KibController {
          res.status(200).json({ kib });
 
       } catch (error) {
-         console.log(error);
          next(error);
       }
    }
@@ -100,7 +97,6 @@ class KibController {
          res.status(200).json({ kib });
 
       } catch (error) {
-         console.log(error);
          next(error);
       }
    }

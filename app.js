@@ -5,7 +5,7 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const routers = require('./routes');
-const port = process.env.PORT || 3000;
+
 const errorHandler = require('./middleware/errorHandler');
 
 app.use(cors());
@@ -16,6 +16,3 @@ app.use(routers);
 
 app.use(errorHandler);
 module.exports = app;
-app.listen(port, () => {
-   console.log(`Go! port: ${port}`);
-});

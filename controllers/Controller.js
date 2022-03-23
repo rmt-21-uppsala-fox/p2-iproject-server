@@ -1,4 +1,4 @@
-const { comparePassword, signToken } = require('../helpers/helpers');
+const { comparePassword, signToken } = require('../helpers/helpers.js');
 const { School, User } = require('../models');
 
 class Controller {
@@ -8,7 +8,6 @@ class Controller {
 
          res.status(200).json({ allSchools });
       } catch (error) {
-         console.log(error);
          next(error);
       }
    }
@@ -16,18 +15,15 @@ class Controller {
    static async login(req, res, next) {
       try {
          const { email, password } = req.body;
-
          const user = await User.findOne({
             where: {
-               email,
-               password
+               email: email
             }
          });
 
          if (!user) {
             throw new Error('Invalid email or password');
          }
-
          const passwordCheck = comparePassword(password, user.password);
 
          if (!passwordCheck) {
@@ -52,24 +48,26 @@ class Controller {
    static async register(req, res, next) {
       try {
          const {
-            SchoolId,
+            schoolId,
             email,
-            password
+            password,
+            role
          } = req.body;
 
          const user = await User.create({
-            SchoolId,
+            schoolId,
             email,
-            password
+            password,
+            role
          });
 
          res.status(201).json({
             message: 'User created successfully',
-            user
+            email: user.email,
+            role: user.role
          });
       }
       catch (error) {
-         console.log(error);
          next(error);
       }
    }

@@ -4,8 +4,8 @@
   "description": "Individual Project - Server Ode Afdal Data Aset KIB Dinas PK Daerah",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --detectOpenHandles, --forceExit --runInBand",
-    "dev": "nodemon index.js"
+    "test": "jest --detectOpenHandles, --forceExit --runInBand",
+    "dev": "nodemon ./bin/www"
   },
   "repository": {
     "type": "git",

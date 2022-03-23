@@ -17,16 +17,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      SchoolId: {
+      schoolId: {
         allowNull: false,
         unique: true,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Schools',
-          key: 'id'
-        },
-        onDelete : "CASCADE",
-        onUpdate : "CASCADE"
+        type: Sequelize.STRING,
+      },
+      role: {
+        allowNull: false,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
