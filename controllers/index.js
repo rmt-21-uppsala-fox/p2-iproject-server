@@ -250,7 +250,7 @@ class IndexController {
     }
   }
 
-  static async payment(req, res, next) {
+  static async addPayment(req, res, next) {
     try {
       const { id } = req.userCredentials;
       const transaction = await Transaction.findOne({
@@ -293,6 +293,15 @@ class IndexController {
         },
       });
 
+      await Transaction.update(
+        {
+          status: "Staged",
+        },
+        {
+          where: { id: transaction.id },
+        }
+      );
+
       const addedPayment = await Payment.create({
         code: data.id,
         description: data.description,
@@ -308,17 +317,41 @@ class IndexController {
         invoiceUrl: addedPayment.invoiceUrl,
       });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
 
   static async paymentSuccess(req, res, next) {
-    console.log(req.body);
-    console.log(req.headers);
-    res.status(200).json({
-      message: "I have received the payment callback",
-    });
+    try {
+      const { id, status, payment_method, payment_channel } = req.body;
+
+      await Payment.update(
+        { status, method: `${payment_method}-${payment_channel}` },
+        { where: { code: id } }
+      );
+      res.status(204).json({
+        message: "I have received the payment callback",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async payment(req, res, next) {
+    try {
+      const { id } = req.userCredentials;
+      const payments = await Payment.findAll({
+        include: {
+          model: Transaction,
+          where: { UserId: id },
+          attributes: [],
+        },
+      });
+      res.status(200).json(payments);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
   }
 }
 
