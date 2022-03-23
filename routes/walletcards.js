@@ -1,9 +1,9 @@
 const express = require("express");
 const WalletCardController = require("../controllers/WalletCardController");
-const authN = require("../middlewares/authN");
+const AuthN = require("../middlewares/authN");
 const walletCardRoute = express.Router();
 
-walletCardRoute.get("/", authN, WalletCardController);
+walletCardRoute.get("/", AuthN.firebaseAuth, WalletCardController.checkoutCart);
 walletCardRoute.post("/:id");
 
 module.exports = walletCardRoute;
