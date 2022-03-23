@@ -75,6 +75,19 @@ class Controller {
       next(error);
     }
   }
+
+  static async getGenres(req, res, next) {
+    try {
+
+      const { data } = await axios.get(
+        `https://api.jikan.moe/v4/genres/anime`
+      );
+
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = Controller;
