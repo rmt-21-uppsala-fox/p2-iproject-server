@@ -9,19 +9,35 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Post.belongsTo(models.User, { foreignKey: "UserId" }),
-        Post.belongsTo(models.User, { foreignKey: "totalLike" }),
         Post.belongsTo(models.Category, { foreignKey: "categoryId" });
-        Post.belongsToMany(models.User, {through: models.Comment, foreignKey: "PostId"})
-
+      Post.belongsToMany(models.User, {
+        through: models.Comment,
+        foreignKey: "PostId",
+      });
     }
   }
   Post.init(
     {
-      imgUrl: DataTypes.STRING,
-      caption: DataTypes.STRING,
-      UserId: DataTypes.INTEGER,
-      totalLike: DataTypes.INTEGER,
-      categoryId: DataTypes.INTEGER,
+      imgUrl: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      caption: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      fileLocation: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      UserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       sequelize,

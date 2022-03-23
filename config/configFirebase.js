@@ -1,7 +1,6 @@
 const {
   API_KEY,
   AUTH_DOMAIN,
-  DATABASE_URL,
   PROJECT_ID,
   STORAGE_BUCKET,
   MESSAGING_SENDER_ID,
@@ -18,5 +17,4 @@ module.exports = {
     appId: APP_ID,
   },
 };
-// di dalam module export perlu ada databaseURL: DATABASE_URL,
-// nanti setelah deploy server
+

@@ -1,6 +1,5 @@
 "use strict";
 const { Model } = require("sequelize");
-const { hashPw } = require("../helpers/bcrypt");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -10,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.hasMany(models.Post, { foreignKey: "UserId" }),
-        User.hasOne(models.Post, { foreignKey: "totalLike" }),
         User.belongsToMany(models.Post, {
           through: models.Comment,
           foreignKey: "UserId",
@@ -19,6 +17,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
       email: {
         type: DataTypes.STRING,
         unique: { msg: "this email is already registered" },
@@ -29,13 +33,9 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: { msg: "Invalid Email" },
         },
       },
-      password: {
+      firebaseUID: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          notNull: { msg: "Password is required" },
-          notEmpty: { msg: "Password is required" },
-        },
       },
       username: {
         type: DataTypes.STRING,
@@ -60,9 +60,5 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
     }
   );
-
-  User.beforeCreate((instance) => {
-    instance.password = hashPw(instance.password);
-  });
   return User;
 };

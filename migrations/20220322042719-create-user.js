@@ -13,8 +13,9 @@ module.exports = {
         unique: true,
         allowNull: false,
       },
-      password: {
+      firebaseUID: {
         type: Sequelize.STRING,
+        unique: true,
         allowNull: false,
       },
       username: {
