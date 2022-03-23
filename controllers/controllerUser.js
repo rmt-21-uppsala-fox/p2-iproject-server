@@ -11,7 +11,11 @@ class controller {
         password,
         username,
       });
-      res.status(201).json({ msg: `Welcome ${data.username}` });
+
+      const payload = { id: data.id };
+      const token = createToken(payload);
+      // console.log(token);
+      res.status(201).json({ access_token: token, id: data.id });
     } catch (err) {
       next(err);
     }
@@ -42,7 +46,7 @@ class controller {
 
       const passUser = comparePass(password, data.password);
       // console.log(passUser);
-      
+
       if (!passUser) {
         throw {
           name: `Invalid Email/Password`,
@@ -56,9 +60,7 @@ class controller {
 
       const token = createToken(payload);
 
-      // console.log(token);
-
-      res.status(200).json({ access_token: token });
+      res.status(200).json({ access_token: token, id: data.id });
     } catch (err) {
       // console.log(err);
       next(err);

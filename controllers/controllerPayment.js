@@ -1,24 +1,61 @@
-const { Order, Wishlist } = require(`../models`);
+const { Game, User, Wishlist } = require(`../models`);
 const axios = require(`axios`);
+const MidtransKey = process.env.MidtransKey;
+const keyOfRAWG = process.env.key;
 
 class Controller {
   static async getTransaction(req, res, next) {
     try {
-      const id = req.userAccess.id;
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+      function generateString(length) {
+        let result = " ";
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+          result += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+          );
+        }
+        return result;
+      }
+      // const id = req.userAccess.id;
       // console.log(id);
-      const gameDetail = await Wishlist.findAll({ UserId: id });
+      // const gameDetail = await Wishlist.findAll({
+      //   UserId: id,
+      //   include: [{ model: Game }, { model: User }],
+      // });
       // console.log(gameDetail);
-      const data = await axios({
+
+      const id = +req.params.gameId;
+      const dataGame = await axios({
+        method: `get`,
+        url: `https://api.rawg.io/api/games/${id}`,
+        params: {
+          key: `${keyOfRAWG}`,
+        },
+      });
+      const dataPrice = await axios({
+        method: `get`,
+        url: `https://www.cheapshark.com/api/1.0/games`,
+        params: {
+          title: `${dataGame.data.name}`,
+        },
+      });
+      // console.log(price.data);
+      const price = Number(dataPrice.data[0].cheapest);
+      const total = price * 15000;
+
+      // console.log(`${total}, ${req.userAccess.email}, ${dataGame.data.name}`);
+
+      await axios({
         url: "https://app.sandbox.midtrans.com/snap/v1/transactions",
         method: "post",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
           Authorization:
-            "Basic " +
-            Buffer.from("SB-Mid-server-6twKVV-HT_UTWgB5jIdDZbcg").toString(
-              "base64"
-            ),
+            "Basic " + Buffer.from(`${MidtransKey}`).toString("base64"),
         },
         data: {
           payment_type: "bank_transfer",
@@ -26,19 +63,34 @@ class Controller {
             bank: "permata",
           },
           transaction_details: {
-            order_id: "C175101",
-            gross_amount: 145000,
+            order_id: "purchase-game-" + generateString(8),
+            gross_amount: `${total}`,
           },
           customer_details: {
-            first_name: "Johny",
-            last_name: "Kane",
-            email: "testmidtrans@mailnesia.com",
-            phone: "08111222333",
+            email: `${req.userAccess.email}`,
           },
+          item_details: [
+            {
+              name: `${dataGame.data.name}`,
+              quantity: 1,
+              price: `${total}`,
+            },
+          ],
         },
-      });
-      // console.log(data.data);
-      res.status(201).json(data.data);
+      }).then(
+        (snapResponse) => {
+          let snapToken = snapResponse.data.token;
+          // console.log("Retrieved snap token:", snapToken);
+          // Pass the Snap Token to frontend, render the HTML page
+          res.status(201).json(snapToken);
+        },
+        (error) => {
+          res.send(`Fail to call API w/ error ${error}`);
+          console.log(error);
+        }
+      );
+      // console.log(data);
+      // res.status(201).json(data.data);
     } catch (err) {
       console.log(err);
       next(err);
