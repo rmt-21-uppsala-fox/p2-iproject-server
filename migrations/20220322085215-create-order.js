@@ -29,12 +29,6 @@ module.exports = {
       paymentStatus: {
         type: Sequelize.STRING
       },
-      paymentId: {
-        type: Sequelize.INTEGER
-      },
-      paymentMethod: {
-        type: Sequelize.STRING
-      },
       MenuId: {
         type: Sequelize.INTEGER,
         references: {
