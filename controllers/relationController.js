@@ -6,6 +6,7 @@ class RelationController{
             const {UserId} = req.params
             const {withId} = req.body
             await Relation.create({UserId,withId,status:'friend'})
+            await Relation.create({UserId:withId,withId:UserId,status:'friend'})
             res.status(201).json({
                 message:'success adding new friend'
             })

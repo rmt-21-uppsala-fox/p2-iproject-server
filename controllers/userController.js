@@ -12,7 +12,7 @@ class UserController{
             //         msg:'invalid Name'
             //     })
             // }
-            res.status(200).json({name:user.name})
+            res.status(200).json({name:user.name,id:user.id})
         } catch (error) {
             res.status(500).json({
                 message:'Internal server error'

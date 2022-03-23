@@ -5,7 +5,7 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
 const allRoutes = require('./routes/index.js')
-// const cors = require('cors')
+const cors = require('cors')
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const { ChatController } = require('./controllers/chatController.js')
@@ -18,7 +18,7 @@ const io = new Server(httpServer, {
     }
 })
 
-// app.use(cors())
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -41,11 +41,15 @@ io.on("connection", (socket) => {
             const chats1 = await ChatController.readAllChat(RoomId1)
             const chats2 = await ChatController.readAllChat(RoomId2)
             if (chats1.length) {
-                io.to(RoomId1).emit('receiveChat', chats1)
+                socket.join(RoomId1)
+                io.to(RoomId1).emit('receiveChat', chats1,RoomId1)
             } else if (chats2.length) {
-                io.to(RoomId2).emit('receiveChat', chats2)
+                socket.join(RoomId2)
+                io.to(RoomId2).emit('receiveChat', chats2,RoomId2)
             }else{
-                io.to(RoomId1).emit('receiveChat', '',{RoomId:RoomId1})
+                socket.join(RoomId1)
+                await ChatController.createChat(RoomId1, senderName,null)
+                io.to(RoomId1).emit('receiveChat', [],{RoomId:RoomId1})
             }
             //  else {
             //     await ChatController.createChat(RoomId1, senderName)

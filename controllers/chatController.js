@@ -13,11 +13,20 @@ class ChatController{
     static async createChat(RoomId,sender,chat){
         try {
             await Chat.create({RoomId,sender,chat})
-            return 'Chat has been create'
+            return 'Chat has been created'
         } catch (error) {
             return 'Internal Server Error'
         }
     }
+    
+    // static async deleteChat(RoomId){
+    //     try {
+    //         await Chat.destroy({where:{RoomId}})
+    //         return 'Chat has been deleted'
+    //     } catch (error) {
+    //         return 'Internal Server Error'
+    //     }
+    // }
 }
 
 module.exports ={ChatController}
