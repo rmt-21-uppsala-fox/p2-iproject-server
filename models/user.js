@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.belongsToMany(models.Game, { through: models.Wishlist });
+      User.belongsToMany(models.Game, { through: models.GamesCollection });
     }
   }
   User.init(

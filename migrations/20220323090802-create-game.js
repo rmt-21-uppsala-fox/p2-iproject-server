@@ -12,7 +12,23 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      background_image: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      released: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
       gameId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      rating: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
