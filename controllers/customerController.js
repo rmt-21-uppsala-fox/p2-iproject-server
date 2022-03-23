@@ -1,8 +1,9 @@
 const { User, Product } = require("../models");
 const { comparePasswordWithHash } = require("../helpers/bcrypt");
 const { generateToken } = require("../helpers/jwt");
+const apiMidtrans = require("../apis/midtrans");
 
-class CustomerController {
+class CustomerControllers {
   static async register(req, res, next) {
     try {
       const { email, password } = req.body;
@@ -75,6 +76,32 @@ class CustomerController {
       next(error);
     }
   }
+
+  // static async getPayments(req, res, next) {
+  //   try {
+  //     var myHeaders = new Headers();
+  //     myHeaders.append("Accept", "application/json");
+  //     myHeaders.append("Content-Type", "application/json");
+  //     myHeaders.append("Authorization", process.env.MIDTRANS_KEY);
+
+  //     var raw = "\n\n";
+
+  //     // var requestOptions = {
+  //     //   headers: myHeaders,
+  //     //   body: raw,
+  //     //   redirect: "follow",
+  //     // };
+
+  //     const response = await apiMidtrans.get(
+  //       "v2/SANDBOX-G710367688-806/status",
+  //       requestmyHeadersOptions
+  //     );
+  //     console.log(response);
+  //     res.status(200).json(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 }
 
-module.exports = CustomerController;
+module.exports = CustomerControllers;

@@ -2,7 +2,7 @@ const { User, Product } = require("../models");
 const { comparePasswordWithHash } = require("../helpers/bcrypt");
 const { generateToken } = require("../helpers/jwt");
 
-class AdminController {
+class AdminControllers {
   static async register(req, res, next) {
     try {
       const { email, password } = req.body;
@@ -85,4 +85,4 @@ class AdminController {
   }
 }
 
-module.exports = AdminController;
+module.exports = AdminControllers;
