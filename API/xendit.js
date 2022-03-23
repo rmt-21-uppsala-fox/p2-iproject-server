@@ -9,12 +9,12 @@ const invoice = new Invoice({});
 class XenditInvoice {
   static createInvoice(externalID, amount) {
     return invoice.createInvoice({
-      externalID,
+      externalID: externalID,
       amount,
     });
   }
   static expireInvoice(invoiceID) {
-    return invoice.expireInvoice(invoiceID);
+    return invoice.expireInvoice({ invoiceID });
   }
 }
 module.exports = XenditInvoice;
