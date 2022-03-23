@@ -15,6 +15,7 @@ app.use(express.json());
 
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
+
 app.use("/restaurant", restaurantRoute);
 
 app.use("/", (req, res, next) => {

@@ -7,5 +7,6 @@ const Controller = require("../controllers/registerController");
 
 router.post("/restaurant", upload.single("logo"), Controller.registerRestaurant);
 router.post("/admin", Controller.registerAdmin);
+router.post("/:restoId/customer", Controller.regisCust);
 
 module.exports = router;

@@ -1,7 +1,10 @@
 const express = require("express");
+const { isLoginResto } = require("../middlewares/auth");
 const router = express.Router();
-const regisController = require("../controllers/registerController");
+const Controller = require("../controllers/restaurantController");
 
-router.post("/:restoId/customer", regisController.regisCust);
+router.use(isLoginResto);
+
+router.get("/", Controller.getAllRestaurant);
 
 module.exports = router;
