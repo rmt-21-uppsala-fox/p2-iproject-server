@@ -1,24 +1,27 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Packages', {
+    await queryInterface.createTable('Transactions', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      xenditInvoiceId: {
         type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.STRING
-      },
-      imgUrl: {
-        type: Sequelize.STRING
-      },
-      price: {
+      amount: {
         type: Sequelize.INTEGER
+      },
+      customerName: {
+        type: Sequelize.STRING
+      },
+      customerEmail: {
+        type: Sequelize.STRING
+      },
+      status: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -31,6 +34,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Packages');
+    await queryInterface.dropTable('Transactions');
   }
 };

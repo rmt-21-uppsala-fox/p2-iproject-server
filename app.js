@@ -5,12 +5,16 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {
-    User
+    User,
+    Package,
+    Image,
+    Transaction
 } = require('./models');
-const path = require('path');
+const {
+    default: axios
+} = require('axios');
 const secretKey = 'ThisIsASecretKey'
-
-const publicPath = path.join(__dirname, '../p2-iproject-server/faceRecognition')
+const imgbbUploader = require("imgbb-uploader");
 
 app.use(cors())
 app.use(express.urlencoded({
@@ -24,8 +28,8 @@ const authentication = async (req, res, next) => {
         const {
             access_token
         } = req.headers
-        const payload = jwt.verify(access_token, secretKey)
 
+        const payload = jwt.verify(access_token, secretKey)
         const foundUser = await User.findOne({
             where: {
                 email: payload.email
@@ -40,10 +44,24 @@ const authentication = async (req, res, next) => {
         }
         next()
     } catch (error) {
+        console.log(error);
         next(error)
     }
 }
 
+app.post('/', async (req, res) => {
+    await Transaction.update({
+        status: req.body.status
+    }, {
+        where: {
+            xenditInvoiceId: req.body.id
+        }
+    })
+
+    res.status(200).json({
+        message: 'Successfully accepted the callback'
+    })
+})
 
 app.post('/register', async (req, res, next) => {
     try {
@@ -78,6 +96,8 @@ app.post('/register', async (req, res, next) => {
             email: newUser.email
         })
     } catch (error) {
+        console.log(error);
+
         next(error)
     }
 })
@@ -105,73 +125,124 @@ app.post('/login', async (req, res, next) => {
 
         const access_token = jwt.sign({
             id: foundUser.id,
-            email: foundUser.email
+            email: foundUser.email,
+            name: foundUser.name
         }, secretKey)
 
         req.headers.access_token = access_token
 
         res.status(200).json({
-            'access_token': access_token
+            'access_token': access_token,
+            'name': foundUser.name,
+            'id': foundUser.id,
+            'email': foundUser.email
         })
     } catch (error) {
+        console.log(error);
+
         next(error)
     }
 })
+
 
 app.use(authentication)
 
-app.get('/facePay', async (req, res, next) => {
+app.get('/currentUserImagesUrl', async (req, res, next) => {
     try {
-        let {
-            access_token
-        } = req.headers
-        let payload = jwt.verify(access_token, secretKey)
+        const imagesUrl = await Image.findAll({
+            include: User,
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
 
-        let foundUser = await User.findByPk(payload.id)
 
-        if (foundUser) {
-            req.currentUserId = foundUser.id
-            req.currentUserEmail = foundUser.email
-            //TODO:
-            //popup Modal here
-            //while unknown looping terus sampai 5 detik then show error message
-            //if benar lanjut ke payment pilihan
-            //kalau pakai payment xendit lsg harus masukin password atau pin nya lagi
-        } else {
-            throw new Error('User not found')
+        const responseMap = {};
+        for (let i = 0; i < imagesUrl.length; i++) {
+            const name = imagesUrl[i].User.name;
+            if (responseMap[name]) {
+                responseMap[name].push(imagesUrl[i].imageUrl);
+            } else {
+                responseMap[name] = [imagesUrl[i].imageUrl];
+            }
         }
+
+        res.status(200).json(responseMap)
     } catch (error) {
+        console.log(error);
+
         next(error)
     }
 })
 
-app.get('/facePay', async (req, res, next) => {
+app.get('/packages', async (req, res, next) => {
     try {
-        let {
-            access_token
-        } = req.headers
-        let payload = jwt.verify(access_token, secretKey)
+        const packages = await Package.findAll({
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
 
-        let foundUser = await User.findByPk(payload.id)
-
-        if (foundUser) {
-            req.currentUserId = foundUser.id
-            req.currentUserEmail = foundUser.email
-            //TODO:
-            //popup Modal here
-            //while unknown looping terus sampai 5 detik then show error message
-            //if benar lanjut ke payment pilihan
-            //kalau pakai payment xendit lsg harus masukin password atau pin nya lagi
-        } else {
-            throw new Error('User not found')
-        }
+        res.status(200).json(packages)
     } catch (error) {
+        console.log(error);
+
         next(error)
     }
 })
 
+app.post('/xenditPay', async (req, res, next) => {
+    try {
+        console.log(req.body);
+        let response = await axios.post('https://api.xendit.co/v2/invoices', req.body, {
+            headers: {
+                'Authorization': 'Basic eG5kX2RldmVsb3BtZW50XzZHa3gwb0ZxSEVlNHVnamlDTnBrQWY0eVNKYmpuRTgxdDlsQVhncFBkcjJuYlZrdGkyQUJrUWV0T1h5UXRtYmw6',
+            }
+        })
+        let responseUrl = response.data.invoice_url
 
-app.use(express.static(publicPath))
+        await Transaction.create({
+            xenditInvoiceId: response.data.id,
+            amount: req.body.amount,
+            customerName: req.body.customer.given_names,
+            customerEmail: req.body.customer.email,
+            status: response.data.status
+        })
+
+        res.status(200).json(responseUrl)
+    } catch (error) {
+        console.log(error);
+
+        next(error)
+    }
+})
+
+app.post('/uploadToImgBB', async (req, res, next) => {
+    try {
+        let base64String = req.body.img
+
+        let image = base64String.split(',')[1]
+        const options = {
+            apiKey: '319c13a51553b22ee039213b2f642233', // MANDATORY
+            base64string: image
+        };
+
+        let response = await imgbbUploader(options)
+        let responseUrl = response.display_url
+
+        await Image.create({
+            imageUrl: responseUrl,
+            UserId: req.currentUser.id
+        })
+
+        res.status(200).json({
+            'Message': 'Success upload image'
+        })
+    } catch (error) {
+        console.log(error);
+        next(error)
+    }
+})
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)

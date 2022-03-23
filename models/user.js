@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasMany(models.Image)
     }
   }
   User.init({
@@ -25,18 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         notEmpty: {
           msg: 'Name is required'
-        },
-      }
-    },
-    phoneNumber: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'Phone Number is required'
-        },
-        notEmpty: {
-          msg: 'Phone Number is required'
         },
       }
     },
