@@ -7,7 +7,8 @@ const jwt = require('jsonwebtoken');
 const {
     User,
     Package,
-    Image
+    Image,
+    Transaction
 } = require('./models');
 const {
     default: axios
@@ -48,10 +49,17 @@ const authentication = async (req, res, next) => {
     }
 }
 
-app.post('/', (req, res) => {
-    console.log(req.body);
+app.post('/', async (req, res) => {
+    await Transaction.update({
+        status: req.body.status
+    }, {
+        where: {
+            xenditInvoiceId: req.body.id
+        }
+    })
+
     res.status(200).json({
-        message: 'Hellowoeoweowoe'
+        message: 'Successfully accepted the callback'
     })
 })
 
@@ -127,6 +135,7 @@ app.post('/login', async (req, res, next) => {
             'access_token': access_token,
             'name': foundUser.name,
             'id': foundUser.id,
+            'email': foundUser.email
         })
     } catch (error) {
         console.log(error);
@@ -141,15 +150,24 @@ app.use(authentication)
 app.get('/currentUserImagesUrl', async (req, res, next) => {
     try {
         const imagesUrl = await Image.findAll({
-            where: {
-                UserId: req.currentUser.id
-            },
+            include: User,
             attributes: {
                 exclude: ['createdAt', 'updatedAt']
             }
         })
 
-        res.status(200).json(imagesUrl)
+
+        const responseMap = {};
+        for (let i = 0; i < imagesUrl.length; i++) {
+            const name = imagesUrl[i].User.name;
+            if (responseMap[name]) {
+                responseMap[name].push(imagesUrl[i].imageUrl);
+            } else {
+                responseMap[name] = [imagesUrl[i].imageUrl];
+            }
+        }
+
+        res.status(200).json(responseMap)
     } catch (error) {
         console.log(error);
 
@@ -175,12 +193,21 @@ app.get('/packages', async (req, res, next) => {
 
 app.post('/xenditPay', async (req, res, next) => {
     try {
+        console.log(req.body);
         let response = await axios.post('https://api.xendit.co/v2/invoices', req.body, {
             headers: {
                 'Authorization': 'Basic eG5kX2RldmVsb3BtZW50XzZHa3gwb0ZxSEVlNHVnamlDTnBrQWY0eVNKYmpuRTgxdDlsQVhncFBkcjJuYlZrdGkyQUJrUWV0T1h5UXRtYmw6',
             }
         })
         let responseUrl = response.data.invoice_url
+
+        await Transaction.create({
+            xenditInvoiceId: response.data.id,
+            amount: req.body.amount,
+            customerName: req.body.customer.given_names,
+            customerEmail: req.body.customer.email,
+            status: response.data.status
+        })
 
         res.status(200).json(responseUrl)
     } catch (error) {
@@ -193,7 +220,7 @@ app.post('/xenditPay', async (req, res, next) => {
 app.post('/uploadToImgBB', async (req, res, next) => {
     try {
         let base64String = req.body.img
-        
+
         let image = base64String.split(',')[1]
         const options = {
             apiKey: '319c13a51553b22ee039213b2f642233', // MANDATORY
@@ -208,7 +235,9 @@ app.post('/uploadToImgBB', async (req, res, next) => {
             UserId: req.currentUser.id
         })
 
-        res.status(200).json({'Message': 'Success upload image'})
+        res.status(200).json({
+            'Message': 'Success upload image'
+        })
     } catch (error) {
         console.log(error);
         next(error)

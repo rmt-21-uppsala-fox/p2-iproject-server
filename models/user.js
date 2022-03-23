@@ -28,18 +28,6 @@ module.exports = (sequelize, DataTypes) => {
         },
       }
     },
-    phoneNumber: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'Phone Number is required'
-        },
-        notEmpty: {
-          msg: 'Phone Number is required'
-        },
-      }
-    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
