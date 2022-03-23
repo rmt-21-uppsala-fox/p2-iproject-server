@@ -52,6 +52,7 @@ class PostController {
 
   static async postEdit(req, res, next) {
     try {
+      const { caption, categoryId } = req.body;
       const { postId } = req.params;
       const { id } = req.userData;
       const respond = await Post.findByPk(postId);
@@ -61,7 +62,12 @@ class PostController {
       if (respond.UserId !== id) {
         throw new Error("FORBIDDEN");
       }
-      // const 
+      const data = await Post.update(
+        { caption, categoryId },
+        { where: { id: postId } }
+      );
+      console.log(data);
+      res.status(200).json({ message: "Post has been updated" });
     } catch (error) {
       next(error);
     }
@@ -168,21 +174,16 @@ class PostController {
   static async postDetail(req, res, next) {
     try {
       const { postId } = req.params;
-      let options = null;
-      const comments = await Comment.findOne({ where: { PostId: postId } });
-      if (!comments) {
-        options = {
-          where: { id: postId },
-          include: [{ model: User }, { model: Category }],
-        };
+      const comments = await Comment.findAll({ where: { PostId: postId } });
+      const respond = await Post.findOne({
+        where: { id: postId },
+        include: [{ model: User }, { model: Category }],
+      });
+      if (comments.length < 1) {
+        res.status(200).json(respond);
       } else {
-        options = {
-          where: { id: postId },
-          include: [{ model: User }, { model: Comment }, { model: Category }],
-        };
+        res.status(200).json({ postDetail: respond, comments });
       }
-      const respond = await Post.findOne(options);
-      res.status(200).json(respond);
     } catch (error) {
       next(error);
     }
@@ -234,7 +235,7 @@ class PostController {
       if (respond.UserId !== id) {
         throw new Error("FORBIDDEN");
       }
-      await Comment.delete({ where: { id: commentId } });
+      await Comment.destroy({ where: { id: commentId } });
       res.status(200).json({ message: "comment has been deleted" });
     } catch (error) {
       next(error);

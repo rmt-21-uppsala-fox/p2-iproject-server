@@ -1,7 +1,7 @@
 const { verifyToken } = require("../helpers/jwt");
 const { User } = require("../models/index");
 const firebase = require("../config/db");
-const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
+const { getAuth } = require("firebase/auth");
 const auth = getAuth(firebase);
 
 const authentication = async (req, res, next) => {

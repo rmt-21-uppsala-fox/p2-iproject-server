@@ -7,6 +7,7 @@ const PostController = require("../controllers/postController");
 routerPost.get("/post", PostController.getAll);
 routerPost.get("/category", PostController.fetchCategory);
 routerPost.post("/upload", upload,authentication, PostController.upload);
+routerPost.delete("/comment", authentication, PostController.deleteComment)
 routerPost.get("/post/:postId", PostController.postDetail)
 routerPost.post("/post/:postId", authentication, PostController.comment)
 routerPost.patch("/post/:postId", authentication, PostController.editComment)

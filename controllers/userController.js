@@ -7,7 +7,6 @@ const {
   signOut,
 } = require("firebase/auth");
 const auth = getAuth(firebase);
-const { comparePw } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 class UserController {
   static async registration(req, res, next) {
