@@ -6,12 +6,14 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {
     User,
-    Package
+    Package,
+    Image
 } = require('./models');
 const {
     default: axios
 } = require('axios');
 const secretKey = 'ThisIsASecretKey'
+const imgbbUploader = require("imgbb-uploader");
 
 app.use(cors())
 app.use(express.urlencoded({
@@ -25,8 +27,8 @@ const authentication = async (req, res, next) => {
         const {
             access_token
         } = req.headers
-        const payload = jwt.verify(access_token, secretKey)
 
+        const payload = jwt.verify(access_token, secretKey)
         const foundUser = await User.findOne({
             where: {
                 email: payload.email
@@ -41,13 +43,16 @@ const authentication = async (req, res, next) => {
         }
         next()
     } catch (error) {
+        console.log(error);
         next(error)
     }
 }
 
-app.post('/', (req,res) => {
+app.post('/', (req, res) => {
     console.log(req.body);
-    res.status(200).json({message: 'Hellowoeoweowoe'})
+    res.status(200).json({
+        message: 'Hellowoeoweowoe'
+    })
 })
 
 app.post('/register', async (req, res, next) => {
@@ -83,6 +88,8 @@ app.post('/register', async (req, res, next) => {
             email: newUser.email
         })
     } catch (error) {
+        console.log(error);
+
         next(error)
     }
 })
@@ -110,36 +117,45 @@ app.post('/login', async (req, res, next) => {
 
         const access_token = jwt.sign({
             id: foundUser.id,
-            email: foundUser.email
+            email: foundUser.email,
+            name: foundUser.name
         }, secretKey)
 
         req.headers.access_token = access_token
 
         res.status(200).json({
-            'access_token': access_token
+            'access_token': access_token,
+            'name': foundUser.name,
+            'id': foundUser.id,
         })
-    } catch (error) {
-        next(error)
-    }
-})
-
-app.post('/xenditCallback', async (req, res, next) => {
-    try {
-        let response = await axios.post('https://api.xendit.co/v2/invoices', req.body, {
-            headers: {
-                'Authorization': 'Basic eG5kX2RldmVsb3BtZW50XzZHa3gwb0ZxSEVlNHVnamlDTnBrQWY0eVNKYmpuRTgxdDlsQVhncFBkcjJuYlZrdGkyQUJrUWV0T1h5UXRtYmw6',
-            }
-        })
-        let responseUrl = response.data.invoice_url
-
-        res.status(200).json(responseUrl)
     } catch (error) {
         console.log(error);
+
         next(error)
     }
 })
 
+
 app.use(authentication)
+
+app.get('/currentUserImagesUrl', async (req, res, next) => {
+    try {
+        const imagesUrl = await Image.findAll({
+            where: {
+                UserId: req.currentUser.id
+            },
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
+
+        res.status(200).json(imagesUrl)
+    } catch (error) {
+        console.log(error);
+
+        next(error)
+    }
+})
 
 app.get('/packages', async (req, res, next) => {
     try {
@@ -151,6 +167,8 @@ app.get('/packages', async (req, res, next) => {
 
         res.status(200).json(packages)
     } catch (error) {
+        console.log(error);
+
         next(error)
     }
 })
@@ -165,6 +183,32 @@ app.post('/xenditPay', async (req, res, next) => {
         let responseUrl = response.data.invoice_url
 
         res.status(200).json(responseUrl)
+    } catch (error) {
+        console.log(error);
+
+        next(error)
+    }
+})
+
+app.post('/uploadToImgBB', async (req, res, next) => {
+    try {
+        let base64String = req.body.img
+        
+        let image = base64String.split(',')[1]
+        const options = {
+            apiKey: '319c13a51553b22ee039213b2f642233', // MANDATORY
+            base64string: image
+        };
+
+        let response = await imgbbUploader(options)
+        let responseUrl = response.display_url
+
+        await Image.create({
+            imageUrl: responseUrl,
+            UserId: req.currentUser.id
+        })
+
+        res.status(200).json({'Message': 'Success upload image'})
     } catch (error) {
         console.log(error);
         next(error)
