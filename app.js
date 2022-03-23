@@ -1,6 +1,9 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -13,7 +16,6 @@ const {
 const {
     default: axios
 } = require('axios');
-const secretKey = 'ThisIsASecretKey'
 const imgbbUploader = require("imgbb-uploader");
 
 app.use(cors())
@@ -29,7 +31,7 @@ const authentication = async (req, res, next) => {
             access_token
         } = req.headers
 
-        const payload = jwt.verify(access_token, secretKey)
+        const payload = jwt.verify(access_token, process.env.SECRET_KEY)
         const foundUser = await User.findOne({
             where: {
                 email: payload.email
@@ -48,20 +50,6 @@ const authentication = async (req, res, next) => {
         next(error)
     }
 }
-
-app.post('/', async (req, res) => {
-    await Transaction.update({
-        status: req.body.status
-    }, {
-        where: {
-            xenditInvoiceId: req.body.id
-        }
-    })
-
-    res.status(200).json({
-        message: 'Successfully accepted the callback'
-    })
-})
 
 app.post('/register', async (req, res, next) => {
     try {
@@ -127,7 +115,7 @@ app.post('/login', async (req, res, next) => {
             id: foundUser.id,
             email: foundUser.email,
             name: foundUser.name
-        }, secretKey)
+        }, process.env.SECRET_KEY)
 
         req.headers.access_token = access_token
 
@@ -144,6 +132,19 @@ app.post('/login', async (req, res, next) => {
     }
 })
 
+app.post('/xenditCallback', async (req, res) => {
+    await Transaction.update({
+        status: req.body.status
+    }, {
+        where: {
+            xenditInvoiceId: req.body.id
+        }
+    })
+
+    res.status(200).json({
+        message: 'Successfully accepted the callback'
+    })
+})
 
 app.use(authentication)
 
@@ -196,7 +197,7 @@ app.post('/xenditPay', async (req, res, next) => {
         console.log(req.body);
         let response = await axios.post('https://api.xendit.co/v2/invoices', req.body, {
             headers: {
-                'Authorization': 'Basic eG5kX2RldmVsb3BtZW50XzZHa3gwb0ZxSEVlNHVnamlDTnBrQWY0eVNKYmpuRTgxdDlsQVhncFBkcjJuYlZrdGkyQUJrUWV0T1h5UXRtYmw6',
+                'Authorization': process.env.XENDIT_API_KEY
             }
         })
         let responseUrl = response.data.invoice_url
@@ -223,7 +224,7 @@ app.post('/uploadToImgBB', async (req, res, next) => {
 
         let image = base64String.split(',')[1]
         const options = {
-            apiKey: '319c13a51553b22ee039213b2f642233', // MANDATORY
+            apiKey: process.env.IMGBB_API_KEY,
             base64string: image
         };
 
