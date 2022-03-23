@@ -89,7 +89,6 @@ class OrderController {
           branch_code: "tree_branch",
         },
       });
-      console.log(resp);
       res.status(200).json(resp);
     } catch (error) {
       console.log(error);
@@ -110,7 +109,7 @@ class OrderController {
 
       let transaction = await sequelize.query(`SELECT "customerName", "orderName", "phoneNumber", "paymentStatus", SUM("totalPrice") AS "totalPrice" FROM "Orders" WHERE "orderName" = '${orderName}' GROUP BY "orderName", "customerName", "phoneNumber", "paymentStatus"`, { type: sequelize.QueryTypes.SELECT })
 
-      res.status(200).json({transaction, message: 'Receipt sent to your WhatsApp! Show it to our crew to receive your order, Thanks!'})
+      res.status(200).json({transaction, message: 'Receipt sent! Show it to our crew to receive your order, Thanks!'})
     } catch (error) {
       console.log(error)
       res.status(500).json(error)
