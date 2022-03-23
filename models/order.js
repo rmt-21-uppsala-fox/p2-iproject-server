@@ -17,7 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     {
       MenuId: DataTypes.INTEGER,
       CustomerId: DataTypes.INTEGER,
-      status: DataTypes.STRING,
+      status: {
+        type: DataTypes.STRING,
+        defaultValue: "pending",
+      },
     },
     {
       sequelize,

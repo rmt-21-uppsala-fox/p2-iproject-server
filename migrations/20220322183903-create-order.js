@@ -30,7 +30,7 @@ module.exports = {
       },
       status: {
         type: Sequelize.STRING,
-        defaulValue: "unfinished",
+        defaulValue: "pending",
       },
       createdAt: {
         allowNull: false,

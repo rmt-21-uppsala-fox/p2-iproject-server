@@ -39,9 +39,10 @@ class Controller {
   }
   static async regisCust(req, res, next) {
     try {
-      const { name } = req.body;
+      const { name, email } = req.body;
       const newCust = await Customer.create({
         name,
+        email,
         RestaurantId: req.params.restoId,
       });
       const payload = {
@@ -50,7 +51,10 @@ class Controller {
         role: "Customer",
       };
       console.log(newCust);
-      res.status(201).json(payload);
+      res.status(201).json({
+        payload,
+        message: "Successfully registered",
+      });
     } catch (err) {
       console.log(err);
       next(err);
