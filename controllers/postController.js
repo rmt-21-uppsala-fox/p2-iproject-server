@@ -53,7 +53,7 @@ class PostController {
   static async getAll(req, res, next) {
     try {
       const respond = await Post.findAll({
-        include: [{ model: User }, { model: Category }],
+        include: { model: Category },
       });
       res.status(200).json(respond);
     } catch (error) {
@@ -89,6 +89,10 @@ class PostController {
       const { comment } = req.body;
       const { postId } = req.params;
       const { id } = req.userData;
+      const respond = await Post.findByPk(postId);
+      if (!respond) {
+        throw new Error("POST_NOT_FOUND");
+      }
       await Comment.create({ UserId: id, PostId: postId, comment });
       res.status(201).json({ message: "Comment created" });
     } catch (error) {
@@ -101,11 +105,33 @@ class PostController {
       const { comment, commentId } = req.body;
       const { postId } = req.params;
       const { id } = req.userData;
-      const respond = await Comment.update(
+      const data = await Comment.findOne({ where: { id: commentId } });
+      if (data.UserId !== id) {
+        throw new Error("FORBIDDEN");
+      }
+      await Comment.update(
         { PostId: postId, UserId: id, comment },
         { where: { id: commentId } }
       );
-      res.status(200).json(respond);
+      res.status(200).json({ message: "Comment updated" });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async deleteComment(req, res, next) {
+    try {
+      const { commentId } = req.body;
+      const { id } = req.userData;
+      const respond = await Comment.findByPk(commentId);
+      if (!respond) {
+        throw new Error("COMMENT_NOT_FOUND");
+      }
+      if (respond.UserId !== id) {
+        throw new Error("FORBIDDEN");
+      }
+      await Comment.delete({ where: { id: commentId } });
+      res.status(200).json({ message: "comment has been deleted" });
     } catch (error) {
       next(error);
     }
