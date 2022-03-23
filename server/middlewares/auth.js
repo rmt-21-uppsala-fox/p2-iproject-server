@@ -1,5 +1,5 @@
 const { readToken } = require("../helpers/helper");
-const { User } = require("../models/index");
+const { User, Admin } = require("../models/index");
 const authentication = async (req, res, next) => {
   try {
     const { access_token } = req.headers;
@@ -20,5 +20,25 @@ const authentication = async (req, res, next) => {
     next(error);
   }
 };
+const authenticationAdmin = async (req, res, next) => {
+  try {
+    const { access_token } = req.headers;
+    if (!access_token) throw { name: "Token Required" };
 
-module.exports = authentication;
+    const payload = readToken(access_token);
+    if (!payload) throw { name: "Invalid Token" };
+
+    const dataAdmin = await Admin.findByPk(payload.id);
+    if (!dataAdmin) throw { name: "User not found" };
+
+    req.admin = {
+      id: dataAdmin.id,
+      email: dataAdmin.email,
+    };
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { authentication, authenticationAdmin };
