@@ -89,11 +89,13 @@ class Controller {
 
       // console.log(total)
 
+      const rating = String(data.data.rating);
+
       const tes = await Game.create({
         gameId: data.data.id,
         name: data.data.name,
         description: data.data.description,
-        rating: data.data.rating,
+        rating: `${rating}`,
         released: data.data.released,
         background_image: data.data.background_image,
         price: total,
@@ -135,6 +137,7 @@ class Controller {
   static async addToCollection(req, res, next) {
     try {
       const id = +req.params.gameId;
+      // console.log(id);
       const data = await axios({
         method: `get`,
         url: `https://api.rawg.io/api/games/${id}`,
@@ -150,17 +153,19 @@ class Controller {
           title: `${data.data.name}`,
         },
       });
-      // console.log(price.data);
+      // console.log(data2);
+
       const price = Number(data2.data[0].cheapest);
       const total = price * 15000;
 
-      // console.log(total)
+      const rating = String(data.data.rating);
+      // console.log(rating);
 
       const tes = await Game.create({
         gameId: data.data.id,
         name: data.data.name,
         description: data.data.description,
-        rating: data.data.rating,
+        rating: `${rating}`,
         released: data.data.released,
         background_image: data.data.background_image,
         price: total,
@@ -168,22 +173,22 @@ class Controller {
 
       // console.log(tes);
 
-      const tes2 = await Wishlist.create({
+      const tes2 = await GamesCollection.create({
         GameId: tes.id,
         UserId: req.userAccess.id,
       });
 
-      // console.log(tes.id, req.userAccess.id);
+      // console.log(tes2);
       res.status(201).json(tes2);
     } catch (err) {
+      console.log(err);
       next(err);
     }
   }
-  static async showGamesCollecton() {
+  static async showGamesCollecton(req, res, next) {
     try {
       const id = +req.params.UserId;
-      // console.log(id);
-      const data = await Wishlist.findOne({
+      const data = await GamesCollection.findOne({
         where: { UserId: id },
         include: [
           {
@@ -195,6 +200,7 @@ class Controller {
       // console.log(data);
       res.status(200).json(data);
     } catch (err) {
+      // console.log(err);
       next(err);
     }
   }

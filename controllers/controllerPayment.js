@@ -2,6 +2,9 @@ const { Game, User, Wishlist } = require(`../models`);
 const axios = require(`axios`);
 const MidtransKey = process.env.MidtransKey;
 const keyOfRAWG = process.env.key;
+const email = process.env.EMAIL;
+const password = process.env.PASSWORD;
+const nodemailer = require("nodemailer");
 
 class Controller {
   static async getTransaction(req, res, next) {
@@ -82,11 +85,34 @@ class Controller {
           let snapToken = snapResponse.data.token;
           // console.log("Retrieved snap token:", snapToken);
           // Pass the Snap Token to frontend, render the HTML page
+
+          let transporter = nodemailer.createTransport({
+            service: `gmail`,
+            auth: {
+              user: `${email}`, // generated ethereal user
+              pass: `${password}`, // generated ethereal password
+            },
+          });
+
+          // send mail with defined transport object
+          let mailOptions = {
+            from: `muhammadnhilmi@gmail.com`, // sender address
+            to: "22416067@ppicurug.ac.id", // list of receivers
+            subject: "Payment", // Subject line
+            text: "Have u finish your payment?", // plain text body
+          };
+
+          transporter.sendMail(mailOptions, (err, options) => {
+            if (err) {
+              console.log(err);
+            }
+          });
+
           res.status(201).json(snapToken);
         },
         (error) => {
           res.send(`Fail to call API w/ error ${error}`);
-          next(err)
+          next(err);
         }
       );
       // console.log(data);

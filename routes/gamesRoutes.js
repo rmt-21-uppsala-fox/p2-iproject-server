@@ -7,7 +7,7 @@ router.get(`/next-week`, controllerGame.UpcomingNextMonth);
 router.get(`/:gameId`, controllerGame.detailGame);
 router.post(`/:gameId`, controllerGame.addToWishlist);
 router.get(`/Wishlist/:UserId`, controllerGame.showWishlist);
-router.post(`/GamesCollection/:UserId`, controllerGame.addToCollection);
+router.post(`/GamesCollection/:gameId`, controllerGame.addToCollection);
 router.get(`/GamesCollection/:UserId`, controllerGame.showGamesCollecton);
 
 
