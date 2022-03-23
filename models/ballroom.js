@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   Ballroom.init(
     {
       hotelId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notNull: { msg: "Hotel Id cannot be empty" },
@@ -30,6 +30,15 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: { msg: "Hotel name cannot be empty" },
         },
       },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Price name cannot be empty" },
+          notEmpty: { msg: "Price name cannot be empty" },
+        },
+      },
+      status: DataTypes.STRING,
       bookDateStart: {
         type: DataTypes.DATE,
         allowNull: false,

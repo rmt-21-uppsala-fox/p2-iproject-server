@@ -10,11 +10,19 @@ module.exports = {
       },
       hotelId: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       name: {
         allowNull: false,
         type: Sequelize.STRING,
+      },
+      status: {
+        type: Sequelize.STRING,
+        defaultValue: "UNPAID",
+      },
+      price: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
       },
       bookDateStart: {
         allowNull: false,
