@@ -8,15 +8,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Game.hasMany(models.Order);
+      Game.belongsToMany(models.User, { through: models.Wishlist });
     }
   }
   Game.init(
     {
       name: DataTypes.STRING,
       gameId: DataTypes.INTEGER,
-      released: DataTypes.STRING,
-      backgroundImage: DataTypes.STRING,
+      price: DataTypes.INTEGER,
     },
     {
       sequelize,

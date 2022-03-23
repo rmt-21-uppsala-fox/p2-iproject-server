@@ -1,14 +1,14 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Orders", {
+    await queryInterface.createTable("Wishlists", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      GamesId: {
+      GameId: {
         type: Sequelize.INTEGER,
         references: {
           model: "Games",
@@ -19,15 +19,13 @@ module.exports = {
       },
       UserId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: "Users",
           key: "id",
         },
         onUpdate: "cascade",
         onDelete: "cascade",
-      },
-      responseMidtrans: {
-        type: Sequelize.TEXT,
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +38,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Orders");
+    await queryInterface.dropTable("Wishlists");
   },
 };

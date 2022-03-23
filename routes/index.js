@@ -8,7 +8,7 @@ const { authentication } = require(`../middlewares/authentication.js`);
 router.post(`/register`, controller.regist);
 router.post(`/login`, controller.login);
 
-router.use(`/games`, authentication, gameRoutes);
-router.use(`/order`, orderRoutes);
+router.use(`/games`, gameRoutes);
+router.use(`/order`, authentication, orderRoutes);
 
 module.exports = router;
