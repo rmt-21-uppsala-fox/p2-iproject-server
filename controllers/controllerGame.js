@@ -65,6 +65,7 @@ class Controller {
       const price = Number(data2.data[0].cheapest);
       const total = price * 15000;
       // console.log(total);
+      // console.log(data.data, total);
       res.status(200).json({ game: data.data, price: total });
     } catch (err) {
       next(err);
