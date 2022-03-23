@@ -76,12 +76,24 @@ class leagueController {
           msg: "You already have a favorite league"
         }
       }
-      await Favorite.create({ UserId, leagueName })
-      res.status(201).json({ message: `Added ${leagueName} to user id ${UserId} favorite league` })
+      let myfav = await Favorite.create({ UserId, leagueName })
+      res.status(201).json(myfav)
     } catch (err) {
       console.log(err)
       next(err)
 
+    }
+  }
+  static async findFav(req, res, next) {
+    try {
+      const UserId = req.userCredentials.id
+      const fav = await Favorite.findOne({ where: { UserId } })
+      console.log(fav)
+      res.status(200).json(fav.leagueName)
+
+    } catch (err) {
+      console.log(err)
+      next(err)
     }
   }
 }

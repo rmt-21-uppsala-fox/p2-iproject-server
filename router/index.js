@@ -11,6 +11,7 @@ router.use(authn)
 router.get("/epl", leagueController.getEPLTable)
 router.get("/seriea", leagueController.getITATable)
 router.get("/laliga", leagueController.getSPATable)
+router.get("/myfav", leagueController.findFav)
 router.post("/myfav", leagueController.claimFav)
 
 module.exports = router
