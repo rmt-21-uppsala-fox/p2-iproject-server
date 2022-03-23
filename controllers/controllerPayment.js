@@ -86,7 +86,7 @@ class Controller {
         },
         (error) => {
           res.send(`Fail to call API w/ error ${error}`);
-          console.log(error);
+          next(err)
         }
       );
       // console.log(data);

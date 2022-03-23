@@ -9,11 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Game.belongsToMany(models.User, { through: models.Wishlist });
+      Game.belongsToMany(models.User, { through: models.GamesCollection });
     }
   }
   Game.init(
     {
       name: DataTypes.STRING,
+      background_image: DataTypes.STRING,
+      released: DataTypes.STRING,
+      rating: DataTypes.STRING,
+      description: DataTypes.TEXT,
       gameId: DataTypes.INTEGER,
       price: DataTypes.INTEGER,
     },
