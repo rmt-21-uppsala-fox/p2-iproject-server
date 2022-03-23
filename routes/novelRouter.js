@@ -11,7 +11,7 @@ router.get('/novel/title/:title', NovelController.NovelDetail);
 
 router.get('/novel/title/:title/:chapter', NovelController.NovelChapter);
 
-router.get('/novel/api', NovelApiController.NovelApi);
+router.post('/novel/api', NovelApiController.NovelApi);
 
 router.get('/novel/:genre', NovelController.NovelListGenre);
 
