@@ -42,7 +42,7 @@ class UserController {
         username: respond.username,
         uid: userCredential.user.uid,
       });
-      res.status(200).json({ access_token: token });
+      res.status(200).json({ access_token: token, id: respond.id, username: respond.username });
     } catch (error) {
       next(error);
     }
