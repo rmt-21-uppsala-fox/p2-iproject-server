@@ -1,7 +1,5 @@
 const { compare } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
-const { User, Job, Bookmark, Company } = require("../models");
-const { Op } = require("sequelize");
 const { OAuth2Client } = require("google-auth-library");
 const clientID = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
