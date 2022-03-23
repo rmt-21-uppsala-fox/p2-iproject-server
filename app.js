@@ -10,6 +10,7 @@ const categoryRoute = require("./routes/categoryRoute");
 const loginRoute = require("./routes/loginRoute");
 const menuRoute = require("./routes/menuRoute");
 const customerRoute = require("./routes/customerRoute");
+const orderRoute = require("./routes/orderRoute");
 const port = 3000;
 
 app.use(cors());
@@ -22,6 +23,7 @@ app.use("/restaurant", restaurantRoute);
 app.use("/category", categoryRoute);
 app.use("/menu", menuRoute);
 app.use("/customer", customerRoute);
+app.use("/order", orderRoute);
 
 // app.use("/", (req, res, next) => {
 //   res.status(200).json({ message: "Muhammad Ihsan API!" });

@@ -23,6 +23,7 @@ const isLoginResto = async (req, res, next) => {
     req.identify = {
       restoId: payload.id,
       emailResto: payload.email,
+      role: payload.role,
     };
     next();
   } catch (err) {
@@ -31,6 +32,29 @@ const isLoginResto = async (req, res, next) => {
   }
 };
 
+const isLoginCustomer = async (req, res, next) => {
+  try {
+    const { access_token_cust } = req.headers;
+    const payload = readToken(access_token_cust);
+    if (!payload) {
+      throw {
+        code: 401,
+        name: "Unauthorize",
+        message: "Invalid Token",
+      };
+    }
+    req.identify = {
+      custId: payload.id,
+      emailCust: payload.email,
+      role: payload.role,
+    };
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
 module.exports = {
   isLoginResto,
+  isLoginCustomer,
 };

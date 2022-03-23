@@ -50,9 +50,10 @@ class Controller {
         name: newCust.name,
         role: "Customer",
       };
+      const access_token_Cust = signToken(payload);
       console.log(newCust);
       res.status(201).json({
-        payload,
+        access_token_Cust,
         message: "Successfully registered",
       });
     } catch (err) {
