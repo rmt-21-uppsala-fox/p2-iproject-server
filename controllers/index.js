@@ -196,6 +196,41 @@ class IndexController {
         quantity: detailTransaction.quantity,
       });
     } catch (error) {
+      next(error);
+    }
+  }
+
+  static async myCart(req, res, next) {
+    try {
+      const { id } = req.userCredentials;
+
+      const [transaction] = await Transaction.findOrCreate({
+        where: [{ UserId: id }, { status: "Unstaged" }],
+        defaults: {
+          code: `FAP-#${new Date().getTime()}`,
+          UserId: id,
+        },
+      });
+
+      const mycart = await DetailTransaction.findAll({
+        where: { TransactionId: transaction.id },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+        include: {
+          model: Product,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+          include: {
+            model: Category,
+            attributes: ["name"],
+          },
+        },
+      });
+
+      res.status(200).json(mycart);
+    } catch (error) {
       console.log(error);
       next(error);
     }

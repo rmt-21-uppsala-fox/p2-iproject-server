@@ -20,6 +20,8 @@ router.use(authN);
 
 router.post("/mycart/:ProductId", IndexController.addMyCart);
 
+router.get("/mycart", IndexController.myCart);
+
 router.use(errorHandler);
 
 module.exports = router;
