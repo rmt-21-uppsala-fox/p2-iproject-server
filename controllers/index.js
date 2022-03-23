@@ -343,7 +343,7 @@ class IndexController {
     }
   }
 
-  static async payment(req, res, next) {
+  static async payments(req, res, next) {
     try {
       const { id } = req.userCredentials;
       const payments = await Payment.findAll({
@@ -369,7 +369,7 @@ class IndexController {
           attributes: ["id"],
           include: {
             model: DetailTransaction,
-            attributes: ["quantity"],
+            attributes: ["id", "quantity"],
             include: {
               model: Product,
               attributes: ["name", "price"],

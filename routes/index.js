@@ -24,11 +24,11 @@ router.get("/mycart", IndexController.myCart);
 
 router.delete("/mycart/:id", authZ, IndexController.deleteMyCart);
 
-router.post("/payment", IndexController.addPayment);
+router.post("/payments", IndexController.addPayment);
 
-router.get("/payment", IndexController.payment);
+router.get("/payments", IndexController.payments);
 
-router.get("/payment/:id", IndexController.paymentById);
+router.get("/payments/:id", IndexController.paymentById);
 
 router.use(errorHandler);
 
