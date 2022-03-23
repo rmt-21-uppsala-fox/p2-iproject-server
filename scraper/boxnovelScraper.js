@@ -1,5 +1,6 @@
 const cheerio = require('cheerio');
 const axios = require('axios');
+const res = require('express/lib/response');
 
 const ScrapeChapter = async (title, chapter) => {
     try {
@@ -13,7 +14,7 @@ const ScrapeChapter = async (title, chapter) => {
         });
         return chapterContent;
     } catch (err) {
-        console.log(err);
+        res.status(400).json(err.response.data);
     }
 };
 
@@ -50,7 +51,7 @@ const ScrapeDetail = async (title) => {
         detailContent.descriptionSummary = descriptionSummary;
         return detailContent;
     } catch (err) {
-        console.log(err.response.data);
+        res.status(400).json(err.response.data);
     }
 };
 
@@ -109,7 +110,7 @@ const ScrapeListGenre = async (genre, order) => {
 
         return novelList;
     } catch (err) {
-        console.log(err);
+        res.status(400).json(err.response.data);
     }
 };
 
@@ -121,3 +122,14 @@ module.exports = {
 
 // third party api, firestore
 // third party api, auth, firebase
+
+/*
+
+1. firebase auth di bawa ke server
+2. firestore bookmark
+3. ini 
+
+
+
+
+*/

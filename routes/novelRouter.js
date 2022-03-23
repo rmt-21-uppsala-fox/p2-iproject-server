@@ -1,4 +1,5 @@
 const express = require('express');
+const NovelApiController = require('../controllers/NovelApiController');
 const NovelController = require('../controllers/NovelController');
 const router = express.Router();
 
@@ -9,6 +10,8 @@ router.get('/novel', (req, res) => {
 router.get('/novel/title/:title', NovelController.NovelDetail);
 
 router.get('/novel/title/:title/:chapter', NovelController.NovelChapter);
+
+router.get('/novel/api', NovelApiController.NovelApi);
 
 router.get('/novel/:genre', NovelController.NovelListGenre);
 
