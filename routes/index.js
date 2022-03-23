@@ -14,7 +14,11 @@ router.get("/products", IndexController.products);
 
 router.get("/products/:id", IndexController.productById);
 
+router.post("/paymentsuccess", IndexController.paymentSuccess);
+
 router.use(authN);
+
+router.post("/mycart/:ProductId", IndexController.addMyCart);
 
 router.use(errorHandler);
 
