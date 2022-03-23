@@ -13,6 +13,7 @@ app.get('/', (req, res, next) => {
   res.status(200).json({message: "Server Running"})
 })
 app.use('/', router)
+app.use('/files', express.static("files"))
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

@@ -42,7 +42,7 @@ class OrderController {
       }
 
       await transaction.commit()
-      res.status(201).json({ message: `Hi ${cust} your order has been received`});
+      res.status(201).json({ message: `Hi ${cust} your order has been received with order ID:${orderName}`});
     } catch (error) {
       await transaction.rollback()
       res.status(500).json(error)
