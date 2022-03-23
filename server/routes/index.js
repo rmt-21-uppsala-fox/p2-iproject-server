@@ -24,10 +24,13 @@ router.get("/admin/getKecamatan/:id", GetRegion.getKecamatan);
 router.get("/admin/getKelurahan/:id", GetRegion.getKelurahan);
 router.post("/register", UserController.register);
 router.post("/login", UserController.login);
+//get all donation
 router.get("/donation", DonationController.getAllDonation);
+//detail donation
 router.get("/donation/:id", DonationController.detailDonation);
 
 router.use(authentication);
+//kurang my donation
 router.post("/donation/:DonationId", DonationController.donation);
 router.post(
   "/updateuserhistory/:UserHistoryId",
