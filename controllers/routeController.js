@@ -28,6 +28,8 @@ class RouteController {
                 }
             })
         } catch (error) {
+            //400
+            //422
             console.log(error.message);
         }
 
