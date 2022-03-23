@@ -1,12 +1,14 @@
 const { User } = require("../models")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const { sendEmail } = require("../helper/nodemailer")
 const secret = process.env.secret || "secretkey"
 class userController {
   static async register(req, res, next) {
     try {
       const { email, name, password } = req.body
       const newUser = await User.create({ email, name, password })
+      sendEmail(newUser.email)
       res.status(201).json({
         id: newUser.id,
         name: newUser.name,
