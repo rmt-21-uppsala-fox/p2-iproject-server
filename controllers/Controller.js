@@ -1,5 +1,7 @@
 const { comparePassword, signToken } = require('../helpers/helpers.js');
 const { School, User } = require('../models');
+const nodemailer = require('nodemailer');
+
 
 class Controller {
    static async home(req, res, next) {
@@ -59,6 +61,26 @@ class Controller {
             email,
             password,
             role
+         });
+
+         var transporter = nodemailer.createTransport({
+            service: "hotmail",
+            auth: {
+               user: "alizta27@outlook.co.id",
+               pass: "trythis007"
+            }
+         });
+         
+         let mailOptions = {
+             from: 'alizta27@outlook.co.id',
+             to: 'afdaall27@gmail.com',
+             subject: 'Sending Email using Nodejs',
+             text: `Akun anda adalah: ${email}, password: ${password}. Tolong jangan bagikan ke orang lain.`
+         };
+         
+         transporter.sendMail(mailOptions, (err, info) => {
+             if (err) throw err;
+             console.log('Email sent: ' + info.response);
          });
 
          res.status(201).json({
