@@ -1,5 +1,7 @@
-const keyOfRAWG = process.env.key;
+const nodemailer = require(`nodemailer`);
+const { Game } = require(`../models`);
 const axios = require(`axios`);
+const keyOfRAWG = process.env.key;
 const date = new Date();
 const dateNow = date.toISOString().slice(0, 10);
 date.setMonth(date.getMonth() + 1);
@@ -59,20 +61,38 @@ class Controller {
           title: `${data.data.name}`,
         },
       });
-      const formatRupiah = (money) => {
-        return new Intl.NumberFormat("id-ID", {
-          style: "currency",
-          currency: "IDR",
-          minimumFractionDigits: 0,
-        }).format(money);
-      };
       // console.log(price.data);
       const price = Number(data2.data[0].cheapest);
-      const total = formatRupiah(price * 15000);
+      const total = price * 15000;
       // console.log(total);
       res.status(200).json({ game: data.data, price: total });
     } catch (err) {
       next(err);
+    }
+  }
+  static async addToWishlist(req, res, status) {
+    try {
+      const id = +req.params.gameId;
+      const data = await axios({
+        method: `get`,
+        url: `https://api.rawg.io/api/games/${id}`,
+        params: {
+          key: `${keyOfRAWG}`,
+        },
+      });
+      // console.log(data.data.results);
+      // res.status(200).json(data.data);
+
+      const tes = await Game.create({
+        gameId: data.data.id,
+        name: data.data.name,
+        released: data.data.released,
+        backgroundImage: data.data.background_image,
+      });
+
+      res.status(200).json(tes);
+    } catch (err) {
+      console.log(err);
     }
   }
 }

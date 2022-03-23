@@ -1,16 +1,15 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("GamesGenres", {
+    await queryInterface.createTable("Orders", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      GameId: {
+      GamesId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
           model: "Games",
           key: "id",
@@ -18,15 +17,17 @@ module.exports = {
         onUpdate: "cascade",
         onDelete: "cascade",
       },
-      GenreId: {
+      UserId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: "Genres",
+          model: "Users",
           key: "id",
         },
         onUpdate: "cascade",
         onDelete: "cascade",
+      },
+      responseMidtrans: {
+        type: Sequelize.TEXT,
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +40,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("GamesGenres");
+    await queryInterface.dropTable("Orders");
   },
 };

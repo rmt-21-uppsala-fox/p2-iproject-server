@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      rating: {
+      gameId: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
@@ -23,16 +23,6 @@ module.exports = {
       backgroundImage: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-      ShortScreenshotId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "ShortScreenshoots",
-          key: "id",
-        },
-        onUpdate: "cascade",
-        onDelete: "cascade",
       },
       createdAt: {
         allowNull: false,
