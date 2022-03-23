@@ -16,6 +16,10 @@ Routes below need authentication:
 - `POST /hotels/:hotelId`
 - `POST /hotels/payment/:id`
 
+Xendit Callback endpoints :
+
+- `POST /xenditpayment`
+
 ## 1. POST /register
 
 Request:
@@ -363,7 +367,7 @@ _Response (200 - OK)_
 
 Description:
 
-- Get all hotels from 3rd API
+- Get all login customer booked ballroom
 
 Request:
 
@@ -420,7 +424,7 @@ _Response (200 - OK)_
 
 Description:
 
-- Post Date to Hotel for Booking
+- Post Date to Hotel for Booking Features
 
 Request:
 
@@ -500,6 +504,35 @@ _Response (200 - OK)_
 ```json
 {
   "url": "https://checkout-staging.xendit.co/web/623b98d166a665f95893b7d8"
+}
+```
+
+&nbsp;
+
+## 9. POST /xenditpayment
+
+Description:
+
+- Callback xendit payment
+
+Request:
+
+- body:
+
+```json
+{
+  "external_id": "1-723419552-va-success-$timestamp",
+  "amount": "578167000",
+  "payer_email": "customer1@customer.com",
+  "description": "723419552 - VA Sucessfull invoice payment"
+}
+```
+
+_Response (200 - OK)_
+
+```json
+{
+  "message": "1 - Status change to PAID"
 }
 ```
 
