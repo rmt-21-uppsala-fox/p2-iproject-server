@@ -9,7 +9,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fadhilM/p2-iproject-server.git"
+    "url": "git+https://github.com/fadhilM/p2-iproject-server.git",
+    "start":"node app.js"
   },
   "keywords": [],
   "author": "",

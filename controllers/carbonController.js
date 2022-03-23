@@ -41,6 +41,7 @@ class CarbonController {
                     'X-Api-Key': process.env.NINJAS_API_TOKEN
                 },
             })
+            if (!response.data) throw { message: "error" }
             const fuelEfficiency = response.data[0].combination_mpg;
             res.status(200).json({
                 fuelEfficiency
@@ -53,6 +54,7 @@ class CarbonController {
     static async screenshot(req, res, next) {
         screenshot({ format: 'png' }).then((img) => {
             const { carbon, email } = req.body;
+            console.log(req.body);
             let transporter = nodemailer.createTransport({
                 service: "gmail",
                 secure: false, // use SSL
