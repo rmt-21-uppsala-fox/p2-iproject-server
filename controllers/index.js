@@ -5,11 +5,13 @@ const {
   Workshop,
   Transaction,
   DetailTransaction,
+  Payment,
 } = require("../models");
 const { comparePassword } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
 const { OAuth2Client } = require("google-auth-library");
 const { Op } = require("sequelize");
+const axios = require("axios");
 
 class IndexController {
   static async register(req, res, next) {
@@ -244,6 +246,69 @@ class IndexController {
         message: "Product succesfully deleted",
       });
     } catch (error) {
+      next(error);
+    }
+  }
+
+  static async payment(req, res, next) {
+    try {
+      const { id } = req.userCredentials;
+      const transaction = await Transaction.findOne({
+        where: [{ UserId: id }, { status: "Unstaged" }],
+        attributes: ["id", "code"],
+        include: [
+          {
+            model: User,
+            attributes: ["email"],
+          },
+          {
+            model: DetailTransaction,
+            attributes: ["quantity"],
+            include: {
+              model: Product,
+              attributes: ["price"],
+            },
+          },
+        ],
+      });
+      let sumPrice = 0;
+      transaction.DetailTransactions.forEach((el) => {
+        sumPrice += el.quantity * el.Product.price;
+      });
+
+      const { data } = await axios({
+        url: "https://api.xendit.co/v2/invoices",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization:
+            "Basic eG5kX2RldmVsb3BtZW50X3R0TEI0aURJY2lSZktpamxIOXpEVDV4YU42SWxsczd6Ym5ZdmpHN2VzaEx0YWt0NlZZQng1OGNyb3dEMVlsWTk6",
+        },
+        data: {
+          external_id: transaction.code,
+          amount: sumPrice,
+          payer_email: transaction.User.email,
+          description: `Invoice ${transaction.code}`,
+        },
+      });
+
+      const addedPayment = await Payment.create({
+        code: data.id,
+        description: data.description,
+        status: data.status,
+        TransactionId: transaction.id,
+        amount: data.amount,
+        invoiceUrl: data.invoice_url,
+      });
+
+      res.status(201).json({
+        id: addedPayment.id,
+        TransactionId: addedPayment.TransactionId,
+        invoiceUrl: addedPayment.invoiceUrl,
+      });
+    } catch (error) {
+      console.log(error);
       next(error);
     }
   }
