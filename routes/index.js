@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const IndexController = require("../controllers");
 const errorHandler = require("../middlewares/errorHandler");
-const { authN } = require("../middlewares/auth");
+const { authN, authZ } = require("../middlewares/auth");
 
 router.post("/register", IndexController.register);
 
@@ -21,6 +21,8 @@ router.use(authN);
 router.post("/mycart/:ProductId", IndexController.addMyCart);
 
 router.get("/mycart", IndexController.myCart);
+
+router.delete("/mycart/:id", authZ, IndexController.deleteMyCart);
 
 router.use(errorHandler);
 
