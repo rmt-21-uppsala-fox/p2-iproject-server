@@ -7,8 +7,11 @@ const {
 router.get('/recipes/filter', RecipeController.getFilteredRecipes)
 router.use(authentication)
 router.get('/recipes', RecipeController.getRecipes)
+router.get('/recipes/:RecipeId', RecipeController.getRecipesDetail)
 router.post('/recipes/:RecipeId', RecipeController.createBookmark)
-// router.use(authorization)
+router.post('/recipes/rate/:RecipeId', RecipeController.createRate)
+router.get('/recipes/rate/:RecipeId', RecipeController.getRecipeRating)
+router.use(authorization)
 router.delete('/recipes/:id', RecipeController.deleteBookmark)
 
 module.exports = router
