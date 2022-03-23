@@ -5,11 +5,13 @@ const {
   Workshop,
   Transaction,
   DetailTransaction,
+  Payment,
 } = require("../models");
 const { comparePassword } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
 const { OAuth2Client } = require("google-auth-library");
 const { Op } = require("sequelize");
+const axios = require("axios");
 
 class IndexController {
   static async register(req, res, next) {
@@ -248,12 +250,108 @@ class IndexController {
     }
   }
 
+  static async addPayment(req, res, next) {
+    try {
+      const { id } = req.userCredentials;
+      const transaction = await Transaction.findOne({
+        where: [{ UserId: id }, { status: "Unstaged" }],
+        attributes: ["id", "code"],
+        include: [
+          {
+            model: User,
+            attributes: ["email"],
+          },
+          {
+            model: DetailTransaction,
+            attributes: ["quantity"],
+            include: {
+              model: Product,
+              attributes: ["price"],
+            },
+          },
+        ],
+      });
+      let sumPrice = 0;
+      transaction.DetailTransactions.forEach((el) => {
+        sumPrice += el.quantity * el.Product.price;
+      });
+
+      const { data } = await axios({
+        url: "https://api.xendit.co/v2/invoices",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization:
+            "Basic eG5kX2RldmVsb3BtZW50X3R0TEI0aURJY2lSZktpamxIOXpEVDV4YU42SWxsczd6Ym5ZdmpHN2VzaEx0YWt0NlZZQng1OGNyb3dEMVlsWTk6",
+        },
+        data: {
+          external_id: transaction.code,
+          amount: sumPrice,
+          payer_email: transaction.User.email,
+          description: `Invoice ${transaction.code}`,
+        },
+      });
+
+      await Transaction.update(
+        {
+          status: "Staged",
+        },
+        {
+          where: { id: transaction.id },
+        }
+      );
+
+      const addedPayment = await Payment.create({
+        code: data.id,
+        description: data.description,
+        status: data.status,
+        TransactionId: transaction.id,
+        amount: data.amount,
+        invoiceUrl: data.invoice_url,
+      });
+
+      res.status(201).json({
+        id: addedPayment.id,
+        TransactionId: addedPayment.TransactionId,
+        invoiceUrl: addedPayment.invoiceUrl,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async paymentSuccess(req, res, next) {
-    console.log(req.body);
-    console.log(req.headers);
-    res.status(200).json({
-      message: "I have received the payment callback",
-    });
+    try {
+      const { id, status, payment_method, payment_channel } = req.body;
+
+      await Payment.update(
+        { status, method: `${payment_method}-${payment_channel}` },
+        { where: { code: id } }
+      );
+      res.status(204).json({
+        message: "I have received the payment callback",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async payment(req, res, next) {
+    try {
+      const { id } = req.userCredentials;
+      const payments = await Payment.findAll({
+        include: {
+          model: Transaction,
+          where: { UserId: id },
+          attributes: [],
+        },
+      });
+      res.status(200).json(payments);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
   }
 }
 

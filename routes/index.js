@@ -24,6 +24,10 @@ router.get("/mycart", IndexController.myCart);
 
 router.delete("/mycart/:id", authZ, IndexController.deleteMyCart);
 
+router.post("/payment", IndexController.addPayment);
+
+router.get("/payment", IndexController.payment);
+
 router.use(errorHandler);
 
 module.exports = router;
