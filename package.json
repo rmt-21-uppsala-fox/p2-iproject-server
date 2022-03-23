@@ -5,12 +5,12 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "start":"node app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fadhilM/p2-iproject-server.git",
-    "start":"node app.js"
+    "url": "git+https://github.com/fadhilM/p2-iproject-server.git"
   },
   "keywords": [],
   "author": "",
