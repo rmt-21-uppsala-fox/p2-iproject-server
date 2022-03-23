@@ -1,7 +1,9 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
+
 const axios = require("axios");
+const { Ballroom } = require("../models/");
 
 class HotelController {
   static async getHotels(req, res, next) {
@@ -136,7 +138,98 @@ class HotelController {
 
   static async bookHotel(req, res, next) {
     try {
+      // BISA pake dayjs
+      // BISA pake IAT, untuk formatting
+      // Pake bookdatestart kalau sama gaboleh / udah ada yg booking
+      // Bikin kali 2 aja dulu
+      let { bookDateStart, bookDateEnd, name, price } = req.body;
+      const { hotelId } = req.params;
+      bookDateStart = new Date(bookDateStart);
+      bookDateEnd = new Date(bookDateEnd);
+      const dateStart = bookDateStart.getDate();
+      const dateEnd = bookDateEnd.getDate();
+      const difference = Math.abs(dateEnd - dateStart);
+
+      console.log(price, "masuk 149 controller book hotel");
+      console.log(difference, "masuk 149 controller book hotel");
+
+      if (difference > 0) {
+        price *= difference;
+      } else if (difference === 0) {
+        price = price;
+      }
+
+      console.log(price, "masuk 155 controller book hotel");
+      console.log(name, "masuk 156 controller book hotel");
+
+      if (price > 2000000000) {
+        return res.status(400).json({ message: "Price must be lower than Rp 2.000.000.000,-" });
+      }
+
+      const booked = await Ballroom.findOne({ where: { hotelId } });
+
+      // console.log(booked);
+      if (booked) {
+        const bookedDateStart = booked.bookDateStart;
+        const bookedDateEnd = booked.bookDateEnd;
+        console.log(bookedDateStart, "masuk 173");
+        const bookedDayStart = bookedDateStart.getDate();
+        console.log("masuk 175");
+        const bookedDayEnd = bookedDateEnd.getDate();
+        const bookedMonthStart = bookedDateStart.getMonth();
+        const bookedMonthEnd = bookedDateEnd.getMonth();
+        const bookedYearStart = bookedDateStart.getFullYear();
+        const bookedYearEnd = bookedDateEnd.getFullYear();
+
+        const inputMonthStart = bookDateStart.getMonth();
+        const inputMonthEnd = bookDateEnd.getMonth();
+        const inputYearStart = bookDateStart.getFullYear();
+        const inputYearEnd = bookDateEnd.getFullYear();
+        console.log(bookedYearStart, "masuk 188");
+        console.log(inputYearStart, "masuk 189");
+        console.log(bookedMonthStart, "masuk 190");
+        console.log(inputMonthStart, "masuk 191");
+        console.log(bookedDayStart, "masuk 192");
+        console.log(dateStart, "masuk 193");
+        console.log(bookedDayEnd, "masuk 194");
+        console.log(dateStart, "masuk 195");
+        console.log(difference, "masuk 196");
+        if (bookedYearStart === inputYearStart) {
+          if (bookedMonthStart === inputMonthStart) {
+            if (bookedDayStart === dateStart) {
+              if (bookedDayEnd <= dateStart + difference) {
+                return res.status(400).json({ message: "Ballroom has been booked" });
+              }
+            }
+          }
+        }
+
+        // console.log(req.body);
+        const ballroom = await Ballroom.create({
+          name,
+          hotelId,
+          bookDateStart,
+          bookDateEnd,
+          customerId: req.user.id,
+          price,
+        });
+        // console.log(ballroom);
+        res.status(201).json({ ballroom });
+      } else if (!booked) {
+        // console.log(req.body);
+        const ballroom = await Ballroom.create({
+          name,
+          hotelId,
+          bookDateStart,
+          bookDateEnd,
+          customerId: req.user.id,
+          price,
+        });
+        // console.log(ballroom);
+        res.status(201).json({ ballroom });
+      }
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: "Internal server error" });
     }
   }
