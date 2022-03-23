@@ -1,32 +1,24 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("GamesGenres", {
+    await queryInterface.createTable("Games", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      GameId: {
-        type: Sequelize.INTEGER,
+      name: {
+        type: Sequelize.STRING,
         allowNull: false,
-        references: {
-          model: "Games",
-          key: "id",
-        },
-        onUpdate: "cascade",
-        onDelete: "cascade",
       },
-      GenreId: {
+      gameId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: "Genres",
-          key: "id",
-        },
-        onUpdate: "cascade",
-        onDelete: "cascade",
+      },
+      price: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +31,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("GamesGenres");
+    await queryInterface.dropTable("Games");
   },
 };
