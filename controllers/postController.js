@@ -61,6 +61,7 @@ class PostController {
       if (respond.UserId !== id) {
         throw new Error("FORBIDDEN");
       }
+      // const 
     } catch (error) {
       next(error);
     }
@@ -103,7 +104,7 @@ class PostController {
 
   static async getAll(req, res, next) {
     try {
-      let size = 9;
+      let size = 12;
       let page = (req.query.page - 1) * size || 0;
       if (page < 0 || isNaN(page) || page === undefined) {
         throw new Error("PAGE_NOT_FOUND");

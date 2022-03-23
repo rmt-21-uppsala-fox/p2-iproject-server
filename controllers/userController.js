@@ -13,17 +13,13 @@ class UserController {
   static async registration(req, res, next) {
     try {
       const { email, password, username, profilePict } = req.body;
-      const respond = await User.create({
+      const data = await createUserWithEmailAndPassword(auth, email, password);
+      await User.create({
         email,
-        password,
+        firebaseUID: data.user.uid,
         username,
         profilePict,
       });
-      await createUserWithEmailAndPassword(
-        auth,
-        respond.email,
-        respond.password
-      );
       res.status(201).json({ message: "User Created" });
     } catch (error) {
       next(error);
@@ -37,13 +33,10 @@ class UserController {
       if (!respond) {
         throw new Error("INVALID_USER");
       }
-      if (!comparePw(password, respond.password)) {
-        throw new Error("INVALID_USER");
-      }
       const userCredential = await signInWithEmailAndPassword(
         auth,
-        respond.email,
-        respond.password
+        email,
+        password
       );
       const token = signToken({
         id: respond.id,

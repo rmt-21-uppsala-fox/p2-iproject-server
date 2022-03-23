@@ -15,7 +15,6 @@ const authentication = async (req, res, next) => {
     if (!respond) {
       throw new Error("INVALID_TOKEN");
     }
-    await signInWithEmailAndPassword(auth, respond.email, respond.password);
     req.userData = {
       id: respond.id,
       username: respond.username,
