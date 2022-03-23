@@ -6,6 +6,7 @@ const app = express();
 const cors = require("cors");
 const registerRoute = require("./routes/registerRoute");
 const restaurantRoute = require("./routes/restaurantRoute");
+const categoryRoute = require("./routes/categoryRoute");
 const loginRoute = require("./routes/loginRoute");
 const port = 3000;
 
@@ -15,12 +16,13 @@ app.use(express.json());
 
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
-
 app.use("/restaurant", restaurantRoute);
+app.use("/category", categoryRoute);
+// app.use("/menu")
 
-app.use("/", (req, res, next) => {
-  res.status(200).json({ message: "Muhammad Ihsan API!" });
-});
+// app.use("/", (req, res, next) => {
+//   res.status(200).json({ message: "Muhammad Ihsan API!" });
+// });
 
 app.listen(port, () => {
   console.log("this app is running at port: ", port);

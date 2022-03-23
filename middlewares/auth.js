@@ -1,7 +1,7 @@
 const { readToken } = require("../helpers/jwt");
 const { Restaurant } = require("../models");
 
-const isLoginResto = (req, res, next) => {
+const isLoginResto = async (req, res, next) => {
   try {
     const { access_token_resto } = req.headers;
     const payload = readToken(access_token_resto);

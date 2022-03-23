@@ -29,6 +29,7 @@ class Controller {
       const payload = {
         id: isResto.id,
         email: isResto.email,
+        role: "Restaurant",
       };
       const access_token_Resto = signToken(payload);
       res.status(200).json({ access_token_Resto });
@@ -63,6 +64,7 @@ class Controller {
       const payload = {
         id: isAdmin.id,
         email: isAdmin.email,
+        role: "Admin",
       };
       const access_token_Admin = signToken(payload);
       res.status(200).json({ access_token_Admin });

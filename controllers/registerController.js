@@ -44,8 +44,13 @@ class Controller {
         name,
         RestaurantId: req.params.restoId,
       });
+      const payload = {
+        id: newCust.id,
+        name: newCust.name,
+        role: "Customer",
+      };
       console.log(newCust);
-      res.status(201).json(newCust);
+      res.status(201).json(payload);
     } catch (err) {
       console.log(err);
       next(err);
