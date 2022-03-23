@@ -1,20 +1,53 @@
-const { compare } = require("../helpers/bcrypt");
+const { compare, hash } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 const { OAuth2Client } = require("google-auth-library");
 const clientID = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+// Import the functions you need from the SDKs you need
+const { initializeApp } = require ("firebase/app");
+const { getFirestore, doc, collection, addDoc, getDoc } = require ('firebase/firestore');
 
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAucNZND1DQzw2GDLrNULscSD6n-t4-3jI",
+  authDomain: "samine-1e9f3.firebaseapp.com",
+  projectId: "samine-1e9f3",
+  storageBucket: "samine-1e9f3.appspot.com",
+  messagingSenderId: "215870080992",
+  appId: "1:215870080992:web:e80f5c00bd824273fb4d85"
+};
+
+// Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
+const firestore = getFirestore()
+// const db = firebaseApp.firestore()
+
+const Users = collection(firestore, 'Users')
+const Favorites = collection(firestore, 'Favorites')
+// const { exists, data } = require ('fs')
 class ControllerUsers {
   static async register(req, res, next) {
     try {
-      const { email, password, phoneNumber, address } = req.body;
-      let newUser = await User.create({
+      const { email, password } = req.body;
+      const response = await addDoc(Users, {
         email,
-        password,
-        role: "user",
-        phoneNumber,
-        address,
-      });
-      res.status(201).json({email: newUser.email});
+        password: hash(password)
+      })
+      const checkUser = await getDoc(doc(firestore, `Users/${response._key.path.segments[1]}`))
+      // console.log(checkUser);
+      if (checkUser.exists()) {
+        const newUser = checkUser.data()
+        // console.log(newUser, `MASUK`);
+        res.status(201).json({id: response._key.path.segments[1],email: newUser.email});
+      } else {
+        throw {
+          throw: true,
+          status: 500,
+          message: 'internal server error'
+        }
+      }
     } catch (error) {
       next(error);
     }
@@ -64,23 +97,17 @@ class ControllerUsers {
   static async addBookmark(req, res, next) {
     try {
       const { UserId } = req.user;
-      const { JobId } = req.body;
+      const { AnimeId } = req.body;
 
-      const job = await Job.findByPk(JobId);
+      // const job = await Job.findByPk(JobId);
 
-      if (!job) throw { name: "generalJobNotFound" };
+      // if (!job) throw { name: "generalJobNotFound" };
 
-      const [bookmark, isCreated] = await Bookmark.findOrCreate({
-        where: {
-          UserId,
-          JobId,
-        },
-        defaults: {
-          UserId,
-          JobId,
-        },
-      });
-      res.status(201).json(bookmark);
+      const response = await addDoc(Favorites, {
+        UserId,
+        AnimeId: 1
+      })
+      res.status(201).json(response);
     } catch (error) {
       next(error);
     }
