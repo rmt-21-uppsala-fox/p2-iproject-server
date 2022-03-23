@@ -133,6 +133,13 @@ class HotelController {
       res.status(500).json({ message: "Internal server error" });
     }
   }
+
+  static async bookHotel(req, res, next) {
+    try {
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
 }
 
 module.exports = HotelController;
