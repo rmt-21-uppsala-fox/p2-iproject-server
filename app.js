@@ -5,7 +5,6 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const port = process.env.PORT || 3000
-const axios = require("axios")
 const route = require("./router")
 
 // const { authn } = require('./middleware/auth')
@@ -24,15 +23,19 @@ app.use(express.json())
 
 app.use("/", route)
 
+let arrChat = []
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id)
   socket.on("disconnect", () => {
     console.log("A user disconnected")
   })
+  socket.on("chatFromClient", (payload) => {
+    // console.log(req.Credentials)
 
-  socket.on("customEvent", (payload) => {
-    console.log("Test payload")
-    socket.emit("customEvent", "Kembalian server")
+    console.log(payload, "<<<<<Test payload")
+    arrChat.push(payload)
+    console.log(arrChat)
+    io.emit("messageFromServer", arrChat)
   })
 })
 

@@ -7,7 +7,11 @@ class userController {
     try {
       const { email, name, password } = req.body
       const newUser = await User.create({ email, name, password })
-      res.status(201).json(newUser)
+      res.status(201).json({
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+      })
     } catch (err) {
       console.log(err)
       next(err)
@@ -33,7 +37,11 @@ class userController {
         id: user.id,
         name: user.name
       }, secret)
-      res.status(200).json({ access_token })
+      res.status(200).json({
+        access_token,
+        id: user.id,
+        name: user.name
+      })
 
     } catch (err) {
       console.log(err)
