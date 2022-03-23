@@ -1,5 +1,6 @@
 const express = require("express");
 const AuthController = require("../controllers/AuthController.js");
+const XenditController = require("../controllers/XenditController.js");
 const router = express.Router();
 const hotelsRouter = require("./hotelsRouter.js");
 const booksRouter = require("./booksRouter.js");
@@ -20,6 +21,8 @@ router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
 
 router.use("/hotels", hotelsRouter);
+
+router.post("/xenditpayment", XenditController.payment);
 
 router.use("/hotels/book", booksRouter);
 

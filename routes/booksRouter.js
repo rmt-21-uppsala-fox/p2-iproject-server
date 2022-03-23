@@ -34,4 +34,8 @@ router.use(async (req, res, next) => {
 
 router.post("/:hotelId", HotelController.bookHotel);
 
+router.get("/", HotelController.getBooked);
+
+router.post("/payment/:id", HotelController.payBooked);
+
 module.exports = router;

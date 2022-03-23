@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const axios = require("axios");
-const { Ballroom } = require("../models/");
+const { Ballroom, Customer } = require("../models/");
 
 class HotelController {
   static async getHotels(req, res, next) {
@@ -230,6 +230,49 @@ class HotelController {
       }
     } catch (error) {
       console.log(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  static async getBooked(req, res, next) {
+    try {
+      const ballroom = await Ballroom.findAll({
+        where: { customerId: req.user.id },
+        include: [{ model: Customer, attributes: { exclude: ["createdAt", "updatedAt"] } }],
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+      });
+      res.status(200).json(ballroom);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+  static async payBooked(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const ballroom = await Ballroom.findOne({ where: { id }, include: [{ model: Customer }] });
+      console.log(ballroom);
+      const response = await axios({
+        url: "https://api.xendit.co/v2/invoices",
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization:
+            "Basic eG5kX2RldmVsb3BtZW50X0pMVEJRcnU2UzRBMXo3STRJb1YwQ1dRZjVBUEwwemVEUUhVaHVvaDVTRHpTUjA0WXdJRTc2MmRsV3JzWmJROjo=",
+        },
+        data: {
+          external_id: `${ballroom.id}-${ballroom.hotelId}-va-success-${new Date().getTime()}`,
+          amount: ballroom.price,
+          payer_email: ballroom.Customer.email,
+          description: `${ballroom.hotelId} - VA Sucessfull invoice payment`,
+        },
+      });
+      const payment = response.data;
+      console.log(payment);
+      res.status(200).json({ url: payment.invoice_url });
+    } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }
   }
