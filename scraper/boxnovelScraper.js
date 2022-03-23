@@ -67,11 +67,9 @@ const ScrapeListGenre = async (genre, order) => {
             routes += `/?m_orderby=${order}`;
         }
 
-        console.log(routes);
         let novelList = [];
         const result = await axios.get(routes);
         const $ = cheerio.load(result.data);
-        console.log(result);
 
         const contents = $('.page-content-listing')
             .find('.page-listing-item')

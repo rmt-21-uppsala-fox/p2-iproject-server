@@ -15,4 +15,6 @@ router.post('/novel/api', NovelApiController.NovelApi);
 
 router.get('/novel/:genre', NovelController.NovelListGenre);
 
+// router untuk bookmark
+
 module.exports = router;
