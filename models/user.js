@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Chat, { foreignKey: "UserId" })
     }
   }
   User.init({
@@ -21,14 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: { msg: "Name is required" },
         notNull: { msg: "Name is required" },
-      }
-    },
-    image: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: { msg: "Image Url is required" },
-        notNull: { msg: "Image Url is required" },
       }
     },
     email: {

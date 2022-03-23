@@ -11,9 +11,8 @@ class englishController {
           'x-rapidapi-key': '209db35aaemsh091d8766c41fd9cp1b0231jsn9b52d38af8d4'
         }
       })
-      console.log(response.data)
       const league_table = response.data["league-table"]
-      console.log(league_table, "<<<<< table")
+      // console.log(league_table, "<<<<< table")
       res.status(200).json(league_table)
     } catch (err) {
       console.log(err)

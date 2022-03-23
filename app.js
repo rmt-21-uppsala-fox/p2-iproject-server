@@ -5,23 +5,42 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const port = process.env.PORT || 3000
-const axios = require("axios")
 const route = require("./router")
+
 // const { authn } = require('./middleware/auth')
-// const foodRoutes = require('./router/food')
-// const historyRoutes = require('./router/history')
-// const customerRoutes = require('./router/customer')
-// const userController = require('./controller/userController')
-// const foodController = require('./controller/foodController')
-// const categoryController = require('./controller/categoryController')
-// const customerController = require('./controller/customerController')
-// const errorHandler = require('./middleware/errorHandling')
+const { createServer } = require("http")
+const { Server } = require("socket.io")
+const httpServer = createServer(app)
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+  }
+})
 
 app.use(cors())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 app.use("/", route)
+
+let arrChat = []
+io.on("connection", (socket) => {
+  console.log("A user connected", socket.id)
+  socket.on("disconnect", () => {
+    console.log("A user disconnected")
+  })
+  socket.on("chatFromClient", (payload) => {
+    // console.log(req.Credentials)
+
+    console.log(payload, "<<<<<Test payload")
+    arrChat.push(payload)
+    console.log(arrChat)
+    io.emit("messageFromServer", arrChat)
+  })
+})
+
+// const errorHandler = require('./middleware/errorHandling')
+
 
 // app.get('/category', categoryController.getCategory)
 // app.post('/register', userController.register)
@@ -40,7 +59,7 @@ app.use("/", route)
 
 // app.use(errorHandler)
 
-app.listen(port, () => {
+httpServer.listen(port, () => {
   console.log(`Listening to port ${port}`)
 })
 
