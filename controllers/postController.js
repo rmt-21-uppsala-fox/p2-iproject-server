@@ -92,6 +92,15 @@ class PostController {
     }
   }
 
+  static async fetchCategory(req, res, next) {
+    try {
+      const respond = await Category.findAll();
+      res.status(200).json(respond);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async getAll(req, res, next) {
     try {
       let size = 9;
