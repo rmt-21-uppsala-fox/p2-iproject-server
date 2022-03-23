@@ -63,7 +63,7 @@ class OrderController {
   static async orderPayment(req, res, next) {
     try {
       const orderName = req.body.orderName
-      const channel = req.body.channel
+      const amount = req.body.amount
       let transaction = await sequelize.query(`SELECT "customerName", "orderName", "phoneNumber", SUM("totalPrice") AS "totalPrice" FROM "Orders" WHERE "orderName" = '${orderName}' GROUP BY "orderName", "customerName", "phoneNumber"`, { type: sequelize.QueryTypes.SELECT })
       // console.log(transaction)
       const Xendit = require("xendit-node");
@@ -78,7 +78,7 @@ class OrderController {
       const resp = await ew.createEWalletCharge({
         referenceID: orderName,
         currency: "IDR",
-        amount: 1000,
+        amount: +amount,
         checkoutMethod: "ONE_TIME_PAYMENT",
         channelCode: "ID_SHOPEEPAY",
         channelProperties: {
