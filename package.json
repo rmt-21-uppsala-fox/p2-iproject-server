@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tomthedeveloper11/p2-iproject-server.git"
+    "url": "git+https://github.com/tomthedeveloper11/TomTheDeveloper11-iProject-Server.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tomthedeveloper11/p2-iproject-server/issues"
+    "url": "https://github.com/tomthedeveloper11/TomTheDeveloper11-iProject-Server/issues"
   },
-  "homepage": "https://github.com/tomthedeveloper11/p2-iproject-server#readme",
+  "homepage": "https://github.com/tomthedeveloper11/TomTheDeveloper11-iProject-Server#readme",
   "dependencies": {
     "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
