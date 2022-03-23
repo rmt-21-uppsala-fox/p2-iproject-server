@@ -2,36 +2,43 @@
     {
         "name":"Rio",
         "status":"offline",
-        "gender":"male"
+        "gender":"male",
+        "email":"test@mail.com"
     },
     {
         "name":"Karina",
         "status":"offline",
-        "gender":"female"
+        "gender":"female",
+        "email":"test@mail.com"
     },
     {
         "name":"Dika",
         "status":"offline",
-        "gender":"male"
+        "gender":"male",
+        "email":"test@mail.com"
     },
     {
         "name":"Ayu",
         "status":"offline",
-        "gender":"female"
+        "gender":"female",
+        "email":"test@mail.com"
     },
     {
         "name":"Ziady",
         "status":"offline",
-        "gender":"male"
+        "gender":"male",
+        "email":"test@mail.com"
     },
     {
         "name":"Indra",
         "status":"offline",
-        "gender":"male"
+        "gender":"male",
+        "email":"test@mail.com"
     },
     {
         "name":"Ira",
         "status":"offline",
-        "gender":"female"
+        "gender":"female",
+        "email":"test@mail.com"
     }
 ]
