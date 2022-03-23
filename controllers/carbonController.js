@@ -4,7 +4,6 @@ class CarbonController {
     static async getCarbonValue(req, res, next) {
         try {
             const { distance, fuelEfficiency } = req.query;
-            console.log(distance, fuelEfficiency);
             const response = await axios({
                 method: 'POST',
                 url: 'https://api-prod-no-cert.cloverly.com/2021-10/estimates/vehicle',
@@ -22,8 +21,7 @@ class CarbonController {
                 carbonProducedInKg: data
             })
         } catch (error) {
-            console.log(error);
-            console.log(error.message);
+            next(error);
         }
     }
 
@@ -41,14 +39,12 @@ class CarbonController {
                     'X-Api-Key': process.env.NINJAS_API_TOKEN
                 },
             })
-            console.log(response.data);
             const fuelEfficiency = response.data[0].combination_mpg;
             res.status(200).json({
                 fuelEfficiency
             })
         } catch (error) {
-            // console.log(error);
-            console.log(error.message);
+            next(error);
         }
     }
 }
