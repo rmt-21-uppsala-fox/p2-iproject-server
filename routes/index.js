@@ -28,6 +28,8 @@ router.post("/payment", IndexController.addPayment);
 
 router.get("/payment", IndexController.payment);
 
+router.get("/payment/:id", IndexController.paymentById);
+
 router.use(errorHandler);
 
 module.exports = router;

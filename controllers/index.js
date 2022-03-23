@@ -169,6 +169,12 @@ class IndexController {
       const { quantity } = req.body;
       const { id } = req.userCredentials;
 
+      if (!quantity)
+        throw {
+          name: "Bad Request",
+          message: "Please enter the number of items",
+        };
+
       const product = await Product.findByPk(ProductId);
 
       if (!product)
@@ -349,7 +355,37 @@ class IndexController {
       });
       res.status(200).json(payments);
     } catch (error) {
-      console.log(error);
+      next(error);
+    }
+  }
+
+  static async paymentById(req, res, next) {
+    try {
+      const { id } = req.params;
+      const payment = await Payment.findByPk(id, {
+        attributes: ["id", "status", "amount", "invoiceUrl"],
+        include: {
+          model: Transaction,
+          attributes: ["id"],
+          include: {
+            model: DetailTransaction,
+            attributes: ["quantity"],
+            include: {
+              model: Product,
+              attributes: ["name", "price"],
+            },
+          },
+        },
+      });
+
+      if (!payment)
+        throw {
+          name: "Not Found",
+          message: "Transaction not found",
+        };
+
+      res.status(200).json(payment);
+    } catch (error) {
       next(error);
     }
   }
