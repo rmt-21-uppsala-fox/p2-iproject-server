@@ -1,4 +1,5 @@
 const { Restaurant, Menu } = require("../models");
+const { Op } = require("sequelize");
 
 class Controller {
   static async getAllMenuRestaurant(req, res, next) {
@@ -41,7 +42,7 @@ class Controller {
         } else {
           if (!filter) {
             option = {
-              where: { title: { [Op.iLike]: `%${search}%` }, RestaurantId },
+              where: { name: { [Op.iLike]: `%${search}%` }, RestaurantId },
               limit: +size,
               offset: +set,
               order: [["id", "ASC"]],
@@ -55,7 +56,7 @@ class Controller {
             };
           } else {
             option = {
-              where: { title: { [Op.iLike]: `%${search}%` }, CategoryId: filter, RestaurantId },
+              where: { name: { [Op.iLike]: `%${search}%` }, CategoryId: filter, RestaurantId },
               limit: +size,
               offset: +set,
               order: [["id", "ASC"]],

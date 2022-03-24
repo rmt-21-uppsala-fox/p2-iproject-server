@@ -2,7 +2,7 @@ const multer = require("multer");
 
 const logoStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./assets/logo");
+    cb(null, "./picture/logo");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-FastOrderLogo-" + file.originalname;
@@ -12,7 +12,7 @@ const logoStorage = multer.diskStorage({
 
 const menuImageStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./assets/menuImage");
+    cb(null, "./picture/menuImage");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-FastOrderImage-" + file.originalname;

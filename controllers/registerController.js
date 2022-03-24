@@ -1,10 +1,18 @@
 const { Restaurant, Admin, Customer } = require("../models/index");
+
+const storage = require("../helpers/firebaseStorage");
+const { ref, uploadBytes } = require("firebase/storage");
+
 class Controller {
   static async registerRestaurant(req, res, next) {
     try {
       const { name, email, password } = req.body;
       console.log(name, email, password);
       const logo = req.file.path;
+      // console.log(req.file);
+      // const storageRef = ref(storage, "restaurantLogo");
+      // const snapshot = await uploadBytes(storageRef, "../assets/logo/" + req.file.filename);
+      // console.log(snapshot);
       const newResto = await Restaurant.create({
         name,
         email,
@@ -43,7 +51,7 @@ class Controller {
       const newCust = await Customer.create({
         name,
         email,
-        RestaurantId: req.params.restoId,
+        RestaurantId: +req.params.restoId,
       });
       const payload = {
         id: newCust.id,
