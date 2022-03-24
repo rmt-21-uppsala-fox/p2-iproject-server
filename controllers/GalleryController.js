@@ -19,7 +19,7 @@ class GalleryController {
       },
       headers: {
         'X-RapidAPI-Host': 'opensea-data-query.p.rapidapi.com',
-        'X-RapidAPI-Key': 'ab80179bbamsh0a22c10acf0867fp102d29jsn2017beefc781'
+        'X-RapidAPI-Key': process.env.RAPID_API
       }
     };
 
