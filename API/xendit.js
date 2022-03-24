@@ -11,7 +11,7 @@ class XenditInvoice {
     return invoice.createInvoice({
       externalID: externalID,
       amount,
-      successRedirectURL: `https://fast-order-server.herokuapp.com/${RestaurantId}/customer`,
+      successRedirectURL: `https://fastorder-ican.web.app/${RestaurantId}/customer`,
       payerEmail: payerEmail,
     });
   }
