@@ -22,4 +22,5 @@ class XenditInvoice {
     return invoice.getInvoice({ invoiceID });
   }
 }
+
 module.exports = XenditInvoice;
