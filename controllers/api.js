@@ -23,18 +23,24 @@ async function getUser(req,res) {
 
   async function postTranslate(req,res) {
     try {
-      const data = {
-        "q": "sini dari data",
-        "source": "in",
-        "target": "en"
-    }
-      const response = await axios.post('https://deep-translate1.p.rapidapi.com/language/translate/v2',data,{
-          headers: {
-            "X-RapidAPI-Host":"deep-translate1.p.rapidapi.com",
-            "X-RapidAPI-Key":"c0fef51bb8msh61a6c4a018759efp10ffd0jsn392ed844c5a6"
-          }
-      });
-      res.status(201).json(response.data.translations);
+      console.log( req.body, 'ini req bodu');
+      const qData = req.body.data.q
+      const targetdata = req.body.data.target
+      // console.log(q,'ini desc');
+      // console.log(target,'ini target');
+      let options = {
+        method: 'POST',
+        url: 'https://deep-translate1.p.rapidapi.com/language/translate/v2',
+        headers: {
+          'content-type': 'application/json',
+          'X-RapidAPI-Host': 'deep-translate1.p.rapidapi.com',
+          'X-RapidAPI-Key': '5d8cfe2132msh494a9466c4c1a3cp18f087jsn08ba480fa885'
+        },
+        data: {q: qData, source: 'in', target: targetdata}
+      };
+      let response = await axios.request(options)
+
+      res.status(201).json(response.data);
     } catch (error) {
       console.error(error);
     }
