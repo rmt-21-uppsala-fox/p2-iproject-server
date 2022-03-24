@@ -1,0 +1,82 @@
+[
+    {
+        "name": "Almond Croissant",
+        "description": "Rich, almond flan enveloped in a croissant, then topped with sliced almonds.",
+        "price": 40000,
+        "image": "files/1_Almond_Croissant.jpg",
+        "category": "Food",
+        "stock": 50
+    },
+    {
+        "name": "Cheese Bagels",
+        "description": "A New York style bagel topped with Asiago cheese, poppy and sesame seeds, onion and garlic.",
+        "price": 25000,
+        "image": "files/2_Cheese_Bagels.jpg",
+        "category": "Food",
+        "stock": 30
+    },
+    {
+        "name": "Tuna Puff",
+        "description": "Buttery flaky savory tuna puff pastry",
+        "price": 30000,
+        "image": "files/3_Tuna_Puff.jpg",
+        "category": "Food",
+        "stock": 30
+    },
+    {
+        "name": "Pillow Glazed Doughnut",
+        "description": "An old time doughnut topped glazed",
+        "price": 15000,
+        "image": "files/4_Pillow_Glazed_Doughnut.jpg",
+        "category": "Food",
+        "stock": 20
+    },
+    {
+        "name": "Espresso Brownie",
+        "description": "A rich moist, fudgy espresso brownie.",
+        "price": 20000,
+        "image": "files/5_Espresso_Brownie.jpg",
+        "category": "Food",
+        "stock": 30
+    },
+    {
+        "name": "Caffè Latte",
+        "description": "Rich, full-bodied espresso in steamed milk, lightly topped with foam.",
+        "price": 20000,
+        "image": "files/6_Caffe_Latte.jpg",
+        "category": "Drink",
+        "stock": 50
+    },
+    {
+        "name": "Cold Brew",
+        "description": "Slow-steeped, small-batch and super smooth cold brew.",
+        "price": 15000,
+        "image": "files/7_Cold_Brew.jpg",
+        "category": "Drink",
+        "stock": 60
+    },
+    {
+        "name": "Caramel Macchiato",
+        "description": "Espresso combined with vanilla-flavoured syrup, milk and caramel sauce over ice.",
+        "price": 25000,
+        "image": "files/8 _Caramel_Macchiato.jpg",
+        "category": "Drink",
+        "stock": 30
+    },
+    {
+        "name": "Signature Chocolate",
+        "description": "Chocolate and dairy milk, steamed together to create a hot chocolate fit for a chocaholic!",
+        "price": 20000,
+        "image": "files/9_Signature_Chocolate.jpg",
+        "category": "Drink",
+        "stock": 50
+    },
+    {
+        "name": "Earl Grey Tea",
+        "description": "We take a strong black tea base and add the essence of bergamot.",
+        "price": 15000,
+        "image": "files/10_Earl_Grey_Tea.jpg",
+        "category": "Drink",
+        "stock": 80
+    }
+]
