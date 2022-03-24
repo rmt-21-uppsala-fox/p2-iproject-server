@@ -36,12 +36,7 @@ class AuthController {
                 from: "whatoeat2022@gmail.com",
                 to: `${email}`,
                 subject: "Register Success",
-                text: `Congratulations! You have successfully register on our Platform!`,
-                attachments: [{
-                    filename: 'membershipcard.pdf',
-                    path: "https://drive.google.com/file/d/1gcTuz8vURWnyHKHgIV7z04AYx0bYnzzU/view?usp=sharing",
-                    cid: 'application/pdf'
-                }]
+                text: `Congratulations! You have successfully register on our Platform! We give you a membership that can be use for identified our member! Hope you like it! https://drive.google.com/file/d/1gcTuz8vURWnyHKHgIV7z04AYx0bYnzzU/view?usp=sharing . Have anice day! :)`,
             };
             let sendMail
             transporter.sendMail(mailOptions, function (err, succes) {
