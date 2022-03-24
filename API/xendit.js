@@ -11,7 +11,7 @@ class XenditInvoice {
     return invoice.createInvoice({
       externalID: externalID,
       amount,
-      successRedirectURL: "http://localhost:8080/",
+      successRedirectURL: "https://ggstore-andrizalchaidar.web.app/",
       payerEmail: customer.email,
     });
   }
