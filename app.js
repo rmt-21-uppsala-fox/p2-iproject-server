@@ -8,6 +8,17 @@ const port = process.env.PORT || 3000
 const route = require("./router")
 const { errorHandler } = require('./middleware/errorHandler')
 
+
+app.use(cors())
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
+app.use(express.static('public'))
+
+app.use("/", route)
+
+app.use(errorHandler)
+
+
 const { createServer } = require("http")
 const { Server } = require("socket.io")
 const httpServer = createServer(app)
@@ -16,13 +27,6 @@ const io = new Server(httpServer, {
     origin: "*",
   }
 })
-
-app.use(cors())
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
-app.use(express.static('public'))
-
-app.use("/", route)
 
 let arrChat = []
 let arrChat2 = []
@@ -42,7 +46,6 @@ io.on("connection", (socket) => {
   })
 })
 
-app.use(errorHandler)
 
 httpServer.listen(port, () => {
   console.log(`Listening to port ${port}`)

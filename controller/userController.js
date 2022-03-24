@@ -50,6 +50,46 @@ class userController {
       next(err)
     }
   }
+
+  static async authGoogle(req, res, next) {
+    try {
+      const { id_token } = req.body
+      // console.log(id_token)
+      const client = new OAuth2Client("957771440362-cf4kk6emhs08ihbls0ofkglelmcr8c24.apps.googleusercontent.com")
+      console.log(client)
+      const ticket = await client.verifyIdToken({
+        idToken: id_token,
+        audience: "957771440362-cf4kk6emhs08ihbls0ofkglelmcr8c24.apps.googleusercontent.com"
+      })
+      const payload = ticket.getPayload()
+
+      let user = await User.findOne({
+        where: {
+          email: payload.email
+        }
+      })
+      if (!user) {
+        const genpassword = Math.floor(100000000 + Math.random() * 900000000)
+        user = await User.create({
+          name: payload.name,
+          email: payload.email,
+          password: genpassword.toString(),
+        })
+      }
+
+      const token = createToken({
+        id: user.id,
+      })
+      res.status(200).json({
+        access_token: token,
+        id: user.id,
+        name: user.name,
+      })
+    }
+    catch (err) {
+      next(err)
+    }
+  }
 }
 
 module.exports = userController

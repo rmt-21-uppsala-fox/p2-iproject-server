@@ -96,6 +96,66 @@ class leagueController {
       next(err)
     }
   }
+  static async getSPATop(req, res, next) {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: 'https://football-web-pages1.p.rapidapi.com/goalscorers.json',
+        params: { comp: '94' },
+        headers: {
+          'x-rapidapi-host': 'football-web-pages1.p.rapidapi.com',
+          'x-rapidapi-key': '209db35aaemsh091d8766c41fd9cp1b0231jsn9b52d38af8d4'
+        }
+      })
+      console.log(response.data)
+      const top_scorer = response.data.goalscorers.players
+      console.log(top_scorer, "<<<<< topgoal")
+      res.status(200).json(top_scorer.slice(0, 10))
+    } catch (err) {
+      console.log(err)
+      next(err)
+    }
+  }
+  static async getITATop(req, res, next) {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: 'https://football-web-pages1.p.rapidapi.com/goalscorers.json',
+        params: { comp: '93' },
+        headers: {
+          'x-rapidapi-host': 'football-web-pages1.p.rapidapi.com',
+          'x-rapidapi-key': '209db35aaemsh091d8766c41fd9cp1b0231jsn9b52d38af8d4'
+        }
+      })
+      console.log(response.data)
+      const top_scorer = response.data.goalscorers.players
+      console.log(top_scorer, "<<<<< topgoal")
+      res.status(200).json(top_scorer.slice(0, 10))
+    } catch (err) {
+      console.log(err)
+      next(err)
+    }
+  }
+  static async getEPLTop(req, res, next) {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: 'https://football-web-pages1.p.rapidapi.com/goalscorers.json',
+        params: { comp: '1' },
+        headers: {
+          'x-rapidapi-host': 'football-web-pages1.p.rapidapi.com',
+          'x-rapidapi-key': '209db35aaemsh091d8766c41fd9cp1b0231jsn9b52d38af8d4'
+        }
+      })
+      console.log(response.data)
+      const top_scorer = response.data.goalscorers.players
+      console.log(top_scorer, "<<<<< topgoal")
+      res.status(200).json(top_scorer.slice(0, 10))
+    } catch (err) {
+      console.log(err)
+      next(err)
+    }
+  }
 }
 
 module.exports = leagueController
