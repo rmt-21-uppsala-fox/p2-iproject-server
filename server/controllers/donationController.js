@@ -1,3 +1,4 @@
+if (process.env.NODE_ENV !== "production") require("dotenv").config();
 const { User, UserHistory, Donation } = require("../models/index");
 const nodemailer = require("nodemailer");
 const XenditInvoice = require("../API/xendit");

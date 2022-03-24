@@ -1,3 +1,4 @@
+if (process.env.NODE_ENV !== "production") require("dotenv").config();
 const Xendit = require("xendit-node");
 const x = new Xendit({
   secretKey: process.env.XENDIT_API,

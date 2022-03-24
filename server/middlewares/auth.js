@@ -1,3 +1,4 @@
+if (process.env.NODE_ENV !== "production") require("dotenv").config();
 const { readToken } = require("../helpers/helper");
 const { User, Admin } = require("../models/index");
 const authentication = async (req, res, next) => {
