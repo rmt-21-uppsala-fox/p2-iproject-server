@@ -11,6 +11,7 @@ const unggah = require("unggah");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("images-dump"));
 
 app.post("/paintings", async (request, response) => {
   try {
@@ -45,9 +46,9 @@ app.post("/wikis", async (request, response) => {
     const wikisData2 = await axios.get(
       `https://en.wikipedia.org/w/api.php?action=opensearch&format=json&prop=info&inprop=url&search=fishing_for_souls`
     );
-    const videoData0 = await axios.get(
-      `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_KEY}&type=video&q=gogh_self_portrait_analysis`
-    );
+    // const videoData0 = await axios.get(
+    //   `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_KEY}&type=video&q=gogh_self_portrait_analysis`
+    // );
     // const videoData1 = await axios.get(
     //   `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_KEY}&type=video&q=night_watch_analysis`
     // );
@@ -74,24 +75,23 @@ app.post("/upload", async (request, response) => {
     await uploadFile(request, response);
 
     console.log(request.file, 4567);
-    console.log(__dirname + "\\images-dump\\uploadForGoogle.jpeg");
 
-    const storage = unggah.gcs({
-      keyFilename: "mubuyo-a5c85-28c4de9c26d3.json",
-      bucketName: "mubuyo-photos-bucket",
-      rename: (req, file) => {
-        return `${file.originalname}`; // this is the default
-      },
-    });
+    // const storage = unggah.gcs({
+    //   keyFilename: "mubuyo-a5c85-28c4de9c26d3.json",
+    //   bucketName: "mubuyo-photos-bucket",
+    //   rename: (req, file) => {
+    //     return `${file.originalname}`; // this is the default
+    //   },
+    // });
 
     if (request.file == undefined) {
       return response.status(400).send({ message: "Please upload a file!" });
     }
     response
       .status(200)
-      .type("jpeg")
-      .sendFile(__dirname + "\\images-dump\\uploadForGoogle.jpeg");
+      .json({ url: "http://localhost:3000/uploadForGoogle.jpeg" });
   } catch (err) {
+    console.log(err);
     if (err.code == "LIMIT_FILE_SIZE") {
       return res.status(500).send({
         message: "File size cannot be larger than 2MB!",
@@ -104,6 +104,7 @@ app.post("/upload", async (request, response) => {
 });
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
