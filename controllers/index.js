@@ -406,6 +406,20 @@ class IndexController {
       next(error);
     }
   }
+
+  static async getNews(req, res, next) {
+    try {
+      console.log("haiiiiiii");
+      const { data } = await axios({
+        url: "https://api-berita-indonesia.vercel.app/okezone/otomotif",
+        method: "GET",
+      });
+
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = IndexController;
