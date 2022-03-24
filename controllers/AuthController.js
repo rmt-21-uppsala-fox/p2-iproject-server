@@ -46,7 +46,7 @@ class AuthController {
             let sendMail
             transporter.sendMail(mailOptions, function (err, succes) {
                 if (err) {
-                    console.log(err);
+                    sendMail = err
                 } else {
                     sendMail = "success"
                 }
