@@ -1,5 +1,6 @@
 const { compare, hash } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
+const axios = require("axios");
 const { OAuth2Client } = require("google-auth-library");
 const clientID = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 // Import the functions you need from the SDKs you need
@@ -31,12 +32,12 @@ class ControllerUsers {
       const { email, password } = req.body;
       if (!email) {
         throw {
-          name: "adminLoginNoInput",
+          name: "registerNoInput",
         };
       }
       if (!password) {
         throw {
-          name: "adminLoginNoInput",
+          name: "registerNoInput",
         };
       }
 
@@ -85,6 +86,16 @@ class ControllerUsers {
     try {
       // console.log(`MASUK`);
       const { email, password } = req.body;
+      if (!email) {
+        throw {
+          name: "loginNoInput",
+        };
+      }
+      if (!password) {
+        throw {
+          name: "loginNoInput",
+        };
+      }
 
       let snapshots = await Users.where("email", "==", email).get();
       let users = [];
@@ -97,9 +108,7 @@ class ControllerUsers {
 
       if (users.length < 1) {
         throw {
-          throw: true,
-          status: 400,
-          message: "Email/password wrong",
+          name: "adminLoginFailed",
         };
       }
 
@@ -107,9 +116,7 @@ class ControllerUsers {
 
       if (!comparePassword) {
         throw {
-          throw: true,
-          status: 400,
-          message: "Email/password wrong",
+          name: "adminLoginFailed",
         };
       }
 
@@ -131,6 +138,9 @@ class ControllerUsers {
     try {
       const { UserId } = req.user;
       const { AnimeId } = req.body;
+      const { data } = await axios.get(
+        `https://api.jikan.moe/v4/anime/${AnimeId}`
+      );
       let snapshots = await Favorites.where("AnimeId", "==", AnimeId).get();
       let favoritesArr = [];
       // console.log(`masuk`, AnimeId, snapshots);
@@ -153,6 +163,7 @@ class ControllerUsers {
       const response = await Favorites.add({
         UserId,
         AnimeId,
+        anime: data,
       });
 
       const favoriteSnapshot = await Favorites.doc(
@@ -172,7 +183,7 @@ class ControllerUsers {
 
       const response = await Favorites.doc(favoriteId).delete();
 
-      res.status(200).json({message: 'Favorite has been deleted'})
+      res.status(200).json({ message: "Favorite has been deleted" });
     } catch (error) {
       next(error);
     }
@@ -180,13 +191,18 @@ class ControllerUsers {
 
   static async getFavorites(req, res, next) {
     try {
+      console.log(`masuk`);
       const { UserId } = req.user;
 
       let snapshots = await Favorites.where("UserId", "==", UserId).get();
       let favoritesArr = [];
 
       snapshots.forEach((e) => {
-        favoritesArr.push({ id: e.id, AnimeId: e.data().AnimeId });
+        favoritesArr.push({
+          id: e.id,
+          AnimeId: e.data().AnimeId,
+          anime: e.data().anime,
+        });
       });
       res.status(200).json(favoritesArr);
     } catch (error) {
