@@ -80,7 +80,6 @@ class Controller {
 
          transporter.sendMail(mailOptions, (err, info) => {
             if (err) throw err;
-            console.log('Email sent: ' + info.response);
          });
 
          res.status(201).json({

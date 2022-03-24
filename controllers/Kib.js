@@ -22,7 +22,6 @@ class KibController {
 
          res.status(200).json({ kib });
       } catch (error) {
-         console.log(error);
          next(error);
       }
    }
@@ -111,7 +110,6 @@ class KibController {
    static async multer(req, res, next) {
       try {
          let result = []
-         console.log(req.file);
          fs.createReadStream('files/' + req.file.originalname)
             .pipe(csv({}))
             .on('data', (data) => result.push(data))
@@ -129,7 +127,6 @@ class KibController {
                })
                DataKib.bulkCreate(data)
                fs.unlink('files/' + req.file.originalname, function (err) {
-                  console.log('File deleted!');
                });
             })
          res.status(200).json({ file: req.file });
