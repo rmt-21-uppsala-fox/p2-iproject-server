@@ -1,0 +1,4 @@
+sequelize model:generate --name Menu --attributes name:string,description:string,price:integer,image:string,category:string,stock:integer
+sequelize model:generate --name Order --attributes customerName:string,phoneNumber:string,totalPerson:integer,orderName:string,quantity:integer,totalPrice:integer,paymentStatus:string,paymentId:integer,paymentMethod:string,MenuId:integer
+
+sequelize seed:generate --name InsertMenus
