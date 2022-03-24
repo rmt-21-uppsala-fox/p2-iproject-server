@@ -97,7 +97,7 @@ class OrderController {
 
   static async receipt(req, res, next) {
     try {
-      const orderName = req.body.orderName
+      const orderName = req.body.reference_id
       await Order.update({
         paymentStatus: 'Paid'
       },
