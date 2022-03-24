@@ -29,9 +29,9 @@ app.use("/xendit", xenditRoute);
 app.get("/files", express.static("/picture/logo"));
 app.get("/files", express.static("/picture/menuImage"));
 
-// app.use("/", (req, res, next) => {
-//   res.status(200).json({ message: "Muhammad Ihsan API!" });
-// });
+app.use("/", (req, res, next) => {
+  res.status(200).json({ message: "Muhammad Ihsan API!" });
+});
 
 app.listen(port, () => {
   console.log("this app is running at port: ", port);
