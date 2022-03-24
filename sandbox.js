@@ -1,3 +1,4 @@
+// npx sequelize-cli model:create --name Gallery --attributes wallet:string,image1:string,image2:string,image3:string,image4:string,image5:string,image6:string,image7:string,image8:string,image9:string,image10:string
 let rooms = [{
     _NAME_: "room1",
     playerZ: {

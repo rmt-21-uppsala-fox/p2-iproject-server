@@ -1,4 +1,8 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const express = require('express');
+const cors = require('cors');
 const {
   createServer
 } = require('http');
@@ -7,7 +11,11 @@ const {
 } = require('socket.io');
 
 const app = express();
+app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({
+  extended: false
+}));
 const httpServer = createServer(app);
 
 const routes = require('./routes');
@@ -57,6 +65,6 @@ app.use(routes)
 
 
 
-httpServer.listen(3000, () => {
+httpServer.listen(process.env.PORT || 3000, () => {
   console.log("listening on port 3000");
 })
