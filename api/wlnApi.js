@@ -1,21 +1,5 @@
 const axios = require('axios');
-
-function simpleStringify(object) {
-    var simpleObject = {};
-    for (var prop in object) {
-        if (!object.hasOwnProperty(prop)) {
-            continue;
-        }
-        if (typeof object[prop] == 'object') {
-            continue;
-        }
-        if (typeof object[prop] == 'function') {
-            continue;
-        }
-        simpleObject[prop] = object[prop];
-    }
-    return JSON.stringify(simpleObject); // returns cleaned up JSON
-}
+const { next } = require('cheerio/lib/api/traversing');
 
 const wlnApi = async () => {
     try {
@@ -41,7 +25,7 @@ const wlnApi = async () => {
         );
         return response.data;
     } catch (err) {
-        res.status(400).json(err.response.data);
+        next(err);
     }
 };
 

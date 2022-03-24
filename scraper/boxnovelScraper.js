@@ -14,7 +14,7 @@ const ScrapeChapter = async (title, chapter) => {
         });
         return chapterContent;
     } catch (err) {
-        res.status(400).json(err.response.data);
+        res.status(400).json(err);
     }
 };
 
@@ -51,7 +51,7 @@ const ScrapeDetail = async (title) => {
         detailContent.descriptionSummary = descriptionSummary;
         return detailContent;
     } catch (err) {
-        res.status(400).json(err.response.data);
+        res.status(400).json(err);
     }
 };
 
@@ -108,7 +108,7 @@ const ScrapeListGenre = async (genre, order) => {
 
         return novelList;
     } catch (err) {
-        res.status(400).json(err.response.data);
+        res.status(400).json(err);
     }
 };
 
@@ -117,17 +117,3 @@ module.exports = {
     ScrapeDetail,
     ScrapeListGenre,
 };
-
-// third party api, firestore
-// third party api, auth, firebase
-
-/*
-
-1. firebase auth di bawa ke server
-2. firestore bookmark
-3. ini 
-
-
-
-
-*/
