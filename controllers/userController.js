@@ -88,6 +88,7 @@ class UserController {
             })
         }
     }
+    //userFindAllFeature
 
     //facebookSignIn
     static async facebookSignIn(req, res, next) {
