@@ -4,7 +4,7 @@ const authentication = require("../middlewares/authentication")
 const upload = require("../middlewares/multer");
 const PostController = require("../controllers/postController");
 
-routerPost.get("/", PostController.getAll);
+routerPost.get("/post", PostController.getAll);
 routerPost.get("/category", PostController.fetchCategory);
 routerPost.post("/upload", upload,authentication, PostController.upload);
 routerPost.delete("/comment", authentication, PostController.deleteComment)
