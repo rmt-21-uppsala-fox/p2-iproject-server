@@ -18,6 +18,8 @@ router.get("/workshops/:id", IndexController.workshopById);
 
 router.post("/paymentsuccess", IndexController.paymentSuccess);
 
+router.get("/automotivenews", IndexController.getNews);
+
 router.use(authN);
 
 router.post("/mycart/:ProductId", IndexController.addMyCart);
