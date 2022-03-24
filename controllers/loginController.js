@@ -34,7 +34,6 @@ class Controller {
       const access_token_Resto = signToken(payload);
       res.status(200).json({ access_token_Resto, id: isResto.id });
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -69,7 +68,6 @@ class Controller {
       const access_token_Admin = signToken(payload);
       res.status(200).json({ access_token_Admin });
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }

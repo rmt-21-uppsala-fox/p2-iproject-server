@@ -10,7 +10,6 @@ class Controller {
       });
       res.status(200).json(customers);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -26,7 +25,6 @@ class Controller {
       }
       res.status(200).json(customer);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -45,7 +43,6 @@ class Controller {
         message: `Customer with id ${req.params.customerId} deleted`,
       });
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }

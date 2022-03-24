@@ -27,7 +27,6 @@ const isLoginResto = async (req, res, next) => {
     };
     next();
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -50,7 +49,6 @@ const isLoginCustomer = async (req, res, next) => {
     };
     next();
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };

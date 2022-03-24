@@ -8,12 +8,7 @@ class Controller {
   static async registerRestaurant(req, res, next) {
     try {
       const { name, email, password } = req.body;
-      console.log(name, email, password);
       const logo = req.file.path;
-      // console.log(req.file);
-      // const storageRef = ref(storage, "restaurantLogo");
-      // const snapshot = await uploadBytes(storageRef, "../assets/logo/" + req.file.filename);
-      // console.log(snapshot);
       const newResto = await Restaurant.create({
         name,
         email,
@@ -25,15 +20,12 @@ class Controller {
         email: newResto.email,
       });
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
   static async registerAdmin(req, res, next) {
     try {
-      console.log("masuk >>>", req.body);
       const { name, email, password } = req.body;
-      console.log(name, email, password);
       const newAdmin = await Admin.create({
         name,
         email,
@@ -61,14 +53,12 @@ class Controller {
         role: "Customer",
       };
       const access_token_Cust = signToken(payload);
-      console.log(newCust);
       res.status(201).json({
         access_token_Cust,
         CustId: payload.id,
         message: "Successfully registered",
       });
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }

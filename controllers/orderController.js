@@ -12,7 +12,6 @@ class Controller {
         message: `Successfully added order with id ${req.params.menuId}`,
       });
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -28,7 +27,6 @@ class Controller {
       });
       res.status(200).json(orders);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -47,7 +45,6 @@ class Controller {
         message: `Order with id ${req.params.orderId} deleted`,
       });
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }

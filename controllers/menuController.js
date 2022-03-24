@@ -15,7 +15,6 @@ class Controller {
       }
 
       const { page, size, filter, search } = req.query;
-      console.log(filter, search);
       let option;
       let set = 0;
       if (page > 1) {
@@ -67,15 +66,12 @@ class Controller {
       const menus = await Menu.findAll(option);
       res.status(200).json(menus);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
   static async addMenu(req, res, next) {
     try {
       const { name, description, price, CategoryId } = req.body;
-      console.log(req.body);
-      console.log(req.file);
       const image = req.file.path;
       const menu = await Menu.create({
         name,
@@ -87,7 +83,6 @@ class Controller {
       });
       res.status(201).json(menu);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -110,7 +105,6 @@ class Controller {
       const newMenu = await Menu.findByPk(req.params.menuId);
       res.status(200).json(newMenu);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -131,7 +125,6 @@ class Controller {
         message: `Menu with id ${menu.id} successfully deleted`,
       });
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }

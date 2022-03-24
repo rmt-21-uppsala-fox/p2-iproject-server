@@ -12,6 +12,7 @@ const menuRoute = require("./routes/menuRoute");
 const customerRoute = require("./routes/customerRoute");
 const orderRoute = require("./routes/orderRoute");
 const xenditRoute = require("./routes/xenditRoute");
+const errorHandler = require("./middlewares/errorHandler");
 const port = process.env.PORT || 3000;
 
 app.use(cors());
@@ -32,6 +33,8 @@ app.get("/files", express.static("/picture/menuImage"));
 app.use("/", (req, res, next) => {
   res.status(200).json({ message: "Muhammad Ihsan API!" });
 });
+
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log("this app is running at port: ", port);

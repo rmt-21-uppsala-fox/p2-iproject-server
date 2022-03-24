@@ -65,9 +65,42 @@ OR
 {
     "message": "Email must be unique"
 }
-OR
+```
+
+_Response (500 - Internal Server Error)_
+
+```json
 {
-    "message": "Minimum password character is 5"
+  "message": "Internal server error"
+}
+```
+
+&nbsp;
+
+## 2. POST /register/:RestaurantId/customer
+
+Description:
+
+direct login with QRCode link after registration
+
+Request:
+
+- body:
+
+```json
+{
+  "name": "string",
+  "email": "string"
+}
+```
+
+_Response (201 - OK)_
+
+```json
+{
+  "access_token_Cust": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6ImljYW4iLCJyb2xlIjoiQ3VzdG9tZXIiLCJpYXQiOjE2NDgxNTgxNDd9.1hH-5Yx4HhTRG_goi_ATlCrE6IH6Cprf4Zpha7cf5Xk",
+  "CustId": 5,
+  "message": "Successfully registered"
 }
 ```
 
@@ -81,7 +114,11 @@ _Response (500 - Internal Server Error)_
 
 &nbsp;
 
-## 2. POST /register/admin
+## 3. POST/login/restaurant
+
+Description:
+
+- Restaurant login
 
 Request:
 
@@ -89,7 +126,6 @@ Request:
 
 ```json
 {
-  "name": "string",
   "email": "string",
   "password": "string"
 }
@@ -99,91 +135,8 @@ _Response (200 - OK)_
 
 ```json
 {
-  "id": 2,
-  "name": "icanGans",
-  "email": "ican@gmail.com",
-  "password": "12345",
-  "updatedAt": "2022-03-22T21:29:33.386Z",
-  "createdAt": "2022-03-22T21:29:33.386Z"
-}
-```
-
-_Response (401 - Unauthorized)_
-
-```json
-{
-  "message": "Invalid username or email or password"
-}
-```
-
-_Response (500 - Internal Server Error)_
-
-```json
-{
-  "message": "Internal server error"
-}
-```
-
-&nbsp;
-
-## 3. DELETE/news/:NewsId
-
-Description:
-
-- Delete news by id
-
-Request:
-
-- headers:
-
-```json
-{
-  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbjFAYWRtaW4uY29tIiwiaWF0IjoxNjQ2Mjk0OTgyfQ.oSJtxe4jK57RnDv7c_qKGKiWT9e9B8gejs9wDoKxl-k"
-}
-```
-
-- params:
-
-```json
-{
-  "id": "20"
-}
-```
-
-_Response (200 - OK)_
-
-```json
-{
-  "message": "Success delete News",
-  "data": {
-    "id": 20,
-    "title": "Aku mau seblak pedes banget",
-    "status": "active",
-    "content": "Jakarta - Seorang pengguna TikTok menunjukkan murahnya kulineran di Tasikmalaya. Dengan uang Rp 5.000 sudah bisa dapat seporsi bakso, seblak lengkap dengan minuman. Bakso dan seblak merupakan makanan favorit semua orang. Biasanya seporsi bakso atau seblak dibanderol dengan harga kisaran Rp 10.000 hingga Rp 15.000. Harga tersebut pun sudah terbilang terjangkau. Namun, masih ada yang jauh lebih terjangkau lagi. Di Desa Mandalagiri, Tasikmalaya, seporsi bakso dan seblak hanya dibanderol dengan harga Rp 2.000. Meski murah, tapi porsinya mengenyangkan.",
-    "imgUrl": "https://img-global.cpcdn.com/recipes/02d6fe5572cd6a34/680x482cq70/seblak-bandung-seblak-kuah-foto-resep-utama.jpg",
-    "AuthorId": 1,
-    "CategoryId": 7,
-    "createdAt": "2022-03-18T18:08:26.003Z",
-    "updatedAt": "2022-03-18T18:08:26.003Z"
-  }
-}
-```
-
-Request:
-
-- headers:
-
-```json
-{
-  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJzdGFmZjFAc3RhZmYuY29tIiwiaWF0IjoxNjQ2Mjk1MzI0fQ.6Tjr1PM_3KuOuPD68WYBwwAnBDVeLajRB6P0eA-uJKM"
-}
-```
-
-- params:
-
-```json
-{
-  "id": "100"
+  "access_token_Resto": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJidWJ1ckBnbWFpbC5jb20iLCJyb2xlIjoiUmVzdGF1cmFudCIsImlhdCI6MTY0ODE1ODU0OX0.ltSNoXCkT-3bEN0P8JhZKGeTgN52cGvO_3zuKxNn7wY",
+  "id": 1
 }
 ```
 
@@ -213,7 +166,7 @@ _Response (500 - Internal Server Error)_
 
 &nbsp;
 
-## 4. POST /news
+<!-- ## 4. POST /news
 
 Request:
 
@@ -845,4 +798,4 @@ _Response (500 - Internal Server Error)_
 {
   "message": "Internal server error"
 }
-```
+``` -->
