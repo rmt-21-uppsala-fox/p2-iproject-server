@@ -18,6 +18,7 @@ class CarbonController {
                     fuel_efficiency: { value: fuelEfficiency, units: 'mpg', of: 'gasoline' } //diesel / gasoline
                 }
             })
+
             const data = response.data.total_co2e_in_kg;
             res.status(200).json({
                 carbonProducedInKg: data
@@ -41,7 +42,7 @@ class CarbonController {
                     'X-Api-Key': process.env.NINJAS_API_TOKEN
                 },
             })
-            if (!response.data) throw { message: "error" }
+            if (!response.data === []) throw { name: "unableToFindFuelEfficiency" }
             const fuelEfficiency = response.data[0].combination_mpg;
             res.status(200).json({
                 fuelEfficiency
@@ -54,7 +55,6 @@ class CarbonController {
     static async screenshot(req, res, next) {
         screenshot({ format: 'png' }).then((img) => {
             const { carbon, email } = req.body;
-            console.log(req.body);
             let transporter = nodemailer.createTransport({
                 service: "gmail",
                 secure: false, // use SSL
@@ -88,7 +88,6 @@ class CarbonController {
                 }
             });
         }).catch((error) => {
-            console.log(error.message);
             next(error)
         })
     }

@@ -2,14 +2,17 @@ function errorHandler(error, req, res, next) {
     let status, message
     switch (error.name) {
         case "Error":
+            status = 400;
+            message = "Bad Request";
+        case "getRouteError":
+            status = 400;
+            message = error.message;
+        case "unableToFindFuelEfficiency":
             status = 404;
-            message = "Bad request"
-            break;
+            message = "Unable To Find Fuel Efficiency"
         default:
             status = 500;
             message = "Internal Server Error"
-            message = error.message;
-            console.log(error);
             break;
     }
     res.status(status).json({
