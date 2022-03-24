@@ -45,7 +45,6 @@ const authentication = async (req, res, next) => {
         }
         next()
     } catch (error) {
-        console.log(error);
         next(error)
     }
 }
@@ -80,8 +79,6 @@ app.post('/register', async (req, res, next) => {
             email: newUser.email
         })
     } catch (error) {
-        console.log(error);
-
         next(error)
     }
 })
@@ -101,7 +98,7 @@ app.post('/login', async (req, res, next) => {
             }
         })
 
-        if (!foundUser) throw new Error('Invalid email/password')
+        if (!foundUser) throw new Error('User not found')
 
         const correctPassword = bcrypt.compareSync(password, foundUser.password)
 
@@ -122,8 +119,6 @@ app.post('/login', async (req, res, next) => {
             'email': foundUser.email
         })
     } catch (error) {
-        console.log(error);
-
         next(error)
     }
 })
@@ -166,8 +161,6 @@ app.get('/currentUserImagesUrl', async (req, res, next) => {
 
         res.status(200).json(responseMap)
     } catch (error) {
-        console.log(error);
-
         next(error)
     }
 })
@@ -182,15 +175,12 @@ app.get('/packages', async (req, res, next) => {
 
         res.status(200).json(packages)
     } catch (error) {
-        console.log(error);
-
         next(error)
     }
 })
 
 app.post('/xenditPay', async (req, res, next) => {
     try {
-        console.log(req.body);
         let response = await axios.post('https://api.xendit.co/v2/invoices', req.body, {
             headers: {
                 'Authorization': process.env.XENDIT_API_KEY
@@ -208,8 +198,6 @@ app.post('/xenditPay', async (req, res, next) => {
 
         res.status(200).json(responseUrl)
     } catch (error) {
-        console.log(error);
-
         next(error)
     }
 })
@@ -236,9 +224,67 @@ app.post('/uploadToImgBB', async (req, res, next) => {
             'Message': 'Success upload image'
         })
     } catch (error) {
-        console.log(error);
         next(error)
     }
+})
+
+app.use((err, req, res, next) => {
+    let code = 500
+    let msg = 'Internal server error'
+
+    if (err.message === 'Email is required') {
+        code = 400
+        msg = 'Email is required'
+    }
+
+    if (err.message === 'Password is required') {
+        code = 400
+        msg = 'Password is required'
+    }
+
+    if (err.message === 'Email must be unique') {
+        code = 400
+        msg = 'Email must be unique'
+    }
+
+    if (err.name === 'SequelizeUniqueConstraintError') {
+        code = 400
+        msg = 'Email must be unique'
+    }
+
+    if (err.name === 'SequelizeValidationError') {
+        code = 400
+        msg = err.errors[0].message
+    }
+
+    if (err.name === 'JsonWebTokenError' || err.message === 'JsonWebTokenError') {
+        code = 401
+        msg = 'Invalid token'
+    }
+
+    if (err.name === 'SyntaxError') {
+        code = 401
+        msg = 'Invalid token'
+    }
+
+    if (err.name === 'Invalid email/password' || err.message === 'Invalid email/password') {
+        code = 401
+        msg = 'Invalid email/password'
+    }
+
+    if (err.message === 'User not found') {
+        code = 401
+        msg = 'User not found'
+    }
+
+    if (err.message === 'You are not authorized') {
+        code = 403
+        msg = 'You are not authorized'
+    }
+
+    res.status(code).json({
+        'message': msg
+    })
 })
 
 app.listen(port, () => {
