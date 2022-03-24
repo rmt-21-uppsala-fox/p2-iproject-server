@@ -8,6 +8,7 @@ class OrderController {
       const data = await Order.findAll();
       res.status(200).json(data);
     } catch (error) {
+      res.status(500).json({message: 'Internal server error'})
       console.log(error);
     }
   }
@@ -45,17 +46,7 @@ class OrderController {
       res.status(201).json({orderName});
     } catch (error) {
       await transaction.rollback()
-      res.status(500).json(error)
-      console.log(error);
-    }
-  }
-
-  static async findOrderById(req, res, next) {
-    try {
-      const id = req.params.id;
-      const order = await Order.findByPk(id);
-      res.status(200).json(order);
-    } catch (error) {
+      res.status(500).json({message: 'Internal server error'})
       console.log(error);
     }
   }
@@ -91,6 +82,7 @@ class OrderController {
       });
       res.status(200).json(resp);
     } catch (error) {
+      res.status(500).json({message: 'Internal server error'})
       console.log(error);
     }
   }
