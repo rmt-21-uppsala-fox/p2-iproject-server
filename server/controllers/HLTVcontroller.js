@@ -13,7 +13,7 @@ class Controller {
 
     static async getMatches(req, res) {
         try {
-            let data = await HLTV.getMatches();
+            let data = await HLTV.getMatches({});
             res.status(200).json(data);
         } catch (error) {
             res.status(500).json({ message: "Internal server error" });
@@ -42,8 +42,9 @@ class Controller {
 
     static async getPlayerRanking(req, res) {
         try {
-            let playerRank = await HLTV.getPlayerRanking();
-            res.status(200).json(playerRank);
+            let playerRank = await HLTV.getPlayerRanking({startDate: '2022-03-24'})
+            const slicedPlayerRank = playerRank.slice(0,30)
+            res.status(200).json(slicedPlayerRank);
         } catch (error) {
             res.status(500).json({ message: "Internal server error" });
         }
@@ -51,7 +52,10 @@ class Controller {
 
     static async getNews(req,res){
         try {
-            let news = await HLTV.getNews();
+            let news = await HLTV.getNews({
+                year: 2021,
+                month: 'march'
+            });
             res.status(200).json(news);
         } catch (error) {
             res.status(500).json({ message: "Internal server error" });
