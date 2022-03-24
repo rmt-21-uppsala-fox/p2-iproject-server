@@ -11,12 +11,53 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Playlist)
     }
   }
   User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: {
+        msg: 'Your email has been used'
+      },
+      validate:{
+        notNull: {
+          msg: 'Please enter your email'
+        },
+        notEmpty: {
+          msg: 'Please enter your email'
+        },
+        isEmail: {
+          msg: 'Must be a valid email'
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notNull: {
+          msg: 'Please enter your password'
+        },
+        notEmpty: {
+          msg: 'Please enter your password'
+        },
+        len:{
+          args: [5],
+          msg: 'Minimum 5 digit'
+        }
+      }
+    },
   }, {
+    hooks: {
+      beforeCreate: (user, options) => {
+        user.password = hashPass(user.password);
+        if(!user.role){
+          user.role = 'Admin'
+        }
+      }
+    },
     sequelize,
     modelName: 'User',
   });

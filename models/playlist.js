@@ -11,10 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Playlist.belongsTo(models.User)
     }
   }
   Playlist.init({
-    UserId: DataTypes.INTEGER,
+    UserId: {
+      type: DataTypes.INTEGER,
+      references:{
+        model:"Users",
+        key:"id"
+      }
+    },
     title: DataTypes.STRING,
     genre: DataTypes.STRING,
     artist: DataTypes.STRING
