@@ -3,7 +3,7 @@ const authentication = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const verify = await admin.auth().verifyIdToken(token);
-        if (!verify) throw { name: 'unauthorized' };
+        if (!verify) throw { name: 'Unauthorized' };
         res.status(200).json({ msg: 'Authenticated!' });
     } catch (err) {
         next(err);

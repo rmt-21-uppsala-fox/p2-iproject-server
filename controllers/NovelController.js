@@ -12,6 +12,7 @@ class NovelController {
             const result = await ScrapeChapter(title, chapter);
             res.status(200).json(result);
         } catch (err) {
+            console.log(err);
             next(err);
         }
     }
@@ -22,20 +23,19 @@ class NovelController {
             const result = await ScrapeDetail(title);
             res.status(200).json(result);
         } catch (err) {
+            console.log(err);
             next(err);
         }
     }
 
     static async NovelListGenre(req, res, next) {
         try {
-            console.log(req.headers, 'asdlkjslakjd');
-
             const genre = req.params.genre;
-            console.log(genre);
             const order = req.query.order;
             const result = await ScrapeListGenre(genre, order);
             res.status(200).json(result);
         } catch (err) {
+            console.log(err);
             next(err);
         }
     }
