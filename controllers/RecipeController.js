@@ -123,6 +123,45 @@ class RecipeController {
         }
     }
 
+    static async getBookmark(req, res, next) {
+        try {
+            const UserId = req.loginUser.id
+            const bookmarks = []
+            const response = await Bookmark.findAll({
+                where: {
+                    UserId
+                }
+            })
+            if (response.length !== 0) {
+                for (const recipe of response) {
+                    const {
+                        RecipeId,
+                        id
+                    } = recipe
+                    const findRecipe = await axios.get(`https://api.edamam.com/api/recipes/v2/${RecipeId}?type=public&q=` + '&app_id=' + process.env.API_ID + '&app_key=' + process.env.API_KEY)
+                    bookmarks.push({
+                        id,
+                        recipes: findRecipe.
+                        data.recipe
+                    })
+                }
+            }
+            const filtered = bookmarks.map((recipe) => {
+                return {
+                    id: recipe.id,
+                    uri: recipe.recipes.uri,
+                    label: recipe.recipes.label,
+                    image: recipe.recipes.image,
+                    calories: recipe.recipes.calories,
+                    ingredients: recipe.recipes.ingredientLines,
+                }
+            })
+            res.status(200).json(filtered)
+        } catch (error) {
+            console.log(error.error);
+        }
+    }
+
     static async deleteBookmark(req, res, next) {
         try {
             const id = req.params.id

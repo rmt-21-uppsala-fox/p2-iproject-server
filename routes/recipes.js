@@ -4,10 +4,12 @@ const {
     authentication,
     authorization
 } = require('../middlewares/auth')
-router.get('/recipes/filter', RecipeController.getFilteredRecipes)
 router.post('/recipes', RecipeController.getRecipes)
+router.get('/recipes/filter', RecipeController.getFilteredRecipes)
+router.get('/recipes/bookmark', authentication, RecipeController.getBookmark)
 router.get('/recipes/:RecipeId', RecipeController.getRecipesDetail)
 router.use(authentication)
+router.get('/recipes/bookmark', RecipeController.getBookmark)
 router.post('/recipes/:RecipeId', RecipeController.createBookmark)
 router.post('/recipes/rate/:RecipeId', RecipeController.createRate)
 router.get('/recipes/rate/:RecipeId', RecipeController.getRecipeRating)
