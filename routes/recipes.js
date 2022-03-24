@@ -5,9 +5,9 @@ const {
     authorization
 } = require('../middlewares/auth')
 router.get('/recipes/filter', RecipeController.getFilteredRecipes)
-router.use(authentication)
-router.get('/recipes', RecipeController.getRecipes)
+router.post('/recipes', RecipeController.getRecipes)
 router.get('/recipes/:RecipeId', RecipeController.getRecipesDetail)
+router.use(authentication)
 router.post('/recipes/:RecipeId', RecipeController.createBookmark)
 router.post('/recipes/rate/:RecipeId', RecipeController.createRate)
 router.get('/recipes/rate/:RecipeId', RecipeController.getRecipeRating)

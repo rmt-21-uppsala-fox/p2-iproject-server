@@ -111,7 +111,12 @@ class RecipeController {
                 UserId
             })
             res.status(201).json({
-                message: 'Succesfully created bookmark'
+                message: 'Succesfully created bookmark',
+                bookmark: {
+                    RecipeId: response.RecipeId,
+                    UserId: response.UserId,
+                    id: response.id
+                }
             })
         } catch (error) {
             console.log(error);
