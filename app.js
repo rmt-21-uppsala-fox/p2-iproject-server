@@ -6,6 +6,7 @@ const cors = require("cors");
 const app = express();
 const axios = require("axios");
 const uploadFile = require("./middleware/multerConfig");
+const unggah = require("unggah");
 
 app.use(cors());
 app.use(express.json());
@@ -37,27 +38,35 @@ app.post("/wikis", async (request, response) => {
   try {
     // console.log(request.body);
     let { title } = request.body;
-    title
-      .split(" ")
-      .join("_")
-      .split(",")
-      .join("_")
-      .split("’")
-      .join("_")
-      .split("‘")
-      .join("_");
-    console.log(title);
-    const wikisData = await axios.get(
-      `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=info&generator=allpages&inprop=url&gapfrom=${title}&gaplimit=5`
+    console.log(22, title);
+
+    const wikisData0 = await axios.get(
+      `https://en.wikipedia.org/w/api.php?action=opensearch&format=json&prop=info&inprop=url&search=van_gogh_self_portrait`
     );
-    console.log(
-      wikisData.data.query.pages[Object.keys(wikisData.data.query.pages)[0]]
-        .fullurl
+    const wikisData1 = await axios.get(
+      `https://en.wikipedia.org/w/api.php?action=opensearch&format=json&prop=info&inprop=url&search=the_night_watch`
     );
+    const wikisData2 = await axios.get(
+      `https://en.wikipedia.org/w/api.php?action=opensearch&format=json&prop=info&inprop=url&search=fishing_for_souls`
+    );
+    const videoData0 = await axios.get(
+      `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_KEY}&type=video&q=gogh_self_portrait_analysis`
+    );
+    const videoData1 = await axios.get(
+      `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_KEY}&type=video&q=night_watch_analysis`
+    );
+    const videoData2 = await axios.get(
+      `https://www.googleapis.com/youtube/v3/search?key=${process.env.YOUTUBE_KEY}&type=video&q=fishing_for_souls_painting`
+    );
+
     response.status(200).json({
-      data: wikisData.data.query.pages[
-        Object.keys(wikisData.data.query.pages)[0]
-      ].fullurl,
+      data0: wikisData0.data[3][0],
+      data1: wikisData1.data[3][0],
+      data2: wikisData2.data[3][0],
+      videoData0: `https://www.youtube.com/watch?v=${videoData0.data.items[0].id.videoId}`,
+      videoData1: `https://www.youtube.com/watch?v=${videoData1.data.items[0].id.videoId}`,
+      videoData2: `https://www.youtube.com/watch?v=${videoData2.data.items[0].id.videoId}`
+
     });
   } catch (error) {
     console.log(error);
@@ -68,12 +77,24 @@ app.post("/upload", async (request, response) => {
   try {
     await uploadFile(request, response);
 
-    console.log(request.file);
+    console.log(request.file, 4567);
+    console.log(__dirname + "\\images-dump\\uploadForGoogle.jpeg");
+
+    const storage = unggah.gcs({
+      keyFilename: "mubuyo-a5c85-28c4de9c26d3.json",
+      bucketName: "mubuyo-photos-bucket",
+      rename: (req, file) => {
+        return `${file.originalname}`; // this is the default
+      },
+    });
 
     if (request.file == undefined) {
       return response.status(400).send({ message: "Please upload a file!" });
     }
-    response.status(200).json({ message: "Upload success" });
+    response
+      .status(200)
+      .type("jpeg")
+      .sendFile(__dirname + "\\images-dump\\uploadForGoogle.jpeg");
   } catch (err) {
     if (err.code == "LIMIT_FILE_SIZE") {
       return res.status(500).send({
