@@ -1,7 +1,7 @@
 const express = require("express");
 const KibController = require("../controllers/Kib");
 const router = express.Router();
-const upload = require('../middleware/multerMid');
+const { upload } = require('../middleware/multerMid');
 
 router.get("/", KibController.getKib);
 router.post("/post", KibController.createKib);
