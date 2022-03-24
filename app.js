@@ -139,7 +139,7 @@ app.post('/xenditCallback', async (req, res) => {
 
 app.use(authentication)
 
-app.get('/currentUserImagesUrl', async (req, res, next) => {
+app.get('/imagesUrl', async (req, res, next) => {
     try {
         const imagesUrl = await Image.findAll({
             include: User,
