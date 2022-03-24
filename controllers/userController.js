@@ -39,6 +39,7 @@ class userController {
     }
     static async preLogin(req, res, next) {
         try {
+            const {email, password} = req.body
             if (!email || !password) {
                 throw ({ name: 'wrong email/password' })
             }
@@ -70,6 +71,7 @@ class userController {
             });
             res.status(200).json({ access_tokenCustom })
         } catch (error) {
+            console.log(error)
             next(error)
         }
     }
