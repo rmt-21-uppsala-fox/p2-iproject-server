@@ -1,16 +1,13 @@
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
+const Secret_Key = process.env.Secret_Key;
 
 const jwt = require("jsonwebtoken");
-const secretKey = process.env.Secret_key;
 
 const signToken = (payload) => {
-  return jwt.sign(payload, secretKey);
+  return jwt.sign(payload, Secret_Key);
 };
 
 const readToken = (token) => {
-  return jwt.verify(token, secretKey);
+  return jwt.verify(token, Secret_Key);
 };
 
 module.exports = {
