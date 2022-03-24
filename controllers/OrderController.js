@@ -83,7 +83,7 @@ class OrderController {
         channelCode: "ID_SHOPEEPAY",
         channelProperties: {
           // redirect ke halaman link FE
-          successRedirectURL: "https://dashboard.xendit.co/register/1",
+          successRedirectURL: "https://natura-iproject.web.app/summary",
         },
         metadata: {
           branch_code: "tree_branch",
