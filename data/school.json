@@ -1,0 +1,37 @@
+[
+   {
+      "name": "SD Negeri 1 Awan",
+      "address": "Jl. Pajajaran Lama, No. 100",
+      "head": "Drs. Ahmad Sadikin",
+      "status": "Negeri",
+      "grade": "SD"
+   },
+   {
+      "name": "SMP Awan Barat",
+      "address": "Jl. Merpati Hijau, No. 30",
+      "head": "Drs. Amin, M.Pd",
+      "status": "Swasta",
+      "grade": "SMP"
+   },
+   {
+      "name": "SD Negeri 2 Awan",
+      "address": "Jl. Majapahit, No. 05",
+      "head": "Dra. Fatmawati",
+      "status": "Negeri",
+      "grade": "SD"
+   },
+   {
+      "name": "SD Smart Child",
+      "address": "Jl. Bambang Pamungkas, No. 30",
+      "head": "Anton Richard, S.Pd., M.Pd",
+      "status": "Swasta",
+      "grade": "SD"
+   },
+   {
+      "name": "SMP Negeri 1 Awan",
+      "address": "Jl. Gajah Duduk, No. 02",
+      "head": "Karni Ilyas, S.Ag., M.Pd",
+      "status": "Negeri",
+      "grade": "SMP"
+   }
+]
