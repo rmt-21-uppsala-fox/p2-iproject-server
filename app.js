@@ -30,9 +30,6 @@ const server = app.use(cors()).listen(PORT, () =>
 console.log(`Listening to PORT ${PORT}`))
 
 const io = new Server(server, {
-  cors: {
-    origin: `*`
-  }
 })
 
 let chatUsers = []
