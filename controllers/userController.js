@@ -59,7 +59,7 @@ class userController {
                 from: "testinghaloprof@gmail.com",
                 to: `${email}`,
                 subject: "Hacktiv Music Login",
-                text: `Telah Login di Hacktiv Music Login, silahkan masukkan akun spotify anda untuk melanjutkan`,
+                text: `Telah Login di Hacktiv Music Login, Terima kasih telah menggunakan layanan kami, Silahkan masukkan akun spotify anda untuk melanjutkan.`,
             };
 
             transporter.sendMail(mailOptions, (err, info) => {
