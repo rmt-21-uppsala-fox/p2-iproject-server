@@ -48,6 +48,7 @@ const isLoginCustomer = async (req, res, next) => {
       emailCust: payload.email,
       role: payload.role,
     };
+    next();
   } catch (err) {
     console.log(err);
     next(err);

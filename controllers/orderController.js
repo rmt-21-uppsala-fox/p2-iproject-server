@@ -1,14 +1,14 @@
-const { Order } = require("../models");
+const { Order, Menu } = require("../models");
 
 class Controller {
   static async addOrder(req, res, next) {
     try {
-      const order = await Order.create({
-        CustomerId: req.identify.custId,
-        MenuId: req.params.menuId,
+      const newOrder = await Order.create({
+        CustomerId: +req.identify.custId,
+        MenuId: +req.params.menuId,
       });
       res.status(201).json({
-        order,
+        newOrder,
         message: `Successfully added order with id ${req.params.menuId}`,
       });
     } catch (err) {
@@ -19,6 +19,9 @@ class Controller {
   static async getAllOrderByCust(req, res, next) {
     try {
       const orders = await Order.findAll({
+        include: {
+          model: Menu,
+        },
         where: {
           CustomerId: req.identify.custId,
         },

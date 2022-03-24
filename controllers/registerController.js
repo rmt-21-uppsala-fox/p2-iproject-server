@@ -1,4 +1,5 @@
 const { Restaurant, Admin, Customer } = require("../models/index");
+const { signToken } = require("../helpers/jwt");
 
 const storage = require("../helpers/firebaseStorage");
 const { ref, uploadBytes } = require("firebase/storage");
@@ -30,6 +31,7 @@ class Controller {
   }
   static async registerAdmin(req, res, next) {
     try {
+      console.log("masuk >>>", req.body);
       const { name, email, password } = req.body;
       console.log(name, email, password);
       const newAdmin = await Admin.create({
@@ -62,6 +64,7 @@ class Controller {
       console.log(newCust);
       res.status(201).json({
         access_token_Cust,
+        CustId: payload.id,
         message: "Successfully registered",
       });
     } catch (err) {

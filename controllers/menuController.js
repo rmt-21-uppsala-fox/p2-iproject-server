@@ -74,6 +74,8 @@ class Controller {
   static async addMenu(req, res, next) {
     try {
       const { name, description, price, CategoryId } = req.body;
+      console.log(req.body);
+      console.log(req.file);
       const image = req.file.path;
       const menu = await Menu.create({
         name,

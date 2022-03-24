@@ -7,12 +7,12 @@ const { Invoice } = x;
 const invoice = new Invoice({});
 
 class XenditInvoice {
-  static createInvoice(externalID, amount, customer) {
+  static createInvoice(externalID, amount, RestaurantId, payerEmail) {
     return invoice.createInvoice({
       externalID: externalID,
       amount,
-      successRedirectURL: "http://localhost:8080/success",
-      payerEmail: customer.email,
+      successRedirectURL: `http://localhost:8080/${RestaurantId}/customer`,
+      payerEmail: payerEmail,
     });
   }
   static expireInvoice(invoiceID) {

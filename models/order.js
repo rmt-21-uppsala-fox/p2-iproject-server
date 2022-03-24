@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Order.init(
     {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
       MenuId: DataTypes.INTEGER,
       CustomerId: DataTypes.INTEGER,
       status: {

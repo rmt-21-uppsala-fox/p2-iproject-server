@@ -11,7 +11,7 @@ const loginRoute = require("./routes/loginRoute");
 const menuRoute = require("./routes/menuRoute");
 const customerRoute = require("./routes/customerRoute");
 const orderRoute = require("./routes/orderRoute");
-const xenditController = require("./controllers/controllerXendit");
+const xenditRoute = require("./routes/xenditRoute");
 const port = process.env.PORT || 3000;
 
 app.use(cors());
@@ -25,7 +25,7 @@ app.use("/category", categoryRoute);
 app.use("/menu", menuRoute);
 app.use("/customer", customerRoute);
 app.use("/order", orderRoute);
-app.post("/xendit/create", xenditController.xenditCreate);
+app.use("/xendit", xenditRoute);
 app.get("/files", express.static("/picture/logo"));
 app.get("/files", express.static("/picture/menuImage"));
 
