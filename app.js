@@ -22,10 +22,7 @@ app.use(errorHandler)
 const { createServer } = require("http")
 const { Server } = require("socket.io")
 const httpServer = createServer(app)
-const server = app.use(cors().listen(port, () => {
-  console.log(`listening to ${port}`)
-}))
-const io = new Server(server, {
+const io = new Server(httpServer, {
   cors: {
     origin: "*",
   }
@@ -51,8 +48,8 @@ io.on("connection", (socket) => {
 
 
 
-// httpServer.listen(port, () => {
-//   console.log(`Listening to port ${port}`)
-// })
+httpServer.listen(port, () => {
+  console.log(`Listening to port ${port}`)
+})
 
 module.exports = app
