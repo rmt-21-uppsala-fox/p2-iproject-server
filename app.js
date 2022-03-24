@@ -22,7 +22,10 @@ app.use(errorHandler)
 const { createServer } = require("http")
 const { Server } = require("socket.io")
 const httpServer = createServer(app)
-const io = new Server(httpServer, {
+const server = app.use(cors().listen(port, () => {
+  console.log(`listening to ${port}`)
+}))
+const io = new Server(server, {
   cors: {
     origin: "*",
   }
@@ -45,6 +48,7 @@ io.on("connection", (socket) => {
     io.emit("messageFromServer", arrChat2)
   })
 })
+
 
 
 httpServer.listen(port, () => {
