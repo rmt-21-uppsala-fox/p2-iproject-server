@@ -12,6 +12,7 @@ class XenditInvoice {
       amount,
       payer_email,
       description,
+      successRedirectURL: "http://localhost:8080/mydonationpage",
     });
   }
   static expireInvoice(invoiceID) {

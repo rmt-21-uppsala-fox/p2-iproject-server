@@ -38,9 +38,9 @@ router.use(authentication);
 //kurang my donation
 router.get("/mydonation", DonationController.getMyDonation);
 router.post("/donation/:DonationId", DonationController.donation);
-router.post(
-  "/updateuserhistory/:UserHistoryId",
-  DonationController.updateStatus
-);
+// router.post(
+//   "/updateuserhistory/:UserHistoryId",
+//   DonationController.updateStatus
+// );
 
 module.exports = router;

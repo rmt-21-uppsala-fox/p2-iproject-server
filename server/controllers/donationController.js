@@ -28,7 +28,8 @@ class DonationController {
   static async donation(req, res, next) {
     try {
       let { DonationId } = req.params;
-      let { nominal } = req.body;
+      // let { nominal } = req.body;
+      let nominal = 20000;
       let UserId = req.user.id;
       let email = req.user.email;
       let data = await UserHistory.create({
