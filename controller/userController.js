@@ -5,7 +5,7 @@ const { rapidApiGet, nutritionixApi } = require("../apis/rapidApi");
 const nodemailer = require("nodemailer");
 const hbs = require("nodemailer-express-handlebars");
 const path = require("path");
-// const { OAuth2Client } = require('google-auth-library')
+const { OAuth2Client } = require('google-auth-library')
 
 class UserController {
   static async registerUser(req, res, next) {
