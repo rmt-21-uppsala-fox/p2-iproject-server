@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
 const XenditInvoice = require("../API/xendit");
+const { transporter } = require("../features/nodemailer");
 const { Cart, WalletCard } = require("../models");
 
 class MyCartController {
@@ -85,7 +86,9 @@ class MyCartController {
           message: "You have no items in cart",
         };
       }
-      const invoice = await XenditInvoice.createInvoice(uid, totalPrice);
+      const invoice = await XenditInvoice.createInvoice(uid, totalPrice, {
+        email: req.user.email,
+      });
       await Cart.update(
         { status: "PENDING", invoiceId: invoice.id },
         {
@@ -104,6 +107,13 @@ class MyCartController {
     try {
       const { invoiceId, status } = req.invoice;
       await Cart.update({ status }, { where: { invoiceId } });
+      const mailDetail = {
+        from: "andrizal.dev2@outlook.com",
+        to: req.user.email,
+        subject: "Payment GGStore",
+        text: "Thank you for your payment",
+      };
+      transporter.sendMail(mailDetail);
       res.status(200).send({ message: "OK" });
     } catch (err) {
       next(err);
