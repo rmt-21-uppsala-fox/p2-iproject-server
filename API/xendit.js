@@ -11,6 +11,7 @@ class XenditInvoice {
     return invoice.createInvoice({
       externalID: externalID,
       amount,
+      successRedirectURL: "http://localhost:8080/",
     });
   }
   static expireInvoice(invoiceID) {

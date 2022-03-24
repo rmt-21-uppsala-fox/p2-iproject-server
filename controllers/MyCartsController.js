@@ -42,7 +42,7 @@ class MyCartController {
   }
   static async getMyCart(req, res, next) {
     try {
-      let myCart = await Cart.findAll({
+      let { count, rows: myCart } = await Cart.findAndCountAll({
         where: {
           UserUID: req.user.uid,
           status: {
@@ -54,15 +54,14 @@ class MyCartController {
         },
       });
       const checkPending = myCart.find((el) => el.status === "PENDING");
+      let invoice;
       if (checkPending) {
-        const invoice = await XenditInvoice.getInvoice(myCart[0].invoiceId);
-        res.status(200).json(invoice);
-        return;
+        invoice = await XenditInvoice.getInvoice(myCart[0].invoiceId);
       }
       const totalPrice = myCart.reduce((acc, curr) => {
         return curr.WalletCard.price + acc;
       }, 0);
-      res.status(200).json({ myCart, totalPrice });
+      res.status(200).json({ count, myCart, totalPrice, invoice });
     } catch (err) {
       next(err);
     }

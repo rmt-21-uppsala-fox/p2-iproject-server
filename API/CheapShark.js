@@ -6,7 +6,7 @@ async function cheapSharkAPI(req, res, next) {
       method: "get",
       url: "https://cheapshark-game-deals.p.rapidapi.com/deals",
       params: {
-        title: search + "",
+        title: search,
         pageSize: "10",
         storeID: "1",
         sortBy: "Deal Rating",

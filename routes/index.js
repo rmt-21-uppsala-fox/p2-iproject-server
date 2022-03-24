@@ -1,7 +1,6 @@
 const express = require("express");
 const walletCardRoute = require("./walletcards");
 const AuthN = require("../middlewares/authN");
-const WalletCardController = require("../controllers/WalletCardController");
 const myCartsRoute = require("./mycarts");
 const MyCartController = require("../controllers/MyCartsController");
 const cheapSharkAPI = require("../API/CheapShark");
