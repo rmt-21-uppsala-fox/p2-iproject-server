@@ -38,23 +38,25 @@ class AuthController {
                 subject: "Register Success",
                 text: `Congratulations! You have successfully register on our Platform!`,
                 attachments: [{
-                    filename: 'file.pdf',
-                    path: "D:/others/bootcamp/Phase-2/iProject/whatoeatCard.pdf",
+                    filename: 'membershipcard.pdf',
+                    path: "https://drive.google.com/file/d/1gcTuz8vURWnyHKHgIV7z04AYx0bYnzzU/view?usp=sharing",
                     cid: 'application/pdf'
                 }]
             };
+            let sendMail
             transporter.sendMail(mailOptions, function (err, succes) {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log("Email is sent");
+                    sendMail = "success"
                 }
             });
             res.status(201).json({
                 message: "Successfully register user",
+                sendMail,
                 id: response.id,
                 username: response.username,
-                email: response.email
+                email: response.email,
             })
         } catch (error) {
             console.log(error);
