@@ -1,0 +1,30 @@
+[
+    {
+        "location" : "Indonesia",
+        "city" : "Jakarta",
+        "InnId" : "1",
+        "UserId" : "1"
+
+    },
+    {
+        "location" : "Indonesia",
+        "city" : "Bandung",
+        "InnId" : "1",
+        "UserId" : "1"
+
+    },
+    {
+        "location" : "Indonesia",
+        "city" : "Bogor",
+        "InnId" : "1",
+        "UserId" : "1"
+
+    },
+    {
+        "location" : "Indonesia",
+        "city" : "Jogjakarta",
+        "InnId" : "1",
+        "UserId" : "1"
+
+    }
+]

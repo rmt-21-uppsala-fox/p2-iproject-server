@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "postgres",
-    "password": "postgres",
-    "database": "HacktivMusic",
+    "password": "aa0BiXFOt3",
+    "database": "StepInnDB",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

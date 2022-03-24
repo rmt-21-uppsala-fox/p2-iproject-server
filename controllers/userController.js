@@ -1,60 +1,51 @@
-const SpotifyWebApi = require("spotify-web-api-node")
-const {transporter} = require('../helper/nodemailer')
-class userController {
-    static async preLogin(req, res, next){
-        try {
-            console.log('test')
-            let mailOptions = {
-                from: "testinghaloprof@gmail.com",
-                to: 'bintangmuhammadwahid@gmail.com',
-                subject: "Hacktiv Music Login",
-                text: `Telah Login di Hacktiv Music Login, silahkan masukkan akun spotify anda untuk melanjutkan`,
-            };
+const { User } = require("../models");
+const { payloadToken } = require("../helpers/jwt");
+const { compare } = require("../helpers/bcrypt");
 
-            transporter.sendMail(mailOptions, (err, info) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log("Email Sent:" + info.response);
-                }
-            });
-            console.log('sukses')
-            res.status(200).json({msg:"Sukses"})
-        } catch (error) {
-            console.log('gagal')
-            next(error)
-        }
+class UserController {
+  static async register(req, res) {
+    try {
+      const { firstName, lastName, email, password, phoneNumber } = req.body;
+      const data = await User.create({
+        firstName,
+        lastName,
+        password,
+        phoneNumber,
+        email,
+      });
+      res.status(201).json(data);
+    } catch (error) {
+      return next(error);
     }
-    static login(req, res, next) {
-        const {code} = req.body
-        const spotifyApi = new SpotifyWebApi({
-            redirectUri: process.env.REDIRECT_URI,
-            clientId: process.env.CLIENT_ID,
-            clientSecret: process.env.CLIENT_SECRET,
-        })
+  }
+  static async login(req, res) {
+    try {
+      const { email, password } = req.body;
 
-        spotifyApi
-            .authorizationCodeGrant(code)
-            .then(data => {
-                res.status(200).json({
-                    access_token: data.body.access_token,
-                })
-            })
-            .catch(err => {
-                next(err)
-            })
+      const userLogin = await User.findOne({
+        where: {
+          email,
+        },
+      });
+      if (!userLogin) {
+        return next({ name: "NotFound" });
+      }
+      const rightPassword = compare(password, userLogin.password);
+      if (!rightPassword) {
+        return next({ name: "NotFound" });
+      }
+      const payload = {
+        id: userLogin.id,
+      };
+      // Bikin Token
+      const token = payloadToken(payload);
+      res.status(200).json({
+        access_token: token,
+      });
+    } catch (error) {
+      return next(error);
     }
-    static lyric(req, res, next) {
-        const api = `https://api.lyrics.ovh/v1/${req.query.artist}/${req.query.track}`
-        axios
-            .get(api)
-            .then(result => {
-                res.status(200).json(result.data)
-            })
-            .catch(error => {
-                next(error)
-            })
-    }
+  }
 }
 
-module.exports = userController;
+module.exports = UserController;
