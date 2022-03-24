@@ -119,7 +119,7 @@ class Controller {
     try {
       const id = +req.params.UserId;
       // console.log(id);
-      const data = await Wishlist.findOne({
+      const data = await Wishlist.findAll({
         where: { UserId: id },
         include: [
           {
@@ -145,6 +145,8 @@ class Controller {
           key: `${keyOfRAWG}`,
         },
       });
+
+      // console.log(data.data);
 
       const data2 = await axios({
         method: `get`,
@@ -188,7 +190,7 @@ class Controller {
   static async showGamesCollecton(req, res, next) {
     try {
       const id = +req.params.UserId;
-      const data = await GamesCollection.findOne({
+      const data = await GamesCollection.findAll({
         where: { UserId: id },
         include: [
           {
