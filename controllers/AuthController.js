@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
 const {
     comparePassword
 } = require('../helpers/bcrypt')
@@ -7,6 +10,7 @@ const {
 const {
     User
 } = require('../models');
+const nodemailer = require("nodemailer");
 class AuthController {
     static async register(req, res, next) {
         try {
@@ -21,6 +25,31 @@ class AuthController {
                 username,
                 password
             })
+            let transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.email,
+                    pass: process.env.passwordEmail,
+                },
+            });
+            let mailOptions = {
+                from: "whatoeat2022@gmail.com",
+                to: `${email}`,
+                subject: "Register Success",
+                text: `Congratulations! You have successfully register on our Platform!`,
+                attachments: [{
+                    filename: 'file.pdf',
+                    path: "D:/others/bootcamp/Phase-2/iProject/whatoeatCard.pdf",
+                    cid: 'application/pdf'
+                }]
+            };
+            transporter.sendMail(mailOptions, function (err, succes) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Email is sent");
+                }
+            });
             res.status(201).json({
                 message: "Successfully register user",
                 id: response.id,
