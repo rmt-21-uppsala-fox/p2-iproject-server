@@ -1,7 +1,7 @@
-const { User, Product } = require("../models");
+const { User, Product, Order, Transaction } = require("../models");
 const { comparePasswordWithHash } = require("../helpers/bcrypt");
 const { generateToken } = require("../helpers/jwt");
-const apiMidtrans = require("../apis/midtrans");
+const midtransClient = require("midtrans-client");
 
 class CustomerControllers {
   static async register(req, res, next) {
@@ -77,31 +77,70 @@ class CustomerControllers {
     }
   }
 
-  // static async getPayments(req, res, next) {
-  //   try {
-  //     var myHeaders = new Headers();
-  //     myHeaders.append("Accept", "application/json");
-  //     myHeaders.append("Content-Type", "application/json");
-  //     myHeaders.append("Authorization", process.env.MIDTRANS_KEY);
+  static async createOrder(req, res, next) {
+    try {
+      const { id, email } = req.currentUser;
+      const { transactionItems, totalCost, totalOngkir } = req.body;
 
-  //     var raw = "\n\n";
+      const order = await Order.create({
+        totalCost,
+        totalOngkir,
+        UserId: id,
+      });
 
-  //     // var requestOptions = {
-  //     //   headers: myHeaders,
-  //     //   body: raw,
-  //     //   redirect: "follow",
-  //     // };
+      const transaction = await Transaction.bulkCreate(
+        transactionItems.map((item) => {
+          item.OrderId = order.id;
+          return item;
+        }),
+      );
 
-  //     const response = await apiMidtrans.get(
-  //       "v2/SANDBOX-G710367688-806/status",
-  //       requestmyHeadersOptions
-  //     );
-  //     console.log(response);
-  //     res.status(200).json(response);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+        const transactionModel = await Transaction.findAll({
+          where: {
+            OrderId: order.id
+          },
+          include: Product
+        })
+
+      let snap = new midtransClient.Snap({
+        // Set to true if you want Production Environment (accept real transaction).
+        isProduction: false,
+        serverKey: process.env.MIDTRANS_KEY,
+      });
+
+      let parameter = {
+        transaction_details: {
+          order_id: order.id,
+          gross_amount: totalCost,
+        },
+
+        customer_details: {
+          email: email,
+        },
+
+        item_details: transactionModel.map((item) => {
+          return {
+            id: item.id,
+            price: item.Product.price,
+            quantity: item.quantity,
+            name: item.Product.name,
+            category: item.Product.category,
+          };
+        }),
+      };
+
+      snap.createTransaction(parameter).then((transaction) => {
+        // transaction token
+        let transactionToken = transaction.token;
+        console.log("transactionToken:", transactionToken);
+        res
+          .status(201)
+          .json({ order: order, transaction: transaction, transactionToken });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = CustomerControllers;

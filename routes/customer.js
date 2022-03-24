@@ -8,6 +8,6 @@ router.get("/products", Controller.getProduct);
 
 router.use(authentication);
 
-// router.get("/payments", Controller.getPayments);
+router.post("/orders", Controller.createOrder);
 
 module.exports = router;

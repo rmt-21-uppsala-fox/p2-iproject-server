@@ -1,4 +1,4 @@
-const { User, Product } = require("../models");
+const { User, Product, Transaction } = require("../models");
 const { comparePasswordWithHash } = require("../helpers/bcrypt");
 const { generateToken } = require("../helpers/jwt");
 
@@ -78,6 +78,19 @@ class AdminControllers {
       });
 
       res.status(201).json({ product });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
+  static async getTransactions(req, res, next) {
+    try {
+      const transaction = await Transaction.findAll({
+        include: Product
+      });
+
+      res.status(200).json( transaction );
     } catch (error) {
       console.log(error);
       next(error);
