@@ -1,70 +1,136 @@
 const { compare, hash } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
+const axios = require("axios");
 const { OAuth2Client } = require("google-auth-library");
 const clientID = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 // Import the functions you need from the SDKs you need
-const { initializeApp } = require ("firebase/app");
-const { getFirestore, doc, collection, addDoc, getDoc } = require ('firebase/firestore');
-// const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
-// const { getFirestore, doc, collection, addDoc, getDoc  } = require('firebase-admin/firestore');
+const {
+  initializeApp,
+  applicationDefault,
+  cert,
+} = require("firebase-admin/app");
+const {
+  getFirestore,
+  Timestamp,
+  FieldValue,
+} = require("firebase-admin/firestore");
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+const serviceAccount = require("../samine-1e9f3-firebase-adminsdk-i8j0i-6f5bc8931f.json");
 
+initializeApp({
+  credential: cert(serviceAccount),
+});
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAucNZND1DQzw2GDLrNULscSD6n-t4-3jI",
-  authDomain: "samine-1e9f3.firebaseapp.com",
-  projectId: "samine-1e9f3",
-  storageBucket: "samine-1e9f3.appspot.com",
-  messagingSenderId: "215870080992",
-  appId: "1:215870080992:web:e80f5c00bd824273fb4d85"
-};
+const db = getFirestore();
 
-// Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
-const firestore = getFirestore()
-// const db = firebaseApp.firestore()
-
-const Users = collection(firestore, 'Users')
-const Favorites = collection(firestore, 'Favorites')
+const Users = db.collection("Users");
+const Favorites = db.collection("Favorites");
 // const { exists, data } = require ('fs')
 class ControllerUsers {
   static async register(req, res, next) {
     try {
       const { email, password } = req.body;
-      const response = await addDoc(Users, {
+      if (!email) {
+        throw {
+          name: "registerNoInput",
+        };
+      }
+      if (!password) {
+        throw {
+          name: "registerNoInput",
+        };
+      }
+
+      let snapshots = await Users.where("email", "==", email).get();
+      let emails = [];
+      snapshots.forEach((e) => {
+        // console.log(e.data(), `ENTRY`);
+        emails.push(e.data());
+      });
+
+      if (emails.length > 0) {
+        throw {
+          name: "registerEmailDuplicate",
+        };
+      }
+
+      const response = await Users.add({
         email,
-        password: hash(password)
-      })
-      const checkUser = await getDoc(doc(firestore, `Users/${response._key.path.segments[1]}`))
+        password: hash(password),
+      });
+
+      //! CONFIRMATION NODEMAILER
+
+      const userSnapshot = await Users.doc(
+        `${response._path.segments[1]}`
+      ).get();
+      const newUser = userSnapshot.data();
+      // console.log(newUser, `checkUser`);
       // console.log(checkUser);
       // nama collection
       // Users:index
 
-      // snapshosts 2 kali
-      if (checkUser.exists()) {
-        const newUser = checkUser.data()
-        // console.log(newUser, `MASUK`);
-        res.status(201).json({id: response._key.path.segments[1],email: newUser.email});
-      } else {
-        throw {
-          throw: true,
-          status: 500,
-          message: 'Fail Firestore'
-        }
-      }
+      // let emails = await collection(firestore, 'Users').where('email' == 'test').get()
+      // console.log(emails.data(), `EMAIL`);
+
+      res
+        .status(201)
+        .json({ id: response._path.segments[1], email: newUser.email });
+      // snapshots 2 kali
     } catch (error) {
       next(error);
     }
   }
 
-  static login(req, res, next) {
+  static async login(req, res, next) {
     try {
-      
+      // console.log(`MASUK`);
+      const { email, password } = req.body;
+      if (!email) {
+        throw {
+          name: "loginNoInput",
+        };
+      }
+      if (!password) {
+        throw {
+          name: "loginNoInput",
+        };
+      }
+
+      let snapshots = await Users.where("email", "==", email).get();
+      let users = [];
+      snapshots.forEach((e) => {
+        // console.log(e.data(), `ENTRY`);
+        users.push([e.id, e.data()]);
+      });
+
+      // console.log(users, `USERS`);
+
+      if (users.length < 1) {
+        throw {
+          name: "adminLoginFailed",
+        };
+      }
+
+      const comparePassword = compare(password, users[0][1].password);
+
+      if (!comparePassword) {
+        throw {
+          name: "adminLoginFailed",
+        };
+      }
+
+      const payload = {
+        id: users[0][0],
+        email: users[0][1].email,
+      };
+      console.log(payload);
+
+      const token = signToken(payload);
+
+      res.status(200).json({ access_token: token });
     } catch (error) {
-      
+      next(error);
     }
   }
 
@@ -72,20 +138,77 @@ class ControllerUsers {
     try {
       const { UserId } = req.user;
       const { AnimeId } = req.body;
+      const { data } = await axios.get(
+        `https://api.jikan.moe/v4/anime/${AnimeId}`
+      );
+      let snapshots = await Favorites.where("AnimeId", "==", AnimeId).get();
+      let favoritesArr = [];
+      // console.log(`masuk`, AnimeId, snapshots);
+      snapshots.forEach((e) => {
+        // console.log(`MASUK LOOP`);
+        // console.log(e, e.data(), `ENTRY`);
+        favoritesArr.push(e.data());
+      });
 
+      if (favoritesArr.length > 0) {
+        throw {
+          name: "generalFavoriteDuplicate",
+        };
+      }
       // const job = await Job.findByPk(JobId);
 
       // if (!job) throw { name: "generalJobNotFound" };
 
-      const response = await addDoc(Favorites, {
+      // console.log(UserId, `UserId`);
+      const response = await Favorites.add({
         UserId,
-        AnimeId: 1
-      })
-      res.status(201).json(response);
+        AnimeId,
+        anime: data,
+      });
+
+      const favoriteSnapshot = await Favorites.doc(
+        `${response._path.segments[1]}`
+      ).get();
+      const newFavorite = favoriteSnapshot.data();
+
+      res.status(201).json(newFavorite);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async deleteFavorites(req, res, next) {
+    try {
+      const { favoriteId } = req.params;
+
+      const response = await Favorites.doc(favoriteId).delete();
+
+      res.status(200).json({ message: "Favorite has been deleted" });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getFavorites(req, res, next) {
+    try {
+      console.log(`masuk`);
+      const { UserId } = req.user;
+
+      let snapshots = await Favorites.where("UserId", "==", UserId).get();
+      let favoritesArr = [];
+
+      snapshots.forEach((e) => {
+        favoritesArr.push({
+          id: e.id,
+          AnimeId: e.data().AnimeId,
+          anime: e.data().anime,
+        });
+      });
+      res.status(200).json(favoritesArr);
     } catch (error) {
       next(error);
     }
   }
 }
 
-module.exports = ControllerUsers;
+module.exports = { ControllerUsers, Favorites, Users };

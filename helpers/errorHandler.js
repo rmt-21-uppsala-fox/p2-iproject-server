@@ -32,32 +32,26 @@ function errorHandler(err, req, res, next) {
     case "authzPatchFailed":
       res.status(403).json({ Error: "Forbidden to modify item" });
       break;
-    case "adminLoginNoInput":
+    case "loginNoInput":
+      res.status(401).json({ Error: "Email and Password is required" });
+      break;
+    case "registerNoInput":
       res.status(401).json({ Error: "Email and Password is required" });
       break;
     case "adminLoginFailed":
       res.status(401).json({ Error: "Wrong email or password" });
       break;
-    case "generalJobNotFound":
-      res.status(404).json({ Error: "Error job not found" });
+    case "registerEmailDuplicate":
+      res.status(400).json({ Error: "Email already registered" });
       break;
-    case "getJobDetailJobNotFound":
-      res.status(404).json({ Error: "Error job not found" });
+    case "generalFavoriteNotFound":
+      res.status(404).json({ Error: "Error favorite not found" });
       break;
-    case "getJobDetailArchived":
-      res.status(404).json({ Error: "Error job not found" });
+    case "generalFavoriteDuplicate":
+      res.status(400).json({ Error: "Anime already favorited" });
       break;
-    case "editJobNotFound":
-      res.status(404).json({ Error: "Error job not found" });
-      break;
-    case "editJobArchived":
-      res.status(404).json({ Error: "Error job not found" });
-      break;
-    case "deleteJobNotFound":
-      res.status(404).json({ Error: "Error job not found" });
-      break;
-    case "updateJobStatusNotFound":
-      res.status(404).json({ Error: "Error job not found" });
+    case "deleteFavoriteNotFound":
+      res.status(404).json({ Error: "Error favorite not found" });
       break;
     case "googleRegUserNotFound":
       res.status(401).json({ Error: "User not found" });

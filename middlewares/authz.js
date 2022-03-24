@@ -1,28 +1,22 @@
-const { Job } = require("../models");
+const { Favorites } = require("../controllers/users");
 
 const authorization = async (req, res, next) => {
   try {
-    const { UserId, role } = req.user;
-    const { jobId } = req.params;
+    const { UserId } = req.user;
+    const { favoriteId } = req.params;
 
-    if (role !== "admin") {
-      const user = await Job.findOne({
-        where: {
-          id: jobId,
-          authorId: UserId,
-        },
-      });
-
-      if (!user) {
-        throw {
-          name: `authorizationFailed`,
-        };
+    const favoriteSnapshot = await Favorites.doc(favoriteId).get()
+    const favorite = favoriteSnapshot.data()
+    console.log(favorite);
+    if (favorite.UserId !== UserId) {
+      throw {
+        name: "authorizationFailed"
       }
     }
 
     next();
   } catch (error) {
-    next(error);
+    next({name: "authorizationFailed"});
   }
 };
 
