@@ -15,7 +15,6 @@ class RouteController {
             if (data.code !== 'Ok') {
                 throw {
                     name: "getRouteError",
-                    message: `${data.code} - ${data.message}.\n\nFor more information: https://docs.mapbox.com/api/navigation/map-matching/#map-matching-api-errors`
                 }
             }
             const coords = data.matchings[0].geometry;
@@ -30,7 +29,6 @@ class RouteController {
         } catch (error) {
             next(error);
         }
-
     }
 }
 

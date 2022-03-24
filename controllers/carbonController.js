@@ -53,43 +53,43 @@ class CarbonController {
     }
 
     static async screenshot(req, res, next) {
-        screenshot({ format: 'png' }).then((img) => {
-            const { carbon, email } = req.body;
-            let transporter = nodemailer.createTransport({
-                service: "gmail",
-                secure: false, // use SSL
-                port: 25, // port for secure SMTP
-                auth: {
-                    user: "appcarbon80@gmail.com",
-                    pass: "c4rb0n1234",
-                },
-                tls: {
-                    rejectUnauthorized: false
-                }
-            });
+        // screenshot({ format: 'png' }).then((img) => {
+        const { carbon, email, img } = req.body;
+        let transporter = nodemailer.createTransport({
+            service: "gmail",
+            secure: false, // use SSL
+            port: 25, // port for secure SMTP
+            auth: {
+                user: "appcarbon80@gmail.com",
+                pass: "c4rb0n1234",
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        });
 
-            let mailOptions = {
-                from: "appcarbon80@gmail.com",
-                to: email,
-                subject: "Carbon Route Calculation",
-                text: `The route you choose will produce estimated ${carbon} Kg^3`,
-                attachments: [
-                    {   // binary buffer as an attachment
-                        filename: 'route.png',
-                        content: img
-                    },
-                ]
-            };
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    throw { email: "sentEmailFailed" }
-                } else {
-                    res.status(200).json({ message: "email has been sent" })
-                }
-            });
-        }).catch((error) => {
-            next(error)
-        })
+        let mailOptions = {
+            from: "appcarbon80@gmail.com",
+            to: email,
+            subject: "Carbon Route Calculation",
+            text: `The route you choose will produce estimated ${carbon} Kg^3`,
+            // attachments: [
+            //     {   // binary buffer as an attachment
+            //         filename: 'route.png',
+            //         content: img
+            //     },
+            // ]
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                throw { email: "sentEmailFailed" }
+            } else {
+                res.status(200).json({ message: "email has been sent" })
+            }
+        });
+        // }).catch((error) => {
+        //     next(error)
+        // })
     }
 }
 
