@@ -38,8 +38,6 @@ class AuthN {
   static xenditAuth(req, res, next) {
     try {
       const xCallbackToken = req.headers["x-callback-token"];
-      console.log(xCallbackToken);
-      console.log(process.env.XENDIT_CALLBACK_TOKEN);
       if (xCallbackToken !== process.env.XENDIT_CALLBACK_TOKEN) {
         throw {
           name: "Unauthorized",
@@ -52,7 +50,6 @@ class AuthN {
       };
       next();
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
