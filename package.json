@@ -18,15 +18,13 @@
 	},
 	"homepage": "https://github.com/Rasyid619/p2-iproject-server#readme",
 	"devDependencies": {
-		"axios": "^0.26.1",
-		"cors": "^2.8.5",
-		"express": "^4.17.3",
-		"i": "^0.3.7",
-		"nodemon": "^2.0.15",
-		"npm": "^8.5.5"
+		"nodemon": "^2.0.15"
 	},
 	"dependencies": {
+		"axios": "^0.26.1",
+		"cors": "^2.8.5",
 		"dotenv": "^16.0.0",
+		"express": "^4.17.3",
 		"firebase-admin": "^10.0.2"
 	}
 }
