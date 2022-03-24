@@ -32,20 +32,23 @@ function errorHandler(err, req, res, next) {
     case "authzPatchFailed":
       res.status(403).json({ Error: "Forbidden to modify item" });
       break;
-    case "adminLoginNoInput":
+    case "loginNoInput":
+      res.status(401).json({ Error: "Email and Password is required" });
+      break;
+    case "registerNoInput":
       res.status(401).json({ Error: "Email and Password is required" });
       break;
     case "adminLoginFailed":
       res.status(401).json({ Error: "Wrong email or password" });
       break;
     case "registerEmailDuplicate":
-      res.status(401).json({ Error: "Email already registered" });
+      res.status(400).json({ Error: "Email already registered" });
       break;
     case "generalFavoriteNotFound":
       res.status(404).json({ Error: "Error favorite not found" });
       break;
     case "generalFavoriteDuplicate":
-      res.status(404).json({ Error: "Anime already favorited" });
+      res.status(400).json({ Error: "Anime already favorited" });
       break;
     case "deleteFavoriteNotFound":
       res.status(404).json({ Error: "Error favorite not found" });

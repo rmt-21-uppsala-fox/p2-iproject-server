@@ -5,7 +5,7 @@ let authc = async (req, res, next) => {
   try {
     const { access_token } = req.headers;
     const payload = verifyToken(access_token);
-    // console.log(payload, `MASUK ATUH`);
+    console.log(payload, `MASUK ATUH`);
 
     const userSnapshot = await Users.doc(payload.id).get()
     const user = userSnapshot.data()
