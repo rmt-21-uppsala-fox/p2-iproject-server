@@ -14,6 +14,8 @@ router.get("/products", IndexController.products);
 
 router.get("/products/:id", IndexController.productById);
 
+router.get("/workshops/:id", IndexController.workshopById);
+
 router.post("/paymentsuccess", IndexController.paymentSuccess);
 
 router.use(authN);

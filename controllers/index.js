@@ -163,6 +163,23 @@ class IndexController {
     }
   }
 
+  static async workshopById(req, res, next) {
+    try {
+      const { id } = req.params;
+      const workshop = await Workshop.findByPk(id);
+
+      if (!workshop)
+        throw {
+          name: "Not Found",
+          message: "Workshop not found",
+        };
+
+      res.status(200).json(workshop);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async addMyCart(req, res, next) {
     try {
       const { ProductId } = req.params;

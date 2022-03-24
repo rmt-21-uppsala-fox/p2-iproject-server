@@ -3,18 +3,21 @@
     "name": "Auto Evolve Workshop",
     "specialization":"Wheel,Suspension,Exhaust",
     "logo": "https://cdn.dribbble.com/users/7640674/screenshots/15827679/media/f9dcc3560417f9420de9ee1afeb2a647.jpg?compress=1&resize=400x300",
-    "location": "Bandung"
+    "location": "Bandung",
+    "phoneNumber": "081243526172"
   },
   {
     "name": "Bodyworks Workshop",
     "specialization":"Accessories",
     "logo": "https://cdn5.f-cdn.com/contestentries/623595/20523915/57ad02c60a749_thumb900.jpg",
-    "location": "Bandung"
+    "location": "Bandung",
+    "phoneNumber": "081212343276"
   },
   {
     "name": "Intercomfy Workshop",
     "specialization":"Interior",
     "logo": "https://d1wnwqwep8qkqc.cloudfront.net/uploads/stage/stage_image/52936/optimized_large_thumb_stage.jpg",
-    "location": "Bandung"
+    "location": "Bandung",
+    "phoneNumber": "085614327898"
   }
 ]
