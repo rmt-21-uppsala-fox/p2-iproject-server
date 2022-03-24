@@ -6,6 +6,6 @@ const {
 
 router.get("/", GalleryController.getNewGallery);
 router.get("/:id", GalleryController.getGallery);
-router.get("/nft", GalleryController.getArt);
+router.post("/nft", GalleryController.getArt);
 
 module.exports = router;
