@@ -70,17 +70,17 @@ class Controller {
                pass: "trythis007"
             }
          });
-         
+
          let mailOptions = {
-             from: 'alizta27@outlook.co.id',
-             to: 'afdaall27@gmail.com',
-             subject: 'Sending Email using Nodejs',
-             text: `Akun anda adalah: ${email}, password: ${password}. Tolong jangan bagikan ke orang lain.`
+            from: 'alizta27@outlook.co.id',
+            to: email,
+            subject: 'Sending Email using Nodejs',
+            text: `Akun anda adalah: ${email}, password: ${password}. Tolong jangan bagikan ke orang lain.`
          };
-         
+
          transporter.sendMail(mailOptions, (err, info) => {
-             if (err) throw err;
-             console.log('Email sent: ' + info.response);
+            if (err) throw err;
+            console.log('Email sent: ' + info.response);
          });
 
          res.status(201).json({
@@ -93,5 +93,18 @@ class Controller {
          next(error);
       }
    }
+
+   static downloadFiles(req, res) {
+      const fileName = req.params.name;
+      const path = __basedir + "/template/";
+
+      res.download(path + fileName, (err) => {
+         if (err) {
+            res.status(500).send({
+               message: "File can not be downloaded: " + err,
+            });
+         }
+      });
+   };
 }
 module.exports = Controller;

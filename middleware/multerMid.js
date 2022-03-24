@@ -11,4 +11,17 @@ const fileStorageEnggine = multer.diskStorage({
 
 const upload = multer({ storage: fileStorageEnggine });
 
-module.exports = upload;
+const downloadFiles = (req, res) => {
+   const fileName = req.params.name;
+   const path = __basedir + "../template/template.csv";
+
+   res.download(path + fileName, (err) => {
+      if (err) {
+         res.status(500).send({
+            message: "File can not be downloaded: " + err,
+         });
+      }
+   });
+};
+
+module.exports = { upload, downloadFiles };
