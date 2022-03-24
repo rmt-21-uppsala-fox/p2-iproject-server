@@ -57,7 +57,7 @@ class userController {
             })
             let mailOptions = {
                 from: "testinghaloprof@gmail.com",
-                to: 'bintangmuhammadwahid@gmail.com',
+                to: `${email}`,
                 subject: "Hacktiv Music Login",
                 text: `Telah Login di Hacktiv Music Login, silahkan masukkan akun spotify anda untuk melanjutkan`,
             };
