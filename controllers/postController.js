@@ -174,7 +174,10 @@ class PostController {
   static async postDetail(req, res, next) {
     try {
       const { postId } = req.params;
-      const comments = await Comment.findAll({ where: { PostId: postId } });
+      const comments = await Comment.findAll({
+        where: { PostId: postId },
+        include: { model: User },
+      });
       const respond = await Post.findOne({
         where: { id: postId },
         include: [{ model: User }, { model: Category }],
