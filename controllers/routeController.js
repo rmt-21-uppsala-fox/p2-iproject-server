@@ -6,7 +6,6 @@ class RouteController {
             let { coordinates, radiuses } = req.query;
             coordinates = coordinates.replace(";", "%3B").replace(",", "%2C");
             radiuses = radiuses.replace(";", "%3B");
-            console.log(process.env.MAPBOX_API_TOKEN);
             const response = await axios({
                 method: 'GET',
                 url:
@@ -16,7 +15,6 @@ class RouteController {
             if (data.code !== 'Ok') {
                 throw {
                     name: "getRouteError",
-                    message: `${data.code} - ${data.message}.\n\nFor more information: https://docs.mapbox.com/api/navigation/map-matching/#map-matching-api-errors`
                 }
             }
             const coords = data.matchings[0].geometry;
@@ -31,7 +29,6 @@ class RouteController {
         } catch (error) {
             next(error);
         }
-
     }
 }
 
