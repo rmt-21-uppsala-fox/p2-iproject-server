@@ -179,11 +179,7 @@ class PostController {
         where: { id: postId },
         include: [{ model: User }, { model: Category }],
       });
-      if (comments.length < 1) {
-        res.status(200).json(respond);
-      } else {
-        res.status(200).json({ postDetail: respond, comments });
-      }
+      res.status(200).json({ postDetail: respond, comments });
     } catch (error) {
       next(error);
     }
