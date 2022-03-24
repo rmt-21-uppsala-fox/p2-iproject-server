@@ -5,7 +5,10 @@
 List of available endpoints:
 
 - `POST /register`
+- `POST /prelogin`
 - `POST /login`
+- `POST /refresh`
+- `GET /lyric`
 
 ## 1. POST /register
 
