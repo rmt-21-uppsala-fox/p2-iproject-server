@@ -89,7 +89,7 @@ app.post("/upload", async (request, response) => {
     }
     response
       .status(200)
-      .json({ url: "http://localhost:3000/uploadForGoogle.jpeg" });
+      .json({ url: "mubuyo.herokuapp.com/uploadForGoogle.jpeg" });
   } catch (err) {
     console.log(err);
     if (err.code == "LIMIT_FILE_SIZE") {
