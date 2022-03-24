@@ -86,7 +86,7 @@ class DonationController {
       let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "kitabantuuu@gmail.com",
+          user: process.env.email,
           pass: process.env.passwordEmail,
         },
       });
@@ -96,7 +96,6 @@ class DonationController {
         to: `${findemailUser.email}`,
         subject: "Donation Success",
         text: `Terima kasih atas donasi anda, semoga anda diberikan rezeki yang berlimpah!, ${findemailUser.email}.`,
-        // text: `<p style="text-color:blue;"> Terima kasih atas donasi anda, semoga anda diberikan rezeki yang berlimpah! </p>`,
       };
 
       transporter.sendMail(mailOptions, function (err, succes) {
