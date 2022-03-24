@@ -1,0 +1,36 @@
+[{
+    "name": "MSI Apache Pro",
+    "imgUrl": "https://asset.msi.com/resize/image/global/product/five_pictures1_3329_20141225134938.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
+    "price": "18000000",
+    "description": "Laptop Gaming MSI GE 62 2QE Apache Pro",
+    "category": "Laptop"
+},
+{
+    "name": "MSI",
+    "imgUrl": "https://www.notebookcheck.net/uploads/tx_nbc2/MsiGF63-8RD__1_.JPG",
+    "price": "20000000",
+    "description": "Laptop Gaming MSI GF63 8RD-251",
+    "category": "Laptop"
+},
+{
+    "name": "ASUS",
+    "imgUrl": "https://dlcdnwebimgs.asus.com/gain/935f1311-7f99-4425-92ec-144dc0944699/",
+    "price": "7000000",
+    "description": "ASUS M415",
+    "category": "Laptop"
+},
+{
+    "name": "aegis boost legend v2",
+    "imgUrl": "https://id-test-11.slatic.net/p/498ab4f8c3615fb1114806d3b2aa8482.jpg",
+    "price": "470000",
+    "description": "Geekvape L200 (Aegis Legend 2) box mod is more smaller and lighter, Aegis Legend 2 leaps with pride and honor. Aegis Tri-proof Technology upgrades to the second generation. The 2nd generation of Aegis Design with new 1.08-inch full screen. Charging port with flipping cover, easier to fuel your vape. ",
+    "category": "Vape Mod"
+},
+{
+    "name": "aegis boost legend v1",
+    "imgUrl": "https://id-test-11.slatic.net/p/498ab4f8c3615fb1114806d3b2aa8482.jpg",
+    "price": "37000",
+    "description": "Geekvape  (Aegis Legend 1)",
+    "category": "Vape Mod"
+}
+]
