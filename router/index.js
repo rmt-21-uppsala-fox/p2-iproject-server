@@ -8,7 +8,7 @@ router.post("/register", userController.register)
 router.post("/login", userController.login)
 router.post("/authGoogle", userController.authGoogle)
 router.post("/sendReset", userController.sendResetMail)
-router.post("/changePassword", userController.resPassword)
+router.patch("/changePassword", userController.resPassword)
 router.use(authn)
 
 router.get("/carousel", leagueController.getCarousel)

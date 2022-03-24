@@ -63,7 +63,7 @@ class userController {
         }
       }
       resetPassword(user.email)
-      res.status(200).json({ id: user.id })
+      res.status(201).json({ id: user.id })
     } catch (err) {
       console.log(err)
       next(err)

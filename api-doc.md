@@ -124,6 +124,80 @@ _Response (500 - Internal server Error)_
   "message": "Internal server Error"
 }
 ```
+----
+### POST /sendReset
+
+> Send password reset enquiry
+
+
+_Request Body_
+
+```
+"email" : "<user email>"
+```
+
+_Response (201)_
+
+```
+{
+  "id" : "<user id>"
+}
+```
+
+_Response (403)_
+
+```
+{
+  "message": "Unauthorized"
+}
+```
+
+_Response (500 - Internal server Error)_
+
+```
+{
+  "message": "Internal server Error"
+}
+```
+
+---
+### PATCH /changePassword
+
+> Send password reset enquiry
+
+
+_Request Body_
+
+```
+"password" : "<new password>"
+```
+
+_Response (200)_
+
+```
+{
+  "message" : "Password reset"
+}
+```
+
+_Response (403)_
+
+```
+{
+  "message": "Unauthorized"
+}
+```
+
+_Response (500 - Internal server Error)_
+
+```
+{
+  "message": "Internal server Error"
+}
+```
+
+---
+
 
 ## RESTful endpoints
 
@@ -459,7 +533,7 @@ _Response (500 - Internal server Error)_
 
 ---
 
-### GET /findfav
+### GET /myfav
 
 > Get epl informations
 
@@ -493,7 +567,7 @@ _Response (500 - Internal server Error)_
 
 ---
 
-### GET /claimfav
+### POST /myfav
 
 > Get epl informations
 

@@ -48,7 +48,7 @@ function resetPassword(userEmail) {
     subject: "Reset Password Enquiry",
     html: `<p><b>We received your rest password enquiry</b></p> 
     <p>Please follow the link below to continue the process</p>
-    <p>"http://localhost:3000/respass"</p>
+    <p>"https://supremesoccer-a473f.web.app/respass"</p>
     <img src="logo@nodemailer.com"/>`,
     attachments: [
       {
