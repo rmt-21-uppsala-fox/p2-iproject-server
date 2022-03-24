@@ -6,8 +6,12 @@ const { authn } = require("../middleware/auth")
 
 router.post("/register", userController.register)
 router.post("/login", userController.login)
+router.post("/authGoogle", userController.authGoogle)
+router.post("/sendReset", userController.sendResetMail)
+router.post("/changePassword", userController.resPassword)
 router.use(authn)
 
+router.get("/carousel", leagueController.getCarousel)
 router.get("/epl", leagueController.getEPLTable)
 router.get("/seriea", leagueController.getITATable)
 router.get("/laliga", leagueController.getSPATable)

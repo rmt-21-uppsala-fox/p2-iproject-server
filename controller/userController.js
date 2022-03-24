@@ -1,7 +1,8 @@
 const { User } = require("../models")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const { sendEmail } = require("../helper/nodemailer")
+const { sendEmail, resetPassword } = require("../helper/nodemailer")
+const { OAuth2Client } = require('google-auth-library')
 const secret = process.env.secret || "rahasia"
 class userController {
   static async register(req, res, next) {
@@ -51,6 +52,42 @@ class userController {
     }
   }
 
+  static async sendResetMail(req, res, next) {
+    try {
+      const { email } = req.body
+      let user = await User.findOne({ where: { email } })
+      if (!user) {
+        throw {
+          code: 403,
+          msg: "Unauthorized"
+        }
+      }
+      resetPassword(user.email)
+      res.status(200).json({ id: user.id })
+    } catch (err) {
+      console.log(err)
+      next(err)
+    }
+  }
+  static async resPassword(req, res, next) {
+    try {
+      const { id, password } = req.body
+      let user = await User.findOne({ where: { id } })
+      if (!user) {
+        throw {
+          code: 403,
+          msg: "Unauthorized"
+        }
+      }
+      await User.update({ password: bcrypt.hashSync(password, 8) },
+        { where: { id } })
+      res.status(200).json({ message: "Password reset" })
+    } catch (err) {
+      console.log(err)
+      next(err)
+    }
+  }
+
   static async authGoogle(req, res, next) {
     try {
       const { id_token } = req.body
@@ -62,7 +99,7 @@ class userController {
         audience: "957771440362-cf4kk6emhs08ihbls0ofkglelmcr8c24.apps.googleusercontent.com"
       })
       const payload = ticket.getPayload()
-
+      // console.log(payload)
       let user = await User.findOne({
         where: {
           email: payload.email
@@ -77,9 +114,9 @@ class userController {
         })
       }
 
-      const token = createToken({
+      const token = jwt.sign({
         id: user.id,
-      })
+      }, secret)
       res.status(200).json({
         access_token: token,
         id: user.id,
@@ -87,6 +124,7 @@ class userController {
       })
     }
     catch (err) {
+      console.log(err)
       next(err)
     }
   }

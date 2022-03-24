@@ -156,6 +156,20 @@ class leagueController {
       next(err)
     }
   }
+  static async getCarousel(req, res, next) {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: 'https://api.pexels.com/v1/search?query=soccer&per_page=12&orientation=landscape',
+        headers: { 'Authorization': '563492ad6f917000010000013cc4b9e0883948149f0838af257369b0' }
+      })
+      res.status(201).json({ image: response.data.photos });
+    } catch (err) {
+      console.log(err);
+      next(err)
+    }
+  }
+
 }
 
 module.exports = leagueController

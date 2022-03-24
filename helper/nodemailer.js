@@ -34,4 +34,37 @@ function sendEmail(userEmail) {
   })
 }
 
-module.exports = { sendEmail }
+function resetPassword(userEmail) {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "supreme.soccer.21@gmail.com",
+      pass: "!project21"
+    }
+  })
+  const option = {
+    from: "supreme.soccer.21@gmail.com",
+    to: userEmail,
+    subject: "Reset Password Enquiry",
+    html: `<p><b>We received your rest password enquiry</b></p> 
+    <p>Please follow the link below to continue the process</p>
+    <p>"http://localhost:3000/respass"</p>
+    <img src="logo@nodemailer.com"/>`,
+    attachments: [
+      {
+        filename: 'supremesoccer.jpg',
+        path: '../p2-iproject-server/public/assets/supremesoccer.jpg',
+        cid: 'logo@nodemailer.com'
+      }
+    ]
+  }
+  transporter.sendMail(option, (err, info) => {
+    if (err) {
+      throw err
+    } else {
+      console.log(`Email sent: ${info.response}`)
+    }
+  })
+}
+
+module.exports = { sendEmail, resetPassword }
