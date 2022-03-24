@@ -6,6 +6,7 @@ class RouteController {
             let { coordinates, radiuses } = req.query;
             coordinates = coordinates.replace(";", "%3B").replace(",", "%2C");
             radiuses = radiuses.replace(";", "%3B");
+            console.log(process.env.MAPBOX_API_TOKEN);
             const response = await axios({
                 method: 'GET',
                 url:
@@ -28,8 +29,6 @@ class RouteController {
                 }
             })
         } catch (error) {
-            //400
-            //422
             next(error);
         }
 
