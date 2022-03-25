@@ -22,8 +22,8 @@ const io = require("socket.io")(httpServer, {
   cors: {
     origin: "*",
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
-    allowedHeaders: ["my-custom-header"],
-    credentials: true
+    preflightContinue: false,
+    optionsSuccessStatus: 204
   }
 });
 
