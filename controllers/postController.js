@@ -1,5 +1,6 @@
 const { User, Comment, Post, Category } = require("../models/index");
 const firebase = require("../config/db");
+const { Op } = require("sequelize");
 const {
   getStorage,
   ref,
@@ -214,7 +215,7 @@ class PostController {
         throw new Error("FORBIDDEN");
       }
       await Comment.update(
-        { PostId: postId, UserId: id, comment },
+        { PostId: postId, UserId: id, comment: comment },
         { where: { id: commentId } }
       );
       res.status(200).json({ message: "Comment updated" });
