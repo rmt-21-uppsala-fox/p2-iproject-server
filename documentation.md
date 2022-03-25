@@ -1,4 +1,4 @@
-# find_jobs
+# Samine
 
 ## Overview Routes :
 
@@ -904,7 +904,7 @@ Add the animeId into table named Favorites
 }
 ```
 
-### request.params:
+### request.body:
 
 ```json
 {
@@ -1248,9 +1248,6 @@ Show all currently logged in user favorited anime from database
 ]
 
 ```
-
-
-
 
 ### If anything else failed : code 500
 

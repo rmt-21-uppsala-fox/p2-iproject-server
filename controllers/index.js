@@ -4,7 +4,7 @@ class Controller {
 
   static async getAnimes(req, res, next) {
     try {
-      console.log(`MASUK SERVER`);
+      // console.log(`MASUK SERVER`);
       const { q, sfw, page, genres, score } = req.query;
       //! ?q => look for entries with this keyword
       //! ?limit = limit result per page
