@@ -2,7 +2,6 @@ const { User, Product, Order, Transaction } = require("../models");
 const { comparePasswordWithHash } = require("../helpers/bcrypt");
 const { generateToken } = require("../helpers/jwt");
 const midtransClient = require("midtrans-client");
-const nodemailer = require("nodemailer");
 
 class CustomerControllers {
   static async register(req, res, next) {
@@ -93,15 +92,15 @@ class CustomerControllers {
         transactionItems.map((item) => {
           item.OrderId = order.id;
           return item;
-        }),
+        })
       );
 
-        const transactionModel = await Transaction.findAll({
-          where: {
-            OrderId: order.id
-          },
-          include: Product
-        })
+      const transactionModel = await Transaction.findAll({
+        where: {
+          OrderId: order.id,
+        },
+        include: Product,
+      });
 
       let snap = new midtransClient.Snap({
         // Set to true if you want Production Environment (accept real transaction).
@@ -141,7 +140,6 @@ class CustomerControllers {
       console.log(error);
     }
   }
-
 }
 
 module.exports = CustomerControllers;
