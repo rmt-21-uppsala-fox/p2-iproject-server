@@ -9,6 +9,5 @@ router.get("/products", Controller.getProduct);
 router.use(authentication);
 
 router.post("/orders", Controller.createOrder);
-router.post("/nodemailer", Controller.nodemailer);
 
 module.exports = router;
