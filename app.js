@@ -25,7 +25,7 @@ const httpServer = createServer(app)
 
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "*",
+    origin: "https://supremesoccer-a473f.web.app",
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
     preflightContinue: false,
     optionsSuccessStatus: 204
