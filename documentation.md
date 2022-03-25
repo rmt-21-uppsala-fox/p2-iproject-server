@@ -1292,3 +1292,29 @@ Delete an entry of favorite from table named "Favorite"
   "Error": "Internal server error"
 }
 ```
+
+## Global Error
+
+_Response (401 - Unauthorized)_
+
+```json
+{
+  "message": "Invalid token"
+}
+```
+
+_Response (403 - Forbidden)_
+
+```json
+{
+  "message": "Forbidden to modify item"
+}
+```
+
+_Response (500 - Internal Server Error)_
+
+```json
+{
+  "message": "Internal server error"
+}
+```

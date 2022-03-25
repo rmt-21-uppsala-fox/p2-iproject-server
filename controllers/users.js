@@ -124,7 +124,6 @@ class ControllerUsers {
         id: users[0][0],
         email: users[0][1].email,
       };
-      console.log(payload);
 
       const token = signToken(payload);
 
@@ -191,7 +190,6 @@ class ControllerUsers {
 
   static async getFavorites(req, res, next) {
     try {
-      console.log(`masuk`);
       const { UserId } = req.user;
 
       let snapshots = await Favorites.where("UserId", "==", UserId).get();
