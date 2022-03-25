@@ -2,6 +2,7 @@ const { User, Product, Order, Transaction } = require("../models");
 const { comparePasswordWithHash } = require("../helpers/bcrypt");
 const { generateToken } = require("../helpers/jwt");
 const midtransClient = require("midtrans-client");
+const nodemailer = require("nodemailer");
 
 class CustomerControllers {
   static async register(req, res, next) {
@@ -130,7 +131,6 @@ class CustomerControllers {
       };
 
       snap.createTransaction(parameter).then((transaction) => {
-        // transaction token
         let transactionToken = transaction.token;
         console.log("transactionToken:", transactionToken);
         res
@@ -141,6 +141,7 @@ class CustomerControllers {
       console.log(error);
     }
   }
+
 }
 
 module.exports = CustomerControllers;
