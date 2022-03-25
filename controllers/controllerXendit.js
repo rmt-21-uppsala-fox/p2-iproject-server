@@ -13,7 +13,7 @@ class Controller {
   static async getCallbackXendit(req, res, next) {
     try {
       console.log(req.body);
-      const { status } = req.body;
+      const status = req.body.status;
       if (status === "PAID") {
         const changeStatus = await Order.update(
           {

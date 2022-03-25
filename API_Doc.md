@@ -168,6 +168,7 @@ _Response (500 - Internal Server Error)_
 
 ## 4. POST /menu/:RestaurantId
 
+Request:
 -body
 
 ```json
@@ -176,6 +177,8 @@ _Response (500 - Internal Server Error)_
   "password": "string"
 }
 ```
+
+_Response (200 - Ok)_
 
 <!-- ## 4. POST /news
 
