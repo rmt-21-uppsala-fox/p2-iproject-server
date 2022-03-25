@@ -7,7 +7,6 @@ const authorization = async (req, res, next) => {
 
     const favoriteSnapshot = await Favorites.doc(favoriteId).get()
     const favorite = favoriteSnapshot.data()
-    console.log(favorite);
     if (favorite.UserId !== UserId) {
       throw {
         name: "authorizationFailed"
