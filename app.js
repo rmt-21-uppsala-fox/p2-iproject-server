@@ -17,11 +17,15 @@ app.use(express.static('public'))
 const { createServer } = require("http")
 const { Server } = require("socket.io")
 const httpServer = createServer(app)
-const io = new Server(httpServer, {
+
+const io = require("socket.io")(httpServer, {
   cors: {
     origin: "*",
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
   }
-})
+});
 
 let arrChat = []
 let arrChat2 = []
