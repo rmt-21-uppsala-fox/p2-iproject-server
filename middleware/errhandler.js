@@ -1,6 +1,5 @@
 const errHandler = function (err, req, res, next) {
   if (err) {
-    console.log(err)
     switch (err.name) {
       case "SequelizeValidationError":
         temporary = []
@@ -25,6 +24,10 @@ const errHandler = function (err, req, res, next) {
       case "jwt must be provided":
         res.status(401).json({ msg: "jwt must be provided" });
         break;
+
+      case "JsonWebTokenError":
+          res.status(401).json({ msg: "jwt must be provided" });
+          break;
 
       case "News Id not found":
         res.status(404).json({ msg: "News Id not found" });
