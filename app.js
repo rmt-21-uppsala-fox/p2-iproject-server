@@ -7,9 +7,14 @@ const cors = require('cors')
 const port = process.env.PORT || 3000
 const route = require("./router")
 const { errorHandler } = require('./middleware/errorHandler')
+let options = {
+  origin: '*',
+  methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+}
 
-
-app.use(cors())
+app.use(cors(options))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(express.static('public'))
