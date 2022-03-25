@@ -47,6 +47,7 @@ class Controller {
         email,
         RestaurantId: +req.params.restoId,
       });
+      console.log(newCust.id);
       const payload = {
         id: newCust.id,
         name: newCust.name,

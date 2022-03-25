@@ -23,6 +23,7 @@ class Controller {
         },
         where: {
           CustomerId: req.identify.custId,
+          status: "pending",
         },
       });
       res.status(200).json(orders);

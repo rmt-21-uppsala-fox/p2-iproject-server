@@ -10,9 +10,6 @@ const errorHandler = (err, req, res, next) => {
     case "Unauthorized":
       res.status(err.code).json({ message: err.message });
       break;
-    case "SequelizeUniqueConstraintError":
-      res.status(400).json({ message: err.message });
-      break;
     case "JsonWebTokenError":
       res.status(401).json({ message: err.message });
       break;
@@ -23,6 +20,9 @@ const errorHandler = (err, req, res, next) => {
       res.status(err.code).json({ message: err.message });
       break;
     case "Bad Request":
+      res.status(err.code).json({ message: err.message });
+      break;
+    case "Payment Failed":
       res.status(err.code).json({ message: err.message });
       break;
     default:

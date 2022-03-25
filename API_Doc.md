@@ -166,6 +166,17 @@ _Response (500 - Internal Server Error)_
 
 &nbsp;
 
+## 4. POST /menu/:RestaurantId
+
+-body
+
+```json
+{
+  "email": "string",
+  "password": "string"
+}
+```
+
 <!-- ## 4. POST /news
 
 Request:

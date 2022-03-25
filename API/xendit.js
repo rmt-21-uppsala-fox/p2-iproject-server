@@ -12,6 +12,7 @@ class XenditInvoice {
       externalID: externalID,
       amount,
       successRedirectURL: `https://fastorder-ican.web.app/${RestaurantId}/customer`,
+      // successRedirectURL: `http://localhost:8080/1/customer`,
       payerEmail: payerEmail,
     });
   }

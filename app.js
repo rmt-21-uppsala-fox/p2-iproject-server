@@ -12,7 +12,7 @@ const menuRoute = require("./routes/menuRoute");
 const customerRoute = require("./routes/customerRoute");
 const orderRoute = require("./routes/orderRoute");
 const xenditRoute = require("./routes/xenditRoute");
-const errorHandler = require("./middlewares/errorHandler");
+const errorHandler = require("./middlewares/handleError");
 const port = process.env.PORT || 3000;
 
 app.use(cors());
