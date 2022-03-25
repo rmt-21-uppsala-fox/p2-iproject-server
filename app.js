@@ -28,7 +28,11 @@ const server = app
   .use(cors())
   .listen(PORT, () => console.log(`Listening to PORT ${PORT}`));
 
-const io = new Server(server, {});
+const io = new Server(server, {
+  cors: {
+    origin: "https://samine-1e9f3.web.app"
+  }
+});
 
 let chatUsers = [];
 let chatHistory = [];
